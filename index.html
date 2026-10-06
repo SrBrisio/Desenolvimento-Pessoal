@@ -267,7 +267,42 @@
       .water-btns,.backup-actions,.event-actions{grid-template-columns:1fr}
     }
 
-  </style>
+  
+    /* Correção do menu mobile: várias abas visíveis e rolagem horizontal */
+    @media(max-width:900px){
+      aside nav{
+        display:flex !important;
+        flex-wrap:nowrap !important;
+        gap:6px !important;
+        overflow-x:auto !important;
+        overflow-y:hidden !important;
+        width:100% !important;
+        scrollbar-width:none;
+        -webkit-overflow-scrolling:touch;
+      }
+      aside nav::-webkit-scrollbar{display:none}
+      aside nav button{
+        width:auto !important;
+        min-width:82px !important;
+        max-width:none !important;
+        flex:0 0 auto !important;
+        padding:9px 10px !important;
+        margin:0 !important;
+        text-align:center !important;
+        white-space:nowrap !important;
+        font-size:11px !important;
+        border-radius:12px !important;
+      }
+    }
+    @media(max-width:620px){
+      aside nav button{
+        min-width:78px !important;
+        font-size:10.5px !important;
+        padding:8px 9px !important;
+      }
+    }
+
+</style>
 </head>
 <body>
 
@@ -1361,6 +1396,19 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
     navigator.serviceWorker.register('./service-worker.js').catch(() => {});
   });
 }
+</script>
+
+
+<div id="mobileMenuHint" style="display:none;position:fixed;left:12px;right:12px;bottom:88px;z-index:1200;background:#17223f;border:1px solid #34405f;color:#eef4ff;padding:10px 12px;border-radius:12px;font-size:12px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.28)">Deslize o menu inferior para os lados para ver todas as abas.</div>
+
+
+<script>
+(function(){
+  if(window.matchMedia("(max-width: 900px)").matches && !localStorage.getItem("menuHintSeen")){
+    const h=document.getElementById("mobileMenuHint");
+    if(h){h.style.display="block";setTimeout(()=>{h.style.display="none";localStorage.setItem("menuHintSeen","1");},5000);}
+  }
+})();
 </script>
 
 </body>
