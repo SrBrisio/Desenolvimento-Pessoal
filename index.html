@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1020" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Meu Desenvolvimento" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
+  <title>Meu Desenvolvimento</title>
+<style>
+    :root{
+      --bg:#0b1020; --panel:#121a2f; --panel2:#19233d; --line:#283553;
+      --text:#eef4ff; --muted:#9fb0cf; --accent:#6ee7b7; --accent2:#60a5fa;
+      --warning:#fbbf24; --danger:#fb7185; --ok:#34d399;
+      --shadow: 0 20px 45px rgba(0,0,0,.25);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif; background:
+      radial-gradient(circle at 15% 10%,rgba(96,165,250,.13),transparent 30%),
+      radial-gradient(circle at 80% 20%,rgba(110,231,183,.10),transparent 30%), var(--bg);
+      color:var(--text); min-height:100vh;
+    }
+    button,input,select{font:inherit}
+    .app{display:grid; grid-template-columns:260px 1fr; min-height:100vh}
+    aside{
+      padding:24px 18px; border-right:1px solid var(--line); background:rgba(8,14,29,.86);
+      backdrop-filter: blur(12px); position:sticky; top:0; height:100vh;
+    }
+    .brand{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+    .logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--accent2),var(--accent));font-size:22px}
+    .brand h1{font-size:16px;margin:0}.brand small{color:var(--muted)}
+    nav button{
+      width:100%;border:0;background:transparent;color:var(--muted);padding:12px 14px;
+      border-radius:12px;text-align:left;margin:4px 0;cursor:pointer;font-weight:600
+    }
+    nav button.active, nav button:hover{background:var(--panel2);color:var(--text)}
+    .footnote{position:absolute;bottom:18px;left:18px;right:18px;color:var(--muted);font-size:12px;line-height:1.5}
+    main{padding:30px;max-width:1440px;width:100%}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:24px}
+    .title h2{margin:0 0 6px;font-size:28px}.title p{margin:0;color:var(--muted)}
+    .date-pill{background:var(--panel);border:1px solid var(--line);padding:10px 14px;border-radius:14px;color:var(--muted)}
+    .grid{display:grid;gap:18px}
+    .grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .card{background:linear-gradient(180deg,rgba(25,35,61,.95),rgba(18,26,47,.95));border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+    .metric{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+    .metric .icon{font-size:28px}.metric small{color:var(--muted);display:block;margin-bottom:8px}
+    .metric strong{font-size:26px}.metric .sub{color:var(--muted);font-size:13px;margin-top:8px}
+    .section{display:none}.section.active{display:block}
+    .section-title{display:flex;justify-content:space-between;align-items:end;margin:30px 0 14px}
+    .section-title h3{margin:0;font-size:20px}.section-title span{color:var(--muted);font-size:13px}
+    .progress{height:10px;background:#0d1426;border-radius:999px;overflow:hidden;border:1px solid #26324d}
+    .progress>div{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));width:0%;transition:.25s}
+    .water-btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+    .btn{border:0;border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:700}
+    .btn-primary{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#08111f}
+    .btn-ghost{background:#0e1629;color:var(--text);border:1px solid var(--line)}
+    .btn-danger{background:#321824;color:#ffc4cf;border:1px solid #5d2639}
+    .list{display:flex;flex-direction:column;gap:10px}
+    .check{
+      display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:#0e1629;border:1px solid #24314d
+    }
+    .check input{width:18px;height:18px;accent-color:#34d399}.check.done{opacity:.62}.check.done .txt{text-decoration:line-through}
+    .check .txt{flex:1}.tag{font-size:11px;padding:5px 8px;border-radius:999px;background:#1d2b49;color:#b9c8e4}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:12px;border-bottom:1px solid var(--line);text-align:left;font-size:14px}
+    th{color:var(--muted);font-weight:600}
+    .meal{display:grid;grid-template-columns:92px 1fr auto;gap:14px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:16px;background:#0e1629}
+    .meal .time{font-weight:800;color:var(--accent2)} .meal p{margin:3px 0;color:var(--muted);font-size:13px}
+    .pill{display:inline-block;padding:5px 8px;border-radius:999px;font-size:11px;background:#19392f;color:#9ff2d2}
+    .run-week{padding:14px;border-radius:16px;background:#0e1629;border:1px solid var(--line)}
+    .run-week h4{margin:0 0 6px}.run-week p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
+    .form-row{display:grid;grid-template-columns:1fr 1fr auto;gap:10px}
+    input, select{
+      width:100%;background:#0e1629;border:1px solid var(--line);color:var(--text);
+      border-radius:12px;padding:11px 12px;outline:none
+    }
+    .bar-chart{display:flex;align-items:flex-end;gap:10px;height:220px;padding-top:20px}
+    .bar-wrap{flex:1;text-align:center;color:var(--muted);font-size:12px}
+    .bar{width:100%;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,var(--accent),var(--accent2));min-height:8px}
+    .quote{font-size:15px;line-height:1.6;color:#dfe8fa}
+    .good{color:var(--ok)} .warn{color:var(--warning)}
+
+    .login-screen{
+      position:fixed;inset:0;z-index:9999;display:grid;place-items:center;
+      background:
+      radial-gradient(circle at 20% 20%,rgba(96,165,250,.18),transparent 30%),
+      radial-gradient(circle at 80% 30%,rgba(110,231,183,.14),transparent 28%),
+      #08101f;
+      padding:20px;
+    }
+    .login-box{
+      width:min(440px,100%);background:linear-gradient(180deg,rgba(25,35,61,.98),rgba(18,26,47,.98));
+      border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:var(--shadow)
+    }
+    .login-box h2{margin:0 0 8px;font-size:28px}.login-box p{color:var(--muted);margin:0 0 22px;line-height:1.5}
+    .login-box .field{margin-bottom:12px}.login-box label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+    .login-error{color:#ffb4c0;font-size:13px;min-height:18px;margin-top:10px}
+    .user-card{margin-top:16px;padding:12px;border:1px solid var(--line);border-radius:14px;background:#0e1629}
+    .user-card strong{display:block}.user-card small{color:var(--muted)}
+    .calendar-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+    .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+    .calendar-dow{text-align:center;color:var(--muted);font-size:12px;font-weight:700;padding:6px 0}
+    .calendar-day{
+      min-height:98px;border:1px solid var(--line);border-radius:14px;padding:9px;background:#0e1629;
+      position:relative;cursor:pointer
+    }
+    .calendar-day.empty{opacity:.25;cursor:default}
+    .calendar-day.today{outline:2px solid var(--accent2)}
+    .calendar-num{font-weight:800;font-size:13px}
+    .calendar-dots{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--accent2)}
+    .dot.train{background:var(--accent)} .dot.check{background:var(--warning)} .dot.weight{background:var(--danger)}
+    .day-note{font-size:10px;color:var(--muted);margin-top:7px;line-height:1.3}
+    .backup-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .hidden{display:none!important}
+
+    .market-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+    .market-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+    .market-mini{background:#0e1629;border:1px solid var(--line);border-radius:14px;padding:14px}
+    .market-mini small{display:block;color:var(--muted);margin-bottom:6px}.market-mini strong{font-size:20px}
+    .market-category{margin-bottom:18px}
+    .market-category h4{margin:0 0 10px}
+    .market-item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--line)}
+    .market-item:last-child{border-bottom:0}
+    .market-item input[type="checkbox"]{width:18px;height:18px;accent-color:var(--accent)}
+    .market-item.done{opacity:.55}.market-item.done .market-name{text-decoration:line-through}
+    .market-qty{color:var(--accent);font-weight:700;text-align:right}
+    .prep-step{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start;padding:14px;border:1px solid var(--line);border-radius:15px;background:#0e1629}
+    .prep-num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent2),var(--accent));color:#08111f;font-weight:800}
+    .prep-step h4{margin:0 0 6px}.prep-step p{margin:0;color:var(--muted);line-height:1.55;font-size:13px}
+    .meal-prep-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    @media(max-width:900px){.market-summary{grid-template-columns:1fr 1fr}.meal-prep-grid{grid-template-columns:1fr}}
+    @media(max-width:560px){.market-summary{grid-template-columns:1fr}}
+
+
+
+    .finance-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+    .money-positive{color:var(--ok)} .money-negative{color:var(--danger)}
+    .finance-form{display:grid;grid-template-columns:1fr 1fr 1.4fr 1fr 1fr 1fr auto;gap:10px;align-items:end}
+    .finance-form .field label,.debt-form .field label,.goal-form .field label{display:block;font-size:12px;color:var(--muted);margin:0 0 6px}
+    .finance-table-wrap{overflow:auto}
+    .finance-table td:last-child,.finance-table th:last-child{text-align:right}
+    .mini-bar-row{display:grid;grid-template-columns:120px 1fr 90px;gap:10px;align-items:center;margin:10px 0;font-size:13px}
+    .mini-bar-track{height:9px;background:#0d1426;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+    .mini-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:999px}
+    .debt-form{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr auto;gap:10px;align-items:end}
+    .goal-form{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end}
+    .goal-card{padding:14px;border-radius:16px;background:#0e1629;border:1px solid var(--line)}
+    .goal-card h4{margin:0 0 8px}.goal-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-bottom:8px}
+
+
+    .diary-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}
+    .diary-form{display:grid;gap:12px}
+    .diary-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    textarea{
+      width:100%;min-height:120px;resize:vertical;background:#0e1629;border:1px solid var(--line);
+      color:var(--text);border-radius:12px;padding:12px;font:inherit;outline:none
+    }
+    .mood-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+    .mood-option{border:1px solid var(--line);background:#0e1629;border-radius:12px;padding:12px;text-align:center;cursor:pointer}
+    .mood-option.active{outline:2px solid var(--accent2);background:#15213a}
+    .mood-option span{display:block;font-size:24px;margin-bottom:4px}
+    .diary-entry,.event-item{
+      padding:14px;border:1px solid var(--line);border-radius:14px;background:#0e1629;margin-bottom:10px
+    }
+    .diary-entry h4,.event-item h4{margin:0 0 6px}
+    .diary-meta,.event-meta{color:var(--muted);font-size:12px;margin-bottom:8px}
+    .diary-text{white-space:pre-wrap;line-height:1.55;color:#dfe8fa}
+    .event-item{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start}
+    .event-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .badge-soft{display:inline-block;padding:5px 8px;border-radius:999px;font-size:11px;background:#1d2b49;color:#b9c8e4}
+    @media(max-width:900px){.diary-layout{grid-template-columns:1fr}}
+    @media(max-width:650px){.diary-row{grid-template-columns:1fr}.mood-grid{grid-template-columns:repeat(3,1fr)}}
+
+    @media(max-width:1000px){
+      .app{grid-template-columns:1fr} aside{position:relative;height:auto;border-right:0;border-bottom:1px solid var(--line)}
+      nav{display:flex;overflow:auto;gap:6px}nav button{min-width:max-content}.footnote{display:none}
+      .grid-4,.grid-3,.grid-2,.finance-metrics{grid-template-columns:1fr 1fr} main{padding:20px}
+      .finance-form,.debt-form,.goal-form{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:650px){
+      .grid-4,.grid-3,.grid-2,.finance-metrics{grid-template-columns:1fr}.form-row,.finance-form,.debt-form,.goal-form{grid-template-columns:1fr}.meal{grid-template-columns:1fr}
+      .topbar{align-items:flex-start;flex-direction:column}
+    }
+  
+    html{scroll-behavior:smooth}
+    body{overflow-x:hidden;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+    img,svg,canvas{max-width:100%;height:auto}
+    .mobile-topbar{display:none}
+    @media(max-width:900px){
+      .app{display:block;min-height:100vh}
+      aside{
+        position:fixed;left:0;right:0;bottom:0;top:auto;height:auto;z-index:999;
+        padding:8px max(8px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));
+        border-right:0;border-top:1px solid var(--line);background:rgba(8,14,29,.96);
+        backdrop-filter:blur(18px)
+      }
+      aside .brand, aside .user-card, aside .footnote{display:none!important}
+      nav{
+        display:flex;overflow-x:auto;gap:6px;padding:0 2px;scrollbar-width:none;
+        -webkit-overflow-scrolling:touch
+      }
+      nav::-webkit-scrollbar{display:none}
+      nav button{
+        flex:0 0 auto;min-width:72px;padding:8px 10px;margin:0;text-align:center;
+        font-size:11px;line-height:1.2;border-radius:12px;white-space:nowrap
+      }
+      main{
+        width:100%;max-width:none;padding:18px 14px 94px;
+      }
+      .topbar{margin-bottom:18px}
+      .title h2{font-size:24px}
+      .date-pill{width:100%;text-align:center}
+      .grid-4,.grid-3,.grid-2{grid-template-columns:1fr 1fr}
+      .card{padding:16px;border-radius:18px}
+      .meal{grid-template-columns:74px 1fr}
+      .meal .pill{grid-column:2}
+      .calendar-grid{gap:5px}
+      .calendar-day{min-height:80px;padding:7px;border-radius:11px}
+      .calendar-num{font-size:12px}
+      .day-note{font-size:9px}
+      table{min-width:620px}
+      .card:has(table){overflow-x:auto}
+      input,select,textarea{font-size:16px}
+      .btn{min-height:44px}
+    }
+    @media(max-width:620px){
+      main{padding:14px 10px 94px}
+      .topbar{gap:10px}
+      .title h2{font-size:21px}
+      .title p{font-size:13px}
+      .grid-4,.grid-3,.grid-2,.diary-row,.form-row,.market-summary{grid-template-columns:1fr}
+      .metric strong{font-size:23px}
+      .section-title{align-items:flex-start;gap:6px;flex-direction:column;margin:22px 0 12px}
+      .meal{grid-template-columns:1fr;gap:7px}
+      .meal .time{font-size:13px}
+      .meal .pill{grid-column:auto;width:max-content}
+      .water-btns,.backup-actions,.event-actions{display:grid;grid-template-columns:1fr 1fr}
+      .market-item{grid-template-columns:auto 1fr}
+      .market-qty{grid-column:2;text-align:left;font-size:12px}
+      .calendar-head{gap:8px}
+      .calendar-head h3{font-size:16px;text-align:center}
+      .calendar-day{min-height:66px;padding:5px}
+      .calendar-dots{gap:3px;margin-top:4px}
+      .dot{width:6px;height:6px}
+      .day-note{display:none}
+      .mood-grid{grid-template-columns:repeat(5,1fr);gap:5px}
+      .mood-option{padding:9px 4px;font-size:10px}
+      .mood-option span{font-size:20px}
+      .event-item{grid-template-columns:1fr}
+      .event-actions{grid-template-columns:1fr 1fr}
+      .login-box{padding:20px;border-radius:20px}
+      .login-box h2{font-size:24px}
+    }
+    @media(max-width:390px){
+      nav button{min-width:66px;font-size:10px;padding:8px 7px}
+      .card{padding:14px}
+      .mood-grid{grid-template-columns:repeat(3,1fr)}
+      .water-btns,.backup-actions,.event-actions{grid-template-columns:1fr}
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div class="logo" style="margin-bottom:16px">⚡</div>
+    <h2>Meu Desenvolvimento</h2>
+    <p>Entre para acessar seu painel de saúde e rotina.</p>
+    <div class="field">
+      <label>Usuário</label>
+      <input id="loginUser" value="Higor" autocomplete="username">
+    </div>
+    <div class="field">
+      <label>Senha</label>
+      <input id="loginPass" type="password" placeholder="Digite sua senha" autocomplete="current-password">
+    </div>
+    <button class="btn btn-primary" style="width:100%" onclick="doLogin()">Entrar</button>
+    <div class="login-error" id="loginError"></div>
+    <div style="margin-top:14px;color:var(--muted);font-size:12px;line-height:1.5">
+      Primeiro acesso: usuário <strong>Higor</strong> e senha <strong>1234</strong>. Você poderá alterar a senha nas configurações locais depois.
+    </div>
+  </div>
+</div>
+
+<div class="app">
+  <aside>
+    <div class="brand">
+      <div class="logo">⚡</div>
+      <div><h1>Meu Desenvolvimento</h1><small>Módulo Saúde • V1</small></div>
+    </div>
+    <nav id="nav">
+      <button class="active" data-page="inicio">🏠 Início</button>
+      <button data-page="rotina">✅ Rotina</button>
+      <button data-page="alimentacao">🍽️ Alimentação</button>
+      <button data-page="mercado">🛒 Mercado</button>
+      <button data-page="treinos">🥋 Treinos</button>
+      <button data-page="agua">💧 Água</button>
+      <button data-page="progresso">📈 Progresso</button>
+      <button data-page="metas">🎯 Metas</button>
+      <button data-page="financas">💰 Finanças</button>
+      <button data-page="calendario">📅 Calendário</button>
+      <button data-page="backup">💾 Backup</button>
+      <button data-page="diario">📖 Diário & Agenda</button>
+    </nav>
+    <div class="user-card">
+      <strong id="sidebarUser">Higor</strong>
+      <small>Perfil local</small>
+      <button class="btn btn-ghost" style="width:100%;margin-top:10px" onclick="logout()">Sair</button>
+    </div>
+    <div class="footnote">Os dados ficam salvos neste navegador. Esta versão é um organizador pessoal, não substitui avaliação médica ou nutricional.</div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <div class="title"><h2 id="pageTitle">Painel de hoje</h2><p id="greeting">Sua rotina, sem complicar.</p></div>
+      <div class="date-pill" id="today"></div>
+    </div>
+
+    <section class="section active" id="inicio">
+      <div class="grid grid-4">
+        <div class="card metric"><div><small>Água hoje</small><strong id="waterMetric">0,0 L</strong><div class="sub">Meta: 3,0 L</div></div><div class="icon">💧</div></div>
+        <div class="card metric"><div><small>Checklist</small><strong id="checkMetric">0%</strong><div class="sub">Rotina do dia</div></div><div class="icon">✅</div></div>
+        <div class="card metric"><div><small>Peso atual</small><strong id="weightMetric">85,3 kg</strong><div class="sub">Último registro</div></div><div class="icon">⚖️</div></div>
+        <div class="card metric"><div><small>Treino do dia</small><strong id="trainingMetric">Jiu-jítsu</strong><div class="sub" id="trainingSub">06:00 • 75 min</div></div><div class="icon">🥋</div></div>
+      </div>
+
+      <div class="section-title"><h3>Checklist de hoje</h3><span>Marque conforme concluir</span></div>
+      <div class="grid grid-2">
+        <div class="card"><div class="list" id="todayChecklist"></div></div>
+        <div class="card">
+          <h3 style="margin-top:0">💧 Hidratação</h3>
+          <div style="display:flex;justify-content:space-between;margin-bottom:9px"><span id="waterText">0 / 3000 ml</span><span id="waterPct">0%</span></div>
+          <div class="progress"><div id="waterBar"></div></div>
+          <div class="water-btns">
+            <button class="btn btn-primary" onclick="addWater(250)">+250 ml</button>
+            <button class="btn btn-primary" onclick="addWater(500)">+500 ml</button>
+            <button class="btn btn-ghost" onclick="resetWater()">Zerar</button>
+          </div>
+          <div class="section-title" style="margin-top:26px"><h3>Hoje à noite</h3></div>
+          <div class="run-week" id="nightPlan"></div>
+        </div>
+      </div>
+
+      <div class="section-title"><h3>Próximas refeições</h3><span>Baseadas no seu cardápio</span></div>
+      <div class="card"><div class="list" id="mealPreview"></div></div>
+    </section>
+
+    <section class="section" id="rotina">
+      <div class="card">
+        <h3 style="margin-top:0">Rotina diária • segunda a sexta</h3>
+        <table>
+          <thead><tr><th>Horário</th><th>Atividade</th></tr></thead>
+          <tbody>
+            <tr><td>05:20</td><td>Acordar + 300–400 ml de água</td></tr>
+            <tr><td>05:40</td><td>Se houver fome: fruta, pão ou tapioca</td></tr>
+            <tr><td>06:00–07:15</td><td>Jiu-jítsu</td></tr>
+            <tr><td>07:20</td><td>Água + banho</td></tr>
+            <tr><td>07:35–07:50</td><td>Café da manhã pós-treino</td></tr>
+            <tr><td>08:00–12:00</td><td>Trabalho</td></tr>
+            <tr><td>10:00</td><td>Água + fruta se sentir fome</td></tr>
+            <tr><td>12:00–13:00</td><td>Almoço</td></tr>
+            <tr><td>13:00–13:40</td><td>Descanso</td></tr>
+            <tr><td>14:00–18:00</td><td>Trabalho</td></tr>
+            <tr><td>16:00</td><td>Lanche</td></tr>
+            <tr><td>19:00–20:00</td><td>Corrida/caminhada nos dias programados</td></tr>
+            <tr><td>20:00</td><td>Jantar</td></tr>
+            <tr><td>21:30</td><td>Reduzir telas e desacelerar</td></tr>
+            <tr><td>22:00–22:30</td><td>Dormir</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="alimentacao">
+      <div class="grid grid-3" id="weeklyMeals"></div>
+      <div class="section-title"><h3>Guia rápido de porções</h3></div>
+      <div class="grid grid-3">
+        <div class="card"><strong>🍗 Proteína</strong><p class="quote">1 porção do tamanho da palma da mão nas refeições principais. Priorize frango, ovos, carne bovina e carne moída.</p></div>
+        <div class="card"><strong>🍚 Carboidrato</strong><p class="quote">Arroz, cuscuz, macarrão, pão, tapioca, batata e batata-doce entram como combustível para os treinos.</p></div>
+        <div class="card"><strong>🍊 Frutas</strong><p class="quote">Laranja, uva, abacaxi, acerola e banana podem alternar nos lanches e cafés.</p></div>
+      </div>
+      <div class="section-title"><h3>Opções extras que você gosta</h3></div>
+      <div class="grid grid-2">
+        <div class="card"><strong>🥤 Vitamina de banana</strong><p class="quote">Boa opção para café da manhã ou lanche. Pode usar leite + banana e, quando fizer sentido, whey.</p></div>
+        <div class="card"><strong>🥛 Leite com Nescau</strong><p class="quote">Pode entrar ocasionalmente como bebida prática. Para o dia a dia, mantenha água como principal bebida.</p></div>
+      </div>
+    </section>
+
+
+    <section class="section" id="mercado">
+      <div class="card">
+        <div class="section-title" style="margin-top:0">
+          <div>
+            <h3>🛒 Lista de mercado</h3>
+            <span>Estimativa para 1 pessoa, baseada no seu cardápio atual</span>
+          </div>
+        </div>
+
+        <div class="market-toolbar">
+          <button class="btn btn-primary" id="marketWeekBtn" onclick="setMarketPeriod('week')">1 semana</button>
+          <button class="btn btn-ghost" id="marketMonthBtn" onclick="setMarketPeriod('month')">1 mês</button>
+          <button class="btn btn-ghost" onclick="resetMarketChecks()">Desmarcar tudo</button>
+        </div>
+
+        <div class="market-summary">
+          <div class="market-mini"><small>Proteínas</small><strong id="sumProtein">-</strong></div>
+          <div class="market-mini"><small>Carboidratos</small><strong id="sumCarb">-</strong></div>
+          <div class="market-mini"><small>Frutas</small><strong id="sumFruit">-</strong></div>
+          <div class="market-mini"><small>Itens marcados</small><strong id="sumChecked">0%</strong></div>
+        </div>
+
+        <div id="marketList"></div>
+      </div>
+
+      <div class="section-title"><h3>🍱 Pré-preparo para economizar tempo</h3><span>Uma sessão de organização por semana</span></div>
+      <div class="card">
+        <div class="meal-prep-grid">
+          <div class="prep-step"><div class="prep-num">1</div><div><h4>Frango</h4><p>Separe em porções. Tempere com alho, cebola, limão e pouco sal. Prepare parte grelhada e parte desfiada. Guarde porções para almoço, jantar, tapioca e cuscuz.</p></div></div>
+          <div class="prep-step"><div class="prep-num">2</div><div><h4>Arroz e feijão</h4><p>Faça uma panela maior. Divida em porções para os próximos dias. Se preparar para muitos dias, congele uma parte e retire conforme precisar.</p></div></div>
+          <div class="prep-step"><div class="prep-num">3</div><div><h4>Batata e batata-doce</h4><p>Cozinhe ou asse várias unidades de uma vez. Guarde já porcionadas para combinar com frango ou carne nas refeições da noite.</p></div></div>
+          <div class="prep-step"><div class="prep-num">4</div><div><h4>Ovos</h4><p>Deixe os ovos separados e fáceis de pegar. Para ganhar tempo, alguns podem ser cozidos antes, enquanto os ovos mexidos ou omeletes ficam para fazer na hora.</p></div></div>
+          <div class="prep-step"><div class="prep-num">5</div><div><h4>Frutas</h4><p>Lave e separe laranja, uva e acerola. O abacaxi pode ser cortado e guardado em potes fechados. Banana é melhor manter inteira e cortar na hora da vitamina.</p></div></div>
+          <div class="prep-step"><div class="prep-num">6</div><div><h4>Lanches rápidos</h4><p>Deixe whey, tapioca, pão e queijo em locais fáceis de acessar. Para a vitamina, deixe banana e leite prontos para bater quando chegar a hora do lanche.</p></div></div>
+        </div>
+      </div>
+
+      <div class="section-title"><h3>📦 Exemplo de montagem das marmitas</h3></div>
+      <div class="grid grid-3">
+        <div class="card"><strong>Marmita 1</strong><p class="quote">Frango + arroz + feijão + tomate/cebola.</p></div>
+        <div class="card"><strong>Marmita 2</strong><p class="quote">Frango + batata-doce + tomate/cebola.</p></div>
+        <div class="card"><strong>Marmita 3</strong><p class="quote">Carne moída + arroz + feijão.</p></div>
+      </div>
+
+      <div class="section-title"><h3>🕒 Roteiro de preparo semanal</h3></div>
+      <div class="card">
+        <table>
+          <thead><tr><th>Etapa</th><th>O que fazer</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Colocar o feijão para cozinhar e iniciar o arroz.</td></tr>
+            <tr><td>2</td><td>Enquanto isso, temperar e preparar o frango.</td></tr>
+            <tr><td>3</td><td>Assar/cozinhar batatas e batatas-doces.</td></tr>
+            <tr><td>4</td><td>Preparar carne moída ou carne bovina para 1–2 refeições.</td></tr>
+            <tr><td>5</td><td>Lavar frutas e cortar abacaxi, tomate e cebola.</td></tr>
+            <tr><td>6</td><td>Montar porções, identificar potes e guardar/refrigerar/congelar conforme uso.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="treinos">
+      <div class="grid grid-2">
+        <div class="card">
+          <h3 style="margin-top:0">🥋 Jiu-jítsu</h3>
+          <p class="quote"><strong>Horário:</strong> 06:00–07:15<br><strong>Duração média:</strong> 75 minutos<br><strong>Foco:</strong> técnica, condicionamento e consistência.</p>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0">🏃 Plano de corrida • 4 semanas</h3>
+          <div class="list">
+            <div class="run-week"><h4>Semana 1</h4><p>5 min caminhada + 1 min trote / 2 min caminhada × 6 + 5 min caminhada.</p></div>
+            <div class="run-week"><h4>Semana 2</h4><p>5 min caminhada + 2 min trote / 2 min caminhada × 6.</p></div>
+            <div class="run-week"><h4>Semana 3</h4><p>5 min caminhada + 3 min corrida leve / 2 min caminhada × 5.</p></div>
+            <div class="run-week"><h4>Semana 4</h4><p>5 min caminhada + 5 min corrida leve / 2 min caminhada × 4.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="section-title"><h3>Registrar treino</h3></div>
+      <div class="card">
+        <div class="form-row">
+          <select id="trainType"><option>Jiu-jítsu</option><option>Corrida</option><option>Caminhada</option></select>
+          <input id="trainDuration" type="number" placeholder="Minutos" min="1">
+          <button class="btn btn-primary" onclick="addTraining()">Registrar</button>
+        </div>
+        <div style="margin-top:18px;overflow:auto"><table><thead><tr><th>Data</th><th>Treino</th><th>Duração</th></tr></thead><tbody id="trainingHistory"></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="section" id="agua">
+      <div class="grid grid-2">
+        <div class="card">
+          <h3 style="margin-top:0">Meta diária</h3>
+          <div style="font-size:46px;font-weight:800;margin:20px 0" id="waterBig">0,0 L</div>
+          <div class="progress"><div id="waterBar2"></div></div>
+          <div class="water-btns">
+            <button class="btn btn-primary" onclick="addWater(250)">+250 ml</button>
+            <button class="btn btn-primary" onclick="addWater(500)">+500 ml</button>
+            <button class="btn btn-ghost" onclick="resetWater()">Zerar</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0">Distribuição prática</h3>
+          <table>
+            <tbody>
+              <tr><td>Ao acordar</td><td>300–400 ml</td></tr>
+              <tr><td>Próximo ao treino</td><td>300–500 ml</td></tr>
+              <tr><td>Pós-treino</td><td>400–500 ml</td></tr>
+              <tr><td>08h–12h</td><td>500–600 ml</td></tr>
+              <tr><td>12h–14h</td><td>400–500 ml</td></tr>
+              <tr><td>14h–18h</td><td>500–600 ml</td></tr>
+              <tr><td>Noite</td><td>Conforme sede e treino</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="progresso">
+      <div class="grid grid-2">
+        <div class="card">
+          <h3 style="margin-top:0">Registrar peso</h3>
+          <div class="form-row">
+            <input id="weightDate" type="date">
+            <input id="weightInput" type="number" step="0.1" placeholder="Peso em kg">
+            <button class="btn btn-primary" onclick="addWeight()">Salvar</button>
+          </div>
+          <div class="bar-chart" id="weightChart"></div>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0">Histórico</h3>
+          <table><thead><tr><th>Data</th><th>Peso</th></tr></thead><tbody id="weightHistory"></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="metas">
+      <div class="grid grid-2">
+        <div class="card">
+          <h3 style="margin-top:0">Metas da semana</h3>
+          <div class="list" id="goalList"></div>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0">Visão da V1</h3>
+          <p class="quote">Construir consistência em três pilares: <strong>treino, alimentação e recuperação</strong>. O aplicativo mede comportamento, não perfeição. Um dia fora da rotina não apaga a semana inteira.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section" id="financas">
+      <div class="card" style="margin-bottom:18px">
+        <div style="display:flex;justify-content:space-between;align-items:end;gap:14px;flex-wrap:wrap">
+          <div><h3 style="margin:0 0 6px">💰 Finanças pessoais</h3><div style="color:var(--muted);font-size:13px">Acompanhe entradas, gastos, dívidas e metas.</div></div>
+          <div style="min-width:180px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px">Mês analisado</label><input type="month" id="financeMonth" onchange="renderFinance()"></div>
+        </div>
+      </div>
+
+      <div class="finance-metrics">
+        <div class="card metric"><div><small>Receitas</small><strong class="money-positive" id="finIncome">R$ 0,00</strong><div class="sub">No mês selecionado</div></div><div class="icon">📥</div></div>
+        <div class="card metric"><div><small>Despesas</small><strong class="money-negative" id="finExpense">R$ 0,00</strong><div class="sub">No mês selecionado</div></div><div class="icon">📤</div></div>
+        <div class="card metric"><div><small>Saldo</small><strong id="finBalance">R$ 0,00</strong><div class="sub">Receitas − despesas</div></div><div class="icon">⚖️</div></div>
+        <div class="card metric"><div><small>Dívidas abertas</small><strong id="finDebtTotal">R$ 0,00</strong><div class="sub">Total cadastrado</div></div><div class="icon">🧾</div></div>
+      </div>
+
+      <div class="section-title"><h3>Novo lançamento</h3><span>Receitas e despesas</span></div>
+      <div class="card">
+        <div class="finance-form">
+          <div class="field"><label>Data</label><input id="finDate" type="date"></div>
+          <div class="field"><label>Tipo</label><select id="finType"><option value="expense">Despesa</option><option value="income">Receita</option></select></div>
+          <div class="field"><label>Descrição</label><input id="finDesc" placeholder="Ex.: mercado, salário"></div>
+          <div class="field"><label>Categoria</label><select id="finCategory"><option>Alimentação</option><option>Transporte</option><option>Moradia</option><option>Saúde</option><option>Lazer</option><option>Educação</option><option>Compras</option><option>Salário</option><option>Extra</option><option>Outros</option></select></div>
+          <div class="field"><label>Valor</label><input id="finAmount" type="number" step="0.01" min="0" placeholder="0,00"></div>
+          <div class="field"><label>Pagamento</label><select id="finPayment"><option>Pix</option><option>Dinheiro</option><option>Débito</option><option>Crédito</option><option>Boleto</option><option>Transferência</option></select></div>
+          <button class="btn btn-primary" onclick="addFinanceTransaction()">Adicionar</button>
+        </div>
+      </div>
+
+      <div class="grid grid-2" style="margin-top:18px">
+        <div class="card">
+          <h3 style="margin-top:0">Gastos por categoria</h3>
+          <div id="financeCategoryBars"><p class="quote">Nenhum gasto registrado neste mês.</p></div>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0">Visão do mês</h3>
+          <div id="financeMonthSummary" class="quote"></div>
+        </div>
+      </div>
+
+      <div class="section-title"><h3>Lançamentos</h3><span id="financeCount">0 registros</span></div>
+      <div class="card finance-table-wrap">
+        <table class="finance-table">
+          <thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Pagamento</th><th>Tipo</th><th>Valor</th><th></th></tr></thead>
+          <tbody id="financeTransactions"></tbody>
+        </table>
+      </div>
+
+      <div class="section-title"><h3>Dívidas e parcelas</h3><span>Controle do que ainda falta pagar</span></div>
+      <div class="card">
+        <div class="debt-form">
+          <div class="field"><label>Descrição</label><input id="debtName" placeholder="Ex.: cartão, empréstimo"></div>
+          <div class="field"><label>Saldo devedor</label><input id="debtAmount" type="number" step="0.01" min="0" placeholder="0,00"></div>
+          <div class="field"><label>Parcela mensal</label><input id="debtInstallment" type="number" step="0.01" min="0" placeholder="0,00"></div>
+          <div class="field"><label>Próximo vencimento</label><input id="debtDue" type="date"></div>
+          <button class="btn btn-primary" onclick="addDebt()">Adicionar</button>
+        </div>
+        <div class="finance-table-wrap" style="margin-top:16px">
+          <table><thead><tr><th>Dívida</th><th>Saldo</th><th>Parcela</th><th>Vencimento</th><th>Status</th><th></th></tr></thead><tbody id="debtTable"></tbody></table>
+        </div>
+      </div>
+
+      <div class="section-title"><h3>Metas financeiras</h3><span>Reserva, compra ou objetivo</span></div>
+      <div class="card">
+        <div class="goal-form">
+          <div class="field"><label>Meta</label><input id="finGoalName" placeholder="Ex.: reserva de emergência"></div>
+          <div class="field"><label>Valor alvo</label><input id="finGoalTarget" type="number" step="0.01" min="0" placeholder="0,00"></div>
+          <div class="field"><label>Já guardado</label><input id="finGoalCurrent" type="number" step="0.01" min="0" placeholder="0,00"></div>
+          <button class="btn btn-primary" onclick="addFinanceGoal()">Criar meta</button>
+        </div>
+        <div class="grid grid-2" id="financeGoals" style="margin-top:16px"></div>
+      </div>
+    </section>
+
+    <section class="section" id="calendario">
+      <div class="card">
+        <div class="calendar-head">
+          <button class="btn btn-ghost" onclick="changeMonth(-1)">←</button>
+          <h3 id="calendarTitle" style="margin:0"></h3>
+          <button class="btn btn-ghost" onclick="changeMonth(1)">→</button>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+        <div style="margin-top:16px;display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:12px">
+          <span>🟢 treino</span><span>🟡 checklist</span><span>🔴 peso</span><span>🟣 diário</span><span>🟠 evento</span>
+        </div>
+      </div>
+      <div class="section-title"><h3>Resumo do dia selecionado</h3><span>Clique em uma data</span></div>
+      <div class="card" id="calendarDayDetail">
+        <p class="quote">Selecione um dia no calendário para ver os registros.</p>
+      </div>
+    </section>
+
+
+    <section class="section" id="diario">
+      <div class="diary-layout">
+        <div class="card">
+          <h3 style="margin-top:0">📖 Registro do dia</h3>
+          <div class="diary-form">
+            <div class="diary-row">
+              <div>
+                <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Data</label>
+                <input type="date" id="diaryDate">
+              </div>
+              <div>
+                <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Título</label>
+                <input type="text" id="diaryTitle" placeholder="Ex.: Dia importante no trabalho">
+              </div>
+            </div>
+
+            <div>
+              <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:8px">Como foi o dia?</label>
+              <div class="mood-grid" id="moodGrid">
+                <div class="mood-option" data-mood="Muito ruim" onclick="selectMood(this)"><span>😞</span>Muito ruim</div>
+                <div class="mood-option" data-mood="Ruim" onclick="selectMood(this)"><span>🙁</span>Ruim</div>
+                <div class="mood-option active" data-mood="Normal" onclick="selectMood(this)"><span>😐</span>Normal</div>
+                <div class="mood-option" data-mood="Bom" onclick="selectMood(this)"><span>🙂</span>Bom</div>
+                <div class="mood-option" data-mood="Ótimo" onclick="selectMood(this)"><span>😁</span>Ótimo</div>
+              </div>
+            </div>
+
+            <div>
+              <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Acontecimento importante</label>
+              <textarea id="diaryText" placeholder="Registre algo que aconteceu hoje e que você quer lembrar depois..."></textarea>
+            </div>
+
+            <div>
+              <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Algo que aprendi ou quero lembrar</label>
+              <textarea id="diaryLearning" placeholder="Uma decisão, aprendizado, ideia ou observação..."></textarea>
+            </div>
+
+            <div>
+              <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Algo para melhorar amanhã</label>
+              <textarea id="diaryImprove" placeholder="Ex.: dormir mais cedo, beber mais água, organizar uma tarefa..."></textarea>
+            </div>
+
+            <button class="btn btn-primary" onclick="saveDiaryEntry()">Salvar registro</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-top:0">📅 Criar evento</h3>
+          <div class="diary-form">
+            <input type="date" id="eventDate">
+            <input type="time" id="eventTime">
+            <input type="text" id="eventTitle" placeholder="Nome do evento">
+            <select id="eventCategory">
+              <option>Pessoal</option>
+              <option>Saúde</option>
+              <option>Financeiro</option>
+              <option>Trabalho</option>
+              <option>Estudo</option>
+              <option>Outro</option>
+            </select>
+            <textarea id="eventNotes" placeholder="Observações do evento..."></textarea>
+            <button class="btn btn-primary" onclick="saveEvent()">Adicionar evento</button>
+          </div>
+
+          <div class="section-title" style="margin-top:24px"><h3>Próximos eventos</h3></div>
+          <div id="upcomingEvents"></div>
+        </div>
+      </div>
+
+      <div class="section-title"><h3>🕰️ Histórico do diário</h3><span>Seus registros ficam salvos por data</span></div>
+      <div class="card">
+        <div class="diary-row" style="margin-bottom:14px">
+          <input type="month" id="diaryMonthFilter" onchange="renderDiary()">
+          <input type="text" id="diarySearch" placeholder="Buscar por palavra..." oninput="renderDiary()">
+        </div>
+        <div id="diaryHistory"></div>
+      </div>
+    </section>
+
+    <section class="section" id="backup">
+      <div class="grid grid-2">
+        <div class="card">
+          <h3 style="margin-top:0">💾 Fazer backup</h3>
+          <p class="quote">Exporte seus dados para um arquivo JSON. Você pode guardar esse arquivo em um pendrive, nuvem ou outro computador.</p>
+          <div class="backup-actions">
+            <button class="btn btn-primary" onclick="exportBackup()">Baixar backup</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0">📥 Restaurar backup</h3>
+          <p class="quote">Escolha um arquivo de backup criado pelo aplicativo para recuperar seus dados.</p>
+          <input id="backupFile" type="file" accept=".json,application/json">
+          <div class="backup-actions" style="margin-top:12px">
+            <button class="btn btn-primary" onclick="importBackup()">Restaurar</button>
+          </div>
+          <div id="backupMsg" style="margin-top:12px;color:var(--muted);font-size:13px"></div>
+        </div>
+      </div>
+      <div class="section-title"><h3>Segurança local</h3></div>
+      <div class="card">
+        <div class="grid grid-2">
+          <div>
+            <h3 style="margin-top:0">Alterar senha</h3>
+            <input id="newPass" type="password" placeholder="Nova senha">
+            <button class="btn btn-ghost" style="margin-top:10px" onclick="changePassword()">Salvar nova senha</button>
+            <div id="passMsg" style="margin-top:10px;color:var(--muted);font-size:13px"></div>
+          </div>
+          <div>
+            <h3 style="margin-top:0">Como funciona</h3>
+            <p class="quote">Nesta versão, login e dados ficam apenas neste navegador. Para usar em outro computador, leve seu arquivo de backup e restaure nele.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+const defaultState = {
+  auth: {user:"Higor", password:"1234"},
+  finance: {transactions:[], debts:[], goals:[]},
+  water: {},
+  checks: {},
+  weight: [{date:new Date().toISOString().slice(0,10), value:85.3}],
+  trainings: [],
+  goals: {
+    jiujitsu:{label:"Jiu-jítsu 5x na semana",done:false},
+    corrida:{label:"Corrida/caminhada 3x na semana",done:false},
+    agua:{label:"Bater a meta de água em 5 dias",done:false},
+    sono:{label:"Dormir no horário em 5 dias",done:false}
+  }
+};
+let state = JSON.parse(localStorage.getItem("saudeV1")) || defaultState;
+if(!state.auth) state.auth = {user:"Higor", password:"1234"};
+if(!state.marketChecks) state.marketChecks = {};
+if(!state.marketPeriod) state.marketPeriod = "week";
+if(!state.diaryEntries) state.diaryEntries = [];
+if(!state.events) state.events = [];
+if(!state.finance) state.finance = {transactions:[], debts:[], goals:[]};
+let calendarCursor = new Date();
+
+function save(){localStorage.setItem("saudeV1",JSON.stringify(state)); renderAll();}
+const dateKey = ()=> new Date().toISOString().slice(0,10);
+
+const meals = {
+  1:[
+    ["07:40","Café pós-treino","2–3 ovos + cuscuz + queijo + laranja"],
+    ["12:15","Almoço","Arroz + feijão + frango + tomate e cebola"],
+    ["16:00","Lanche","Uva + whey ou vitamina de banana"],
+    ["20:00","Jantar","Frango + batata/batata-doce + tomate"]
+  ],
+  2:[
+    ["07:40","Café pós-treino","Tapioca + 2–3 ovos + queijo + acerola/laranja"],
+    ["12:15","Almoço","Arroz + feijão + carne bovina + tomate e cebola"],
+    ["16:00","Lanche","Pão com ovo/queijo + fruta"],
+    ["20:00","Jantar","Cuscuz + frango desfiado"]
+  ],
+  3:[
+    ["07:40","Café pós-treino","Cuscuz + ovos + queijo + abacaxi"],
+    ["12:15","Almoço","Macarrão + frango + tomate e cebola"],
+    ["16:00","Lanche","Whey + fruta ou vitamina de banana"],
+    ["20:00","Jantar","Arroz + feijão + carne moída"]
+  ],
+  4:[
+    ["07:40","Café pós-treino","Pão + 2–3 ovos + queijo + laranja"],
+    ["12:15","Almoço","Arroz + feijão + frango + tomate/cebola"],
+    ["16:00","Lanche","Tapioca com ovo ou frango"],
+    ["20:00","Jantar","Batata-doce + frango"]
+  ],
+  5:[
+    ["07:40","Café pós-treino","Cuscuz + ovos + fruta"],
+    ["12:15","Almoço","Arroz + feijão + carne bovina ou frango"],
+    ["16:00","Lanche","Whey + fruta"],
+    ["20:00","Jantar","Macarrão com frango ou carne moída"]
+  ],
+  6:[
+    ["08:00","Café","Ovos + cuscuz + queijo"],
+    ["12:30","Almoço","Arroz + feijão + frango/carne"],
+    ["16:00","Lanche","Uva, laranja, abacaxi, whey ou vitamina de banana"],
+    ["20:00","Jantar","Tapioca + frango/ovo/queijo"]
+  ],
+  0:[
+    ["08:30","Café","Pão + ovos + queijo"],
+    ["12:30","Almoço","Comida da família com proteína + carboidrato + feijão + vegetais"],
+    ["16:30","Lanche","Abacaxi, laranja ou uva"],
+    ["20:00","Jantar","Cuscuz/tapioca/arroz + ovos ou frango"]
+  ]
+};
+
+const dayNames=["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
+const checklistBase=["Jiu-jítsu","Água ao longo do dia","Café da manhã","Fruta","Almoço equilibrado","Lanche","Jantar","Dormir no horário"];
+function todayTasks(){
+  const d=new Date().getDay();
+  let t=[...checklistBase];
+  if([1,3,5].includes(d)) t.splice(6,0,"Corrida/caminhada");
+  else if([2,4,6].includes(d)) t.splice(6,0,"Caminhada leve ou descanso");
+  else t.splice(6,0,"Descanso");
+  if([0,6].includes(d)) t=t.filter(x=>x!=="Jiu-jítsu");
+  return t;
+}
+function renderChecklist(){
+  const box=document.getElementById("todayChecklist"); box.innerHTML="";
+  const key=dateKey(); state.checks[key] ||= {};
+  todayTasks().forEach((t,i)=>{
+    const div=document.createElement("label"); div.className="check"+(state.checks[key][t]?" done":"");
+    div.innerHTML=`<input type="checkbox" ${state.checks[key][t]?"checked":""}><span class="txt">${t}</span><span class="tag">${i<2?"prioridade":"dia"}</span>`;
+    div.querySelector("input").onchange=e=>{state.checks[key][t]=e.target.checked; save();};
+    box.appendChild(div);
+  });
+  const vals=Object.values(state.checks[key]); const done=vals.filter(Boolean).length; const total=todayTasks().length;
+  document.getElementById("checkMetric").textContent=Math.round(done/total*100)+"%";
+}
+function renderWater(){
+  const key=dateKey(); const ml=state.water[key]||0, pct=Math.min(100,Math.round(ml/3000*100));
+  ["waterBar","waterBar2"].forEach(id=>document.getElementById(id).style.width=pct+"%");
+  document.getElementById("waterText").textContent=`${ml} / 3000 ml`;
+  document.getElementById("waterPct").textContent=pct+"%";
+  document.getElementById("waterMetric").textContent=(ml/1000).toFixed(1).replace(".",",")+" L";
+  document.getElementById("waterBig").textContent=(ml/1000).toFixed(1).replace(".",",")+" L";
+}
+function addWater(n){state.water[dateKey()]=(state.water[dateKey()]||0)+n;save();}
+function resetWater(){state.water[dateKey()]=0;save();}
+function renderMeals(){
+  const d=new Date().getDay();
+  const preview=document.getElementById("mealPreview"); preview.innerHTML="";
+  meals[d].slice(0,4).forEach(m=>{
+    const el=document.createElement("div"); el.className="meal";
+    el.innerHTML=`<div class="time">${m[0]}</div><div><strong>${m[1]}</strong><p>${m[2]}</p></div><span class="pill">Planejado</span>`;
+    preview.appendChild(el);
+  });
+  const weekly=document.getElementById("weeklyMeals"); weekly.innerHTML="";
+  [1,2,3,4,5,6,0].forEach(day=>{
+    const card=document.createElement("div"); card.className="card";
+    card.innerHTML=`<h3 style="margin-top:0">${dayNames[day]}</h3>`+meals[day].map(m=>`<div style="margin-bottom:12px"><strong>${m[1]}</strong><div style="color:var(--muted);font-size:13px;margin-top:4px">${m[2]}</div></div>`).join("");
+    weekly.appendChild(card);
+  });
+}
+function renderNightPlan(){
+  const d=new Date().getDay();
+  let html = [1,3,5].includes(d) ? `<h4>🏃 Corrida/caminhada</h4><p>Dia programado para evolução do condicionamento. Mantenha ritmo leve e progressivo.</p>` :
+    d===0 ? `<h4>🛌 Recuperação</h4><p>Dia para descanso e preparação da próxima semana.</p>` :
+    `<h4>🚶 Atividade leve</h4><p>Caminhada leve ou descanso, conforme disposição.</p>`;
+  document.getElementById("nightPlan").innerHTML=html;
+  if([1,2,3,4,5].includes(d)){document.getElementById("trainingMetric").textContent="Jiu-jítsu";document.getElementById("trainingSub").textContent="06:00 • 75 min"}
+  else {document.getElementById("trainingMetric").textContent=d===6?"Caminhada":"Descanso";document.getElementById("trainingSub").textContent="Recuperação"}
+}
+function addWeight(){
+  const date=document.getElementById("weightDate").value || dateKey();
+  const v=parseFloat(document.getElementById("weightInput").value);
+  if(!v) return;
+  state.weight.push({date,value:v}); state.weight=state.weight.slice(-12); save();
+  document.getElementById("weightInput").value="";
+}
+function renderWeight(){
+  const hist=document.getElementById("weightHistory"); hist.innerHTML="";
+  [...state.weight].reverse().forEach(x=>hist.innerHTML+=`<tr><td>${new Date(x.date+"T12:00:00").toLocaleDateString("pt-BR")}</td><td>${x.value.toFixed(1).replace(".",",")} kg</td></tr>`);
+  const last=state.weight.at(-1); if(last) document.getElementById("weightMetric").textContent=last.value.toFixed(1).replace(".",",")+" kg";
+  const chart=document.getElementById("weightChart"); chart.innerHTML="";
+  if(state.weight.length){
+    const vals=state.weight.map(x=>x.value), min=Math.min(...vals)-1, max=Math.max(...vals)+1;
+    state.weight.forEach(x=>{
+      const h=30+((x.value-min)/(max-min))*150;
+      chart.innerHTML+=`<div class="bar-wrap"><div class="bar" style="height:${h}px"></div><div style="margin-top:6px">${x.value.toFixed(1)}</div></div>`;
+    });
+  }
+}
+function addTraining(){
+  const type=document.getElementById("trainType").value, dur=parseInt(document.getElementById("trainDuration").value);
+  if(!dur) return;
+  state.trainings.push({date:dateKey(),type,dur}); state.trainings=state.trainings.slice(-30); save();
+  document.getElementById("trainDuration").value="";
+}
+function renderTrainings(){
+  const tb=document.getElementById("trainingHistory"); tb.innerHTML="";
+  [...state.trainings].reverse().forEach(t=>tb.innerHTML+=`<tr><td>${new Date(t.date+"T12:00:00").toLocaleDateString("pt-BR")}</td><td>${t.type}</td><td>${t.dur} min</td></tr>`);
+}
+function renderGoals(){
+  const gl=document.getElementById("goalList"); gl.innerHTML="";
+  Object.entries(state.goals).forEach(([k,g])=>{
+    const el=document.createElement("label"); el.className="check"+(g.done?" done":"");
+    el.innerHTML=`<input type="checkbox" ${g.done?"checked":""}><span class="txt">${g.label}</span>`;
+    el.querySelector("input").onchange=e=>{state.goals[k].done=e.target.checked;save()};
+    gl.appendChild(el);
+  });
+}
+function renderHeader(){
+  const now=new Date();
+  document.getElementById("today").textContent=now.toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"long"});
+  document.getElementById("weightDate").value=dateKey();
+  const dd=document.getElementById("diaryDate"); if(dd && !dd.value) dd.value=dateKey();
+  const ed=document.getElementById("eventDate"); if(ed && !ed.value) ed.value=dateKey();
+  const mf=document.getElementById("diaryMonthFilter"); if(mf && !mf.value) mf.value=dateKey().slice(0,7);
+}
+
+
+const brl=v=>Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+function financeMonthKey(){return document.getElementById("financeMonth")?.value || dateKey().slice(0,7);}
+function addFinanceTransaction(){
+  const date=document.getElementById("finDate").value || dateKey();
+  const type=document.getElementById("finType").value;
+  const desc=document.getElementById("finDesc").value.trim();
+  const category=document.getElementById("finCategory").value;
+  const amount=parseFloat(document.getElementById("finAmount").value);
+  const payment=document.getElementById("finPayment").value;
+  if(!desc || !amount || amount<=0) return;
+  state.finance.transactions.push({id:Date.now(),date,type,desc,category,amount,payment});
+  document.getElementById("finDesc").value="";document.getElementById("finAmount").value="";
+  save();
+}
+function deleteFinanceTransaction(id){state.finance.transactions=state.finance.transactions.filter(x=>x.id!==id);save();}
+function addDebt(){
+  const name=document.getElementById("debtName").value.trim(), amount=parseFloat(document.getElementById("debtAmount").value), installment=parseFloat(document.getElementById("debtInstallment").value)||0, due=document.getElementById("debtDue").value;
+  if(!name || !amount || amount<=0) return;
+  state.finance.debts.push({id:Date.now(),name,amount,installment,due,paid:false});
+  ["debtName","debtAmount","debtInstallment","debtDue"].forEach(id=>document.getElementById(id).value="");save();
+}
+function toggleDebt(id){const d=state.finance.debts.find(x=>x.id===id);if(d){d.paid=!d.paid;save();}}
+function deleteDebt(id){state.finance.debts=state.finance.debts.filter(x=>x.id!==id);save();}
+function addFinanceGoal(){
+  const name=document.getElementById("finGoalName").value.trim(),target=parseFloat(document.getElementById("finGoalTarget").value),current=parseFloat(document.getElementById("finGoalCurrent").value)||0;
+  if(!name || !target || target<=0) return;
+  state.finance.goals.push({id:Date.now(),name,target,current});
+  ["finGoalName","finGoalTarget","finGoalCurrent"].forEach(id=>document.getElementById(id).value="");save();
+}
+function updateGoal(id){
+  const g=state.finance.goals.find(x=>x.id===id); if(!g)return;
+  const v=prompt("Quanto você quer adicionar a esta meta?","0"); const n=parseFloat((v||"").replace(",","."));
+  if(!isNaN(n)){g.current=Math.max(0,g.current+n);save();}
+}
+function deleteFinanceGoal(id){state.finance.goals=state.finance.goals.filter(x=>x.id!==id);save();}
+function renderFinance(){
+  if(!state.finance) state.finance={transactions:[],debts:[],goals:[]};
+  const month=financeMonthKey();
+  const tx=state.finance.transactions.filter(x=>x.date.startsWith(month)).sort((a,b)=>b.date.localeCompare(a.date));
+  const income=tx.filter(x=>x.type==="income").reduce((s,x)=>s+x.amount,0);
+  const expense=tx.filter(x=>x.type==="expense").reduce((s,x)=>s+x.amount,0);
+  const balance=income-expense;
+  const debtTotal=state.finance.debts.filter(x=>!x.paid).reduce((s,x)=>s+x.amount,0);
+  const set=(id,val)=>{const e=document.getElementById(id);if(e)e.textContent=val};
+  set("finIncome",brl(income));set("finExpense",brl(expense));set("finBalance",brl(balance));set("finDebtTotal",brl(debtTotal));
+  const bal=document.getElementById("finBalance"); if(bal){bal.className=balance>=0?"money-positive":"money-negative";}
+  const tbody=document.getElementById("financeTransactions");
+  if(tbody){tbody.innerHTML=tx.length?tx.map(x=>`<tr><td>${new Date(x.date+"T12:00:00").toLocaleDateString("pt-BR")}</td><td>${x.desc}</td><td>${x.category}</td><td>${x.payment}</td><td>${x.type==="income"?"Receita":"Despesa"}</td><td class="${x.type==="income"?"money-positive":"money-negative"}">${x.type==="income"?"+":"−"} ${brl(x.amount)}</td><td><button class="btn btn-danger" style="padding:6px 9px" onclick="deleteFinanceTransaction(${x.id})">Excluir</button></td></tr>`).join(""):`<tr><td colspan="7" style="color:var(--muted)">Nenhum lançamento neste mês.</td></tr>`;}
+  set("financeCount",`${tx.length} ${tx.length===1?"registro":"registros"}`);
+  const cats={}; tx.filter(x=>x.type==="expense").forEach(x=>cats[x.category]=(cats[x.category]||0)+x.amount);
+  const catEntries=Object.entries(cats).sort((a,b)=>b[1]-a[1]); const max=catEntries[0]?.[1]||1;
+  const bars=document.getElementById("financeCategoryBars"); if(bars){bars.innerHTML=catEntries.length?catEntries.map(([c,v])=>`<div class="mini-bar-row"><span>${c}</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:${Math.max(4,v/max*100)}%"></div></div><strong>${brl(v)}</strong></div>`).join(""):`<p class="quote">Nenhum gasto registrado neste mês.</p>`;}
+  const summary=document.getElementById("financeMonthSummary"); if(summary){
+    const pct=income>0?Math.round(expense/income*100):0; const top=catEntries[0];
+    summary.innerHTML=`<p><strong>Resultado:</strong> <span class="${balance>=0?"money-positive":"money-negative"}">${brl(balance)}</span></p><p><strong>Percentual da renda gasto:</strong> ${income>0?pct+"%":"sem receitas registradas"}</p><p><strong>Maior categoria de gasto:</strong> ${top?top[0]+" ("+brl(top[1])+")":"nenhuma"}</p>`;
+  }
+  const dt=document.getElementById("debtTable"); if(dt){dt.innerHTML=state.finance.debts.length?state.finance.debts.map(d=>`<tr><td>${d.name}</td><td>${brl(d.amount)}</td><td>${brl(d.installment)}</td><td>${d.due?new Date(d.due+"T12:00:00").toLocaleDateString("pt-BR"):"—"}</td><td><button class="btn ${d.paid?"btn-ghost":"btn-primary"}" style="padding:6px 9px" onclick="toggleDebt(${d.id})">${d.paid?"Quitada":"Em aberto"}</button></td><td><button class="btn btn-danger" style="padding:6px 9px" onclick="deleteDebt(${d.id})">Excluir</button></td></tr>`).join(""):`<tr><td colspan="6" style="color:var(--muted)">Nenhuma dívida cadastrada.</td></tr>`;}
+  const goals=document.getElementById("financeGoals"); if(goals){goals.innerHTML=state.finance.goals.length?state.finance.goals.map(g=>{const pct=Math.min(100,Math.round(g.current/g.target*100));return `<div class="goal-card"><h4>${g.name}</h4><div class="goal-meta"><span>${brl(g.current)} de ${brl(g.target)}</span><span>${pct}%</span></div><div class="progress"><div style="width:${pct}%"></div></div><div class="backup-actions" style="margin-top:10px"><button class="btn btn-primary" onclick="updateGoal(${g.id})">Adicionar valor</button><button class="btn btn-danger" onclick="deleteFinanceGoal(${g.id})">Excluir</button></div></div>`}).join(""):`<p class="quote">Nenhuma meta financeira criada.</p>`;}
+}
+
+
+const marketBase = {
+  "Proteínas":[
+    {id:"frango",name:"Frango",week:"2,0–2,5 kg",month:"8–10 kg"},
+    {id:"ovos",name:"Ovos",week:"18–24 unidades",month:"72–96 unidades"},
+    {id:"carne_bovina",name:"Carne bovina",week:"500–700 g",month:"2–3 kg"},
+    {id:"carne_moida",name:"Carne moída",week:"400–500 g",month:"1,6–2 kg"},
+    {id:"queijo",name:"Queijo",week:"300–400 g",month:"1,2–1,6 kg"},
+    {id:"whey",name:"Whey",week:"3–5 porções",month:"12–20 porções"}
+  ],
+  "Carboidratos":[
+    {id:"arroz",name:"Arroz",week:"1 kg",month:"4 kg"},
+    {id:"feijao",name:"Feijão",week:"500–700 g",month:"2–3 kg"},
+    {id:"cuscuz",name:"Flocão/cuscuz",week:"500 g",month:"2 kg"},
+    {id:"macarrao",name:"Macarrão",week:"500 g",month:"2 kg"},
+    {id:"tapioca",name:"Goma de tapioca",week:"500 g",month:"2 kg"},
+    {id:"pao",name:"Pão",week:"1 pacote",month:"4 pacotes"},
+    {id:"batata",name:"Batata",week:"1 kg",month:"4 kg"},
+    {id:"batata_doce",name:"Batata-doce",week:"1 kg",month:"4 kg"}
+  ],
+  "Frutas":[
+    {id:"banana",name:"Banana",week:"7–10 unidades",month:"28–40 unidades"},
+    {id:"laranja",name:"Laranja",week:"5–7 unidades",month:"20–28 unidades"},
+    {id:"uva",name:"Uva",week:"500 g",month:"2 kg"},
+    {id:"abacaxi",name:"Abacaxi",week:"1 unidade",month:"4 unidades"},
+    {id:"acerola",name:"Acerola",week:"500 g",month:"2 kg"}
+  ],
+  "Verduras e temperos":[
+    {id:"tomate",name:"Tomate",week:"6–8 unidades",month:"24–32 unidades"},
+    {id:"cebola",name:"Cebola",week:"4–6 unidades",month:"16–24 unidades"},
+    {id:"alho",name:"Alho",week:"1 cabeça",month:"4 cabeças"},
+    {id:"limao",name:"Limão",week:"4 unidades",month:"16 unidades"}
+  ],
+  "Bebidas e complementos":[
+    {id:"leite",name:"Leite",week:"2–3 litros",month:"8–12 litros"},
+    {id:"nescau",name:"Nescau",week:"1 embalagem pequena dura várias semanas",month:"1 embalagem conforme uso"},
+    {id:"manteiga",name:"Manteiga",week:"1 pote dura várias semanas",month:"1 pote conforme uso"}
+  ]
+};
+
+function setMarketPeriod(period){
+  state.marketPeriod=period;
+  save();
+}
+function marketCheckKey(id){return `${state.marketPeriod}_${id}`;}
+function toggleMarket(id,checked){
+  state.marketChecks[marketCheckKey(id)]=checked;
+  localStorage.setItem("saudeV1",JSON.stringify(state));
+  renderMarket();
+}
+function resetMarketChecks(){
+  Object.keys(state.marketChecks).forEach(k=>{
+    if(k.startsWith(state.marketPeriod+"_")) delete state.marketChecks[k];
+  });
+  localStorage.setItem("saudeV1",JSON.stringify(state));
+  renderMarket();
+}
+function renderMarket(){
+  const box=document.getElementById("marketList"); if(!box) return;
+  document.getElementById("marketWeekBtn").className="btn "+(state.marketPeriod==="week"?"btn-primary":"btn-ghost");
+  document.getElementById("marketMonthBtn").className="btn "+(state.marketPeriod==="month"?"btn-primary":"btn-ghost");
+  box.innerHTML="";
+  let total=0,checked=0;
+  Object.entries(marketBase).forEach(([cat,items])=>{
+    const wrap=document.createElement("div"); wrap.className="market-category";
+    wrap.innerHTML=`<h4>${cat}</h4><div class="card" style="padding:0"></div>`;
+    const inner=wrap.querySelector(".card");
+    items.forEach(item=>{
+      total++;
+      const key=marketCheckKey(item.id);
+      const done=!!state.marketChecks[key]; if(done) checked++;
+      const row=document.createElement("label"); row.className="market-item"+(done?" done":"");
+      row.innerHTML=`<input type="checkbox" ${done?"checked":""}><span class="market-name">${item.name}</span><span class="market-qty">${state.marketPeriod==="week"?item.week:item.month}</span>`;
+      row.querySelector("input").onchange=e=>toggleMarket(item.id,e.target.checked);
+      inner.appendChild(row);
+    });
+    box.appendChild(wrap);
+  });
+  document.getElementById("sumProtein").textContent=state.marketPeriod==="week"?"≈ 3–4 kg + ovos":"≈ 12–16 kg + ovos";
+  document.getElementById("sumCarb").textContent=state.marketPeriod==="week"?"≈ 5–6 kg":"≈ 20–24 kg";
+  document.getElementById("sumFruit").textContent=state.marketPeriod==="week"?"5 tipos":"5 tipos";
+  document.getElementById("sumChecked").textContent=Math.round((checked/total)*100)+"%";
+}
+
+
+let selectedMood = "Normal";
+
+function selectMood(el){
+  document.querySelectorAll(".mood-option").forEach(x=>x.classList.remove("active"));
+  el.classList.add("active");
+  selectedMood = el.dataset.mood;
+}
+
+function saveDiaryEntry(){
+  const date=document.getElementById("diaryDate").value || dateKey();
+  const title=document.getElementById("diaryTitle").value.trim();
+  const text=document.getElementById("diaryText").value.trim();
+  const learning=document.getElementById("diaryLearning").value.trim();
+  const improve=document.getElementById("diaryImprove").value.trim();
+
+  if(!title && !text && !learning && !improve) return;
+
+  state.diaryEntries.push({
+    id:Date.now(),
+    date,
+    title:title || "Registro do dia",
+    mood:selectedMood,
+    text,
+    learning,
+    improve,
+    createdAt:new Date().toISOString()
+  });
+
+  document.getElementById("diaryTitle").value="";
+  document.getElementById("diaryText").value="";
+  document.getElementById("diaryLearning").value="";
+  document.getElementById("diaryImprove").value="";
+  save();
+}
+
+function deleteDiaryEntry(id){
+  state.diaryEntries = state.diaryEntries.filter(x=>x.id!==id);
+  save();
+}
+
+function moodEmoji(mood){
+  return {"Muito ruim":"😞","Ruim":"🙁","Normal":"😐","Bom":"🙂","Ótimo":"😁"}[mood] || "😐";
+}
+
+function renderDiary(){
+  const hist=document.getElementById("diaryHistory");
+  if(!hist) return;
+
+  const month=document.getElementById("diaryMonthFilter")?.value || "";
+  const search=(document.getElementById("diarySearch")?.value || "").toLowerCase();
+
+  let entries=[...state.diaryEntries].sort((a,b)=>b.date.localeCompare(a.date) || b.id-a.id);
+
+  if(month) entries=entries.filter(x=>x.date.startsWith(month));
+  if(search) entries=entries.filter(x=>
+    (x.title+" "+x.text+" "+x.learning+" "+x.improve).toLowerCase().includes(search)
+  );
+
+  if(!entries.length){
+    hist.innerHTML='<p class="quote">Nenhum registro encontrado.</p>';
+    return;
+  }
+
+  hist.innerHTML=entries.map(e=>`
+    <div class="diary-entry">
+      <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start">
+        <div>
+          <h4>${moodEmoji(e.mood)} ${escapeHtml(e.title)}</h4>
+          <div class="diary-meta">${new Date(e.date+"T12:00:00").toLocaleDateString("pt-BR")} • ${e.mood}</div>
+        </div>
+        <button class="btn btn-danger" onclick="deleteDiaryEntry(${e.id})">Excluir</button>
+      </div>
+      ${e.text?`<div class="diary-text"><strong>Acontecimento:</strong><br>${escapeHtml(e.text)}</div>`:""}
+      ${e.learning?`<div class="diary-text" style="margin-top:10px"><strong>Quero lembrar:</strong><br>${escapeHtml(e.learning)}</div>`:""}
+      ${e.improve?`<div class="diary-text" style="margin-top:10px"><strong>Melhorar amanhã:</strong><br>${escapeHtml(e.improve)}</div>`:""}
+    </div>
+  `).join("");
+}
+
+function saveEvent(){
+  const date=document.getElementById("eventDate").value;
+  const time=document.getElementById("eventTime").value;
+  const title=document.getElementById("eventTitle").value.trim();
+  const category=document.getElementById("eventCategory").value;
+  const notes=document.getElementById("eventNotes").value.trim();
+
+  if(!date || !title) return;
+
+  state.events.push({
+    id:Date.now(),
+    date,time,title,category,notes,
+    done:false,
+    createdAt:new Date().toISOString()
+  });
+
+  document.getElementById("eventTitle").value="";
+  document.getElementById("eventNotes").value="";
+  save();
+}
+
+function toggleEvent(id){
+  const ev=state.events.find(x=>x.id===id);
+  if(ev){ev.done=!ev.done;save();}
+}
+
+function deleteEvent(id){
+  state.events=state.events.filter(x=>x.id!==id);
+  save();
+}
+
+function renderEvents(){
+  const box=document.getElementById("upcomingEvents");
+  if(!box) return;
+
+  const today=dateKey();
+  const list=[...state.events]
+    .filter(e=>e.date>=today)
+    .sort((a,b)=> (a.date+a.time).localeCompare(b.date+b.time))
+    .slice(0,12);
+
+  if(!list.length){
+    box.innerHTML='<p class="quote">Nenhum evento futuro cadastrado.</p>';
+    return;
+  }
+
+  box.innerHTML=list.map(e=>`
+    <div class="event-item" style="${e.done?'opacity:.55':''}">
+      <div>
+        <h4>${e.done?'✅ ':'📌 '}${escapeHtml(e.title)}</h4>
+        <div class="event-meta">
+          ${new Date(e.date+"T12:00:00").toLocaleDateString("pt-BR")}
+          ${e.time?' • '+e.time:''}
+          • <span class="badge-soft">${escapeHtml(e.category)}</span>
+        </div>
+        ${e.notes?`<div class="diary-text">${escapeHtml(e.notes)}</div>`:""}
+      </div>
+      <div class="event-actions">
+        <button class="btn btn-ghost" onclick="toggleEvent(${e.id})">${e.done?'Reabrir':'Concluir'}</button>
+        <button class="btn btn-danger" onclick="deleteEvent(${e.id})">Excluir</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+function escapeHtml(str){
+  return String(str||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+
+function doLogin(){
+  const u=document.getElementById("loginUser").value.trim();
+  const p=document.getElementById("loginPass").value;
+  if(u===state.auth.user && p===state.auth.password){
+    sessionStorage.setItem("saudeV1_logged","1");
+    document.getElementById("loginScreen").classList.add("hidden");
+    document.getElementById("loginError").textContent="";
+  }else{
+    document.getElementById("loginError").textContent="Usuário ou senha incorretos.";
+  }
+}
+function logout(){
+  sessionStorage.removeItem("saudeV1_logged");
+  document.getElementById("loginScreen").classList.remove("hidden");
+  document.getElementById("loginPass").value="";
+}
+function changePassword(){
+  const p=document.getElementById("newPass").value;
+  if(p.length<4){
+    document.getElementById("passMsg").textContent="Use pelo menos 4 caracteres.";
+    return;
+  }
+  state.auth.password=p; save();
+  document.getElementById("newPass").value="";
+  document.getElementById("passMsg").textContent="Senha alterada com sucesso.";
+}
+function exportBackup(){
+  const payload={
+    app:"Meu Desenvolvimento Saúde V1",
+    exportedAt:new Date().toISOString(),
+    data:state
+  };
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=`backup_saude_${dateKey()}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function importBackup(){
+  const f=document.getElementById("backupFile").files[0];
+  const msg=document.getElementById("backupMsg");
+  if(!f){msg.textContent="Selecione um arquivo de backup.";return;}
+  const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const obj=JSON.parse(r.result);
+      if(!obj.data || !obj.data.water || !obj.data.checks) throw new Error("Formato inválido");
+      state=obj.data;
+      if(!state.auth) state.auth={user:"Higor",password:"1234"};
+      localStorage.setItem("saudeV1",JSON.stringify(state));
+      msg.textContent="Backup restaurado com sucesso.";
+      renderAll();
+    }catch(e){msg.textContent="Não foi possível restaurar este arquivo."}
+  };
+  r.readAsText(f);
+}
+function changeMonth(delta){
+  calendarCursor.setMonth(calendarCursor.getMonth()+delta);
+  renderCalendar();
+}
+function selectCalendarDay(dateStr){
+  const detail=document.getElementById("calendarDayDetail");
+  const checks=state.checks[dateStr]||{};
+  const done=Object.entries(checks).filter(([k,v])=>v).map(([k])=>k);
+  const trains=state.trainings.filter(t=>t.date===dateStr);
+  const weights=state.weight.filter(w=>w.date===dateStr);
+  const diaries=state.diaryEntries.filter(x=>x.date===dateStr);
+  const events=state.events.filter(x=>x.date===dateStr);
+  detail.innerHTML=`
+    <h3 style="margin-top:0">${new Date(dateStr+"T12:00:00").toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"long",year:"numeric"})}</h3>
+    <p><strong>Checklist concluído:</strong> ${done.length?done.join(", "):"Nenhum item marcado"}</p>
+    <p><strong>Treinos:</strong> ${trains.length?trains.map(t=>`${t.type} (${t.dur} min)`).join(", "):"Nenhum treino registrado"}</p>
+    <p><strong>Peso:</strong> ${weights.length?weights.map(w=>w.value.toFixed(1).replace(".",",")+" kg").join(", "):"Sem registro"}</p>
+    <p><strong>Água:</strong> ${(state.water[dateStr]||0)} ml</p>
+    <p><strong>Diário:</strong> ${diaries.length?diaries.map(x=>escapeHtml(x.title)).join(", "):"Sem registro"}</p>
+    <p><strong>Eventos:</strong> ${events.length?events.map(x=>escapeHtml(x.title)).join(", "):"Sem evento"}</p>`;
+}
+function renderCalendar(){
+  const title=document.getElementById("calendarTitle");
+  const grid=document.getElementById("calendarGrid");
+  if(!title||!grid) return;
+  title.textContent=calendarCursor.toLocaleDateString("pt-BR",{month:"long",year:"numeric"});
+  grid.innerHTML="";
+  ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"].forEach(d=>{
+    const h=document.createElement("div");h.className="calendar-dow";h.textContent=d;grid.appendChild(h);
+  });
+  const y=calendarCursor.getFullYear(), m=calendarCursor.getMonth();
+  const first=new Date(y,m,1).getDay(), days=new Date(y,m+1,0).getDate();
+  for(let i=0;i<first;i++){const e=document.createElement("div");e.className="calendar-day empty";grid.appendChild(e);}
+  for(let d=1;d<=days;d++){
+    const dt=new Date(y,m,d);
+    const key=`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+    const el=document.createElement("div"); el.className="calendar-day";
+    if(key===dateKey()) el.classList.add("today");
+    const hasTrain=state.trainings.some(t=>t.date===key);
+    const hasCheck=state.checks[key] && Object.values(state.checks[key]).some(Boolean);
+    const hasWeight=state.weight.some(w=>w.date===key);
+    const hasDiary=state.diaryEntries.some(x=>x.date===key);
+    const hasEvent=state.events.some(x=>x.date===key);
+    const water=state.water[key]||0;
+    el.innerHTML=`<div class="calendar-num">${d}</div><div class="calendar-dots">
+      ${hasTrain?'<span class="dot train"></span>':''}
+      ${hasCheck?'<span class="dot check"></span>':''}
+      ${hasWeight?'<span class="dot weight"></span>':''}
+      ${hasDiary?'<span class="dot" style="background:#c084fc"></span>':''}
+      ${hasEvent?'<span class="dot" style="background:#f97316"></span>':''}
+    </div>${water?`<div class="day-note">💧 ${water} ml</div>`:""}${hasEvent?`<div class="day-note">📅 evento</div>`:""}${hasDiary?`<div class="day-note">📖 diário</div>`:""}`;
+    el.onclick=()=>selectCalendarDay(key);
+    grid.appendChild(el);
+  }
+}
+
+function renderAll(){renderHeader();renderChecklist();renderWater();renderMeals();renderNightPlan();renderWeight();renderTrainings();renderGoals();renderCalendar();renderFinance();}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active")); b.classList.add("active");
+  document.querySelectorAll(".section").forEach(x=>x.classList.remove("active")); document.getElementById(b.dataset.page).classList.add("active");
+  document.getElementById("pageTitle").textContent=b.textContent.trim();
+});
+document.getElementById("sidebarUser").textContent=state.auth.user;
+if(sessionStorage.getItem("saudeV1_logged")==="1"){
+  document.getElementById("loginScreen").classList.add("hidden");
+}
+document.getElementById("loginPass").addEventListener("keydown",e=>{if(e.key==="Enter")doLogin();});
+const fm=document.getElementById("financeMonth"); if(fm) fm.value=dateKey().slice(0,7);
+const fd=document.getElementById("finDate"); if(fd) fd.value=dateKey();
+renderAll();
+</script>
+
+<script>
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
