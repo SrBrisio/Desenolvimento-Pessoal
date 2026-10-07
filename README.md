@@ -47,3 +47,70 @@ Para sincronização automática entre iPhone e computador, a próxima etapa ser
 - concluir, reabrir, excluir e copiar item para a semana seguinte
 - indicadores de progresso
 - integração com backup
+
+
+## Rotina personalizada
+- Primeiro acesso pergunta a rotina real do usuário.
+- Quantidade e dias de jiu-jítsu por semana.
+- Quantidade e dias de corrida/caminhada.
+- Meta diária de água.
+- Horário e duração do jiu-jítsu.
+- Horário de trabalho.
+- Aba "Minha Rotina" para editar tudo depois.
+- Metas passam a usar os dados informados pelo usuário.
+- Metas também possuem opção de editar a descrição.
+
+
+## Metas com prazo e etapas
+- título, categoria e prioridade
+- data de início e prazo final
+- descrição da meta
+- etapas personalizadas
+- percentual automático de progresso
+- marcar etapas como concluídas
+- editar meta
+- adicionar novas etapas depois
+- pausar, retomar, concluir e reabrir metas
+- indicador de metas ativas e concluídas
+- próximo prazo
+- integração com calendário
+- dados incluídos no backup
+
+
+## Painel semanal inteligente
+- visão da semana atual, anterior e próxima
+- índice geral de consistência
+- treinos realizados
+- dias em que a meta de água foi alcançada
+- percentual de planejamento concluído
+- percentual dos checklists
+- registros no diário
+- eventos concluídos
+- evolução de metas
+- resumo financeiro semanal
+- pontos fortes automáticos
+- pontos de atenção para a próxima semana
+- consistência por dia
+- próximos eventos, planejamentos e prazos de metas
+
+
+## Sistema de conquistas
+- medalhas automáticas
+- pontos por conquista
+- níveis de evolução
+- barra de progresso para o próximo nível
+- conquistas de constância, saúde, metas, planejamento, diário e finanças
+- histórico de desbloqueios
+- progresso parcial das conquistas ainda bloqueadas
+
+
+## V11 - Supabase + GitHub
+- login real por e-mail e senha
+- dados salvos no Supabase
+- sincronização entre iPhone e computador
+- upload manual dos dados locais para a nuvem
+- download manual da nuvem
+- sincronização automática após alterações
+- RLS para isolar os dados por usuário
+
+Leia `SUPABASE_SETUP.md` antes de publicar.
