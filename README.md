@@ -114,3 +114,14 @@ Para sincronização automática entre iPhone e computador, a próxima etapa ser
 - RLS para isolar os dados por usuário
 
 Leia `SUPABASE_SETUP.md` antes de publicar.
+
+
+## V12 - Layout responsivo
+- sidebar recolhível no computador
+- melhor aproveitamento da largura da tela
+- cards mais compactos
+- dashboard inicial mais limpo
+- melhor espaçamento
+- menu inferior otimizado no celular
+- responsividade refinada para iPhone, Android, tablet e desktop
+- cache da PWA atualizado para forçar a nova versão

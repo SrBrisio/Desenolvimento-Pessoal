@@ -411,6 +411,124 @@
     .cloud-login-tabs button{flex:1}
     .cloud-note{padding:12px 14px;border-radius:12px;background:#0e1629;border:1px solid var(--line);color:var(--muted);font-size:12px;line-height:1.5}
 
+
+    /* ===== V12: layout refinado ===== */
+    :root{
+      --sidebar-w:260px;
+      --sidebar-collapsed:86px;
+    }
+    body{overflow-x:hidden}
+    .app{grid-template-columns:var(--sidebar-w) minmax(0,1fr);transition:grid-template-columns .22s ease}
+    .app.sidebar-collapsed{grid-template-columns:var(--sidebar-collapsed) minmax(0,1fr)}
+    aside{transition:width .22s ease,padding .22s ease}
+    .sidebar-toggle{
+      width:40px;height:40px;border-radius:12px;border:1px solid var(--line);
+      background:#0e1629;color:var(--text);cursor:pointer;display:grid;place-items:center;
+      margin-bottom:14px;font-size:18px
+    }
+    .app.sidebar-collapsed aside{padding-left:12px;padding-right:12px}
+    .app.sidebar-collapsed .brand div:last-child,
+    .app.sidebar-collapsed nav button{font-size:0}
+    .app.sidebar-collapsed nav button{
+      display:grid;place-items:center;min-height:48px;padding:0;width:100%;
+    }
+    .app.sidebar-collapsed nav button::first-letter{font-size:19px}
+    .app.sidebar-collapsed .user-card,
+    .app.sidebar-collapsed .footnote{display:none}
+    .app.sidebar-collapsed .brand{justify-content:center}
+    .app.sidebar-collapsed .brand .logo{margin:auto}
+
+    main{padding:26px 28px 34px}
+    .topbar{margin-bottom:20px}
+    .title h2{font-size:26px}
+    .grid-4{gap:14px}
+    .grid-3,.grid-2{gap:14px}
+    .card{padding:18px;border-radius:18px}
+    .metric strong{font-size:24px}
+    .metric .icon{font-size:24px}
+    .section-title{margin:24px 0 12px}
+    .check{padding:10px 12px}
+    .meal{padding:12px}
+    table th,table td{padding:10px 11px}
+
+    /* dashboard compacto */
+    #inicio .grid-4 .card{min-height:126px}
+    #inicio .grid-2{align-items:start}
+    #inicio .card .section-title{margin-top:20px}
+
+    /* melhor leitura de formulários */
+    input,select,textarea{border-radius:11px}
+    .btn{border-radius:11px}
+
+    /* barra inferior mobile */
+    @media(max-width:900px){
+      .app,.app.sidebar-collapsed{display:block}
+      .sidebar-toggle,.brand,.user-card,.footnote{display:none!important}
+      aside{
+        position:fixed;left:0;right:0;bottom:0;top:auto;z-index:1500;height:auto;
+        padding:8px 8px calc(8px + env(safe-area-inset-bottom));
+        border-top:1px solid var(--line);border-right:0;background:rgba(8,14,29,.98);
+        backdrop-filter:blur(16px)
+      }
+      aside nav{
+        display:flex!important;gap:6px;overflow-x:auto!important;overflow-y:hidden!important;
+        flex-wrap:nowrap!important;scrollbar-width:none;-webkit-overflow-scrolling:touch
+      }
+      aside nav::-webkit-scrollbar{display:none}
+      aside nav button{
+        width:auto!important;min-width:76px!important;flex:0 0 auto!important;
+        padding:8px 9px!important;margin:0!important;text-align:center!important;
+        font-size:10.5px!important;line-height:1.15!important;border-radius:11px!important;
+        white-space:nowrap!important
+      }
+      main{padding:16px 12px 94px}
+      .topbar{gap:10px;margin-bottom:16px}
+      .title h2{font-size:22px}
+      .title p{font-size:13px}
+      .date-pill{padding:9px 12px}
+      .grid-4,.grid-3,.grid-2{grid-template-columns:1fr 1fr}
+      .card{padding:15px;border-radius:16px}
+      .metric strong{font-size:22px}
+      .metric .icon{font-size:22px}
+      .section-title{margin:20px 0 10px}
+      .section-title h3{font-size:18px}
+      #inicio .grid-4 .card{min-height:112px}
+      .check{padding:9px 10px}
+      .meal{padding:10px}
+    }
+
+    @media(max-width:620px){
+      main{padding:12px 10px 94px}
+      .topbar{flex-direction:column;align-items:stretch}
+      .date-pill{width:100%;text-align:center}
+      .grid-4,.grid-3,.grid-2{grid-template-columns:1fr}
+      .card{padding:14px;border-radius:15px}
+      #inicio .grid-4{grid-template-columns:1fr 1fr}
+      #inicio .grid-4 .card{min-height:104px}
+      .metric{align-items:center}
+      .metric small{font-size:12px;margin-bottom:5px}
+      .metric strong{font-size:21px}
+      .metric .sub{font-size:12px;margin-top:5px}
+      .metric .icon{font-size:21px}
+      .section-title{margin:18px 0 9px}
+      .section-title h3{font-size:17px}
+      .check{padding:9px 10px;border-radius:12px}
+      .check .txt{font-size:13px}
+      .tag{font-size:10px}
+      .water-btns{display:grid;grid-template-columns:1fr 1fr 1fr}
+      .meal{grid-template-columns:1fr;gap:6px;border-radius:13px}
+      .meal .time{font-size:12px}
+      .meal p{font-size:12px}
+      aside nav button{min-width:72px!important;font-size:10px!important}
+    }
+
+    @media(max-width:390px){
+      #inicio .grid-4{grid-template-columns:1fr}
+      .water-btns{grid-template-columns:1fr 1fr}
+      .water-btns .btn:last-child{grid-column:1/-1}
+      aside nav button{min-width:68px!important;padding:8px 7px!important}
+    }
+
 </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./config.js"></script>
@@ -508,9 +626,10 @@
 
 <div class="app">
   <aside>
+    <button id="sidebarToggle" class="sidebar-toggle" onclick="toggleSidebar()" title="Recolher menu">☰</button>
     <div class="brand">
       <div class="logo">⚡</div>
-      <div><h1>Meu Desenvolvimento</h1><small>Módulo Saúde • V1</small></div>
+      <div><h1>Meu Desenvolvimento</h1><small>Level Up • Desenvolvimento Pessoal</small></div>
     </div>
     <nav id="nav">
       <button class="active" data-page="inicio">🏠 Início</button>
@@ -2590,6 +2709,24 @@ async function initializeSupabaseApp(){
   }
 }
 
+
+function toggleSidebar(){
+  const app=document.querySelector(".app");
+  if(!app) return;
+  app.classList.toggle("sidebar-collapsed");
+  localStorage.setItem("sidebarCollapsed",app.classList.contains("sidebar-collapsed")?"1":"0");
+}
+function restoreSidebarState(){
+  const app=document.querySelector(".app");
+  if(!app) return;
+  if(window.innerWidth>900 && localStorage.getItem("sidebarCollapsed")==="1"){
+    app.classList.add("sidebar-collapsed");
+  }else{
+    app.classList.remove("sidebar-collapsed");
+  }
+}
+window.addEventListener("resize",restoreSidebarState);
+
 function doLogin(){
   const u=document.getElementById("loginUser").value.trim();
   const p=document.getElementById("loginPass").value;
@@ -2714,6 +2851,7 @@ document.getElementById("loginPass").addEventListener("keydown",e=>{if(e.key==="
 const fm=document.getElementById("financeMonth"); if(fm) fm.value=dateKey().slice(0,7);
 const fd=document.getElementById("finDate"); if(fd) fd.value=dateKey();
 renderAll();
+restoreSidebarState();
 initializeSupabaseApp();
 </script>
 
