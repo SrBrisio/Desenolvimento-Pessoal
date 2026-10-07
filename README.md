@@ -125,3 +125,42 @@ Leia `SUPABASE_SETUP.md` antes de publicar.
 - menu inferior otimizado no celular
 - responsividade refinada para iPhone, Android, tablet e desktop
 - cache da PWA atualizado para forçar a nova versão
+
+## V12.1 - Correção do menu lateral
+- rodapé não sobrepõe mais as opções do menu
+- menu lateral passa a ter rolagem própria no PC
+- Minha Rotina, Finanças, Conquistas e demais abas ficam sempre acessíveis
+- rodapé fica separado no fim da sidebar
+- identificação antiga "Módulo Saúde V1" removida
+
+
+## V13 - Notificações e lembretes
+- lembretes únicos por data e horário
+- lembretes diários
+- lembretes por dias da semana
+- categorias e observações
+- ativar, pausar, editar e excluir
+- próximos lembretes
+- alertas dentro do aplicativo
+- suporte a notificações Web quando permitido
+- integração com Supabase e calendário
+
+Observação: notificações totalmente em segundo plano, com o app fechado, exigem Web Push/servidor. Esta versão alerta de forma confiável enquanto o app/PWA está ativo.
+
+## V14 - Web Push em segundo plano
+
+Esta versão adiciona:
+- assinatura Web Push por dispositivo
+- suporte a notificações com o PWA fechado
+- envio de assinatura ao Supabase
+- sincronização dos lembretes para a tabela `push_reminders`
+- botão de teste de Push
+- suporte ao iPhone quando o app está instalado na Tela de Início
+
+### Importante
+Este ZIP é seguro para o GitHub. Ele contém apenas a chave VAPID pública.
+
+O servidor precisa ser configurado separadamente usando o pacote:
+`Meu_Desenvolvimento_V14_Supabase_Backend_PRIVADO.zip`
+
+Nunca envie o conteúdo do pacote privado para o GitHub.

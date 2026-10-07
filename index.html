@@ -529,6 +529,81 @@
       aside nav button{min-width:68px!important;padding:8px 7px!important}
     }
 
+
+    /* ===== V12.1: correção da sidebar ===== */
+    @media(min-width:901px){
+      aside{
+        display:flex !important;
+        flex-direction:column !important;
+        overflow:hidden !important;
+      }
+      aside .brand{
+        flex:0 0 auto;
+      }
+      aside nav{
+        flex:1 1 auto !important;
+        min-height:0 !important;
+        overflow-y:auto !important;
+        overflow-x:hidden !important;
+        padding-right:4px;
+        margin-bottom:10px;
+        scrollbar-width:thin;
+      }
+      aside nav::-webkit-scrollbar{width:5px}
+      aside nav::-webkit-scrollbar-thumb{background:#283553;border-radius:999px}
+      aside .user-card{
+        flex:0 0 auto;
+        margin-top:auto;
+      }
+      aside .footnote{
+        position:static !important;
+        left:auto !important;
+        right:auto !important;
+        bottom:auto !important;
+        flex:0 0 auto;
+        margin-top:10px;
+        padding-top:10px;
+        border-top:1px solid var(--line);
+        font-size:10px !important;
+        line-height:1.35 !important;
+        max-height:58px;
+        overflow:hidden;
+      }
+      .app.sidebar-collapsed aside .footnote,
+      .app.sidebar-collapsed aside .user-card{
+        display:none !important;
+      }
+    }
+
+
+    /* ===== V13: notificações e lembretes ===== */
+    .reminder-layout{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .reminder-card{background:#0e1629;border:1px solid var(--line);border-radius:15px;padding:14px;margin-bottom:10px}
+    .reminder-card.disabled{opacity:.55}
+    .reminder-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+    .reminder-title{font-weight:800;font-size:15px}
+    .reminder-meta{color:var(--muted);font-size:12px;line-height:1.45;margin-top:5px}
+    .reminder-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+    .reminder-actions .btn{padding:7px 9px;min-height:auto;font-size:11px}
+    .reminder-status{display:inline-block;padding:5px 8px;border-radius:999px;font-size:11px;background:#1d2b49;color:#c7d4ea}
+    .notification-permission{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:14px;background:#0e1629}
+    .inapp-toast{
+      position:fixed;top:18px;right:18px;z-index:99999;width:min(360px,calc(100% - 36px));
+      background:#15213a;border:1px solid #334669;border-radius:16px;padding:14px 16px;
+      box-shadow:0 18px 40px rgba(0,0,0,.35);display:none
+    }
+    .inapp-toast.show{display:block}
+    .inapp-toast strong{display:block;margin-bottom:4px}
+    .inapp-toast span{color:var(--muted);font-size:13px}
+    .weekday-picker{display:flex;gap:7px;flex-wrap:wrap}
+    .weekday-picker button{border:1px solid var(--line);background:#0e1629;color:var(--muted);padding:8px 10px;border-radius:999px;cursor:pointer;font-size:12px}
+    .weekday-picker button.active{background:#19392f;color:#9ff2d2;border-color:#2f705c}
+    @media(max-width:900px){.reminder-layout{grid-template-columns:1fr}}
+    @media(max-width:620px){
+      .notification-permission{align-items:flex-start;flex-direction:column}
+      .inapp-toast{top:12px;right:12px;width:calc(100% - 24px)}
+    }
+
 </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./config.js"></script>
@@ -643,6 +718,7 @@
       <button data-page="perfil">⚙️ Minha Rotina</button>
       <button data-page="financas">💰 Finanças</button>
       <button data-page="calendario">📅 Calendário</button>
+      <button data-page="lembretes">🔔 Lembretes</button>
       <button data-page="backup">💾 Backup</button>
       <button data-page="nuvem">☁️ Nuvem</button>
       <button data-page="diario">📖 Diário & Agenda</button>
@@ -1183,6 +1259,89 @@
       </div>
     </section>
 
+
+    <section class="section" id="lembretes">
+      <div class="notification-permission">
+        <div>
+          <strong>🔔 Notificações do dispositivo</strong>
+          <div class="reminder-meta" id="notificationPermissionText">Verificando permissão...</div>
+        </div>
+        <button class="btn btn-primary" onclick="requestNotificationPermission()">Ativar notificações</button>
+      </div>
+
+      
+      <div class="card" style="margin-top:14px">
+        <h3 style="margin-top:0">📲 Notificações em segundo plano</h3>
+        <div class="cloud-status">
+          <span class="cloud-dot" id="pushBackgroundDot"></span>
+          <span id="pushBackgroundStatus">Verificando suporte...</span>
+        </div>
+        <p class="quote" id="pushBackgroundHelp" style="margin-bottom:12px">
+          No iPhone, abra o app pela Tela de Início e toque abaixo para ativar.
+        </p>
+        <div class="cloud-actions">
+          <button class="btn btn-primary" id="enablePushBtn" onclick="enableBackgroundPush()">Ativar notificações em segundo plano</button>
+          <button class="btn btn-ghost" onclick="disableBackgroundPush()">Desativar neste dispositivo</button>
+          <button class="btn btn-ghost" onclick="sendPushTest()">Enviar teste</button>
+        </div>
+      </div>
+
+      <div class="section-title"><h3>➕ Criar lembrete</h3><span>Para treinos, água, compromissos, metas e tarefas</span></div>
+      <div class="reminder-layout">
+        <div class="card">
+          <div class="goal-form">
+            <input id="reminderTitle" type="text" placeholder="Ex.: Lembrar do jiu-jítsu">
+            <div class="diary-row">
+              <select id="reminderCategory">
+                <option>Saúde</option>
+                <option>Treino</option>
+                <option>Água</option>
+                <option>Meta</option>
+                <option>Financeiro</option>
+                <option>Trabalho</option>
+                <option>Pessoal</option>
+                <option>Outro</option>
+              </select>
+              <select id="reminderRepeat" onchange="updateReminderRepeatUI()">
+                <option value="once">Uma vez</option>
+                <option value="daily">Todos os dias</option>
+                <option value="weekly">Dias da semana</option>
+              </select>
+            </div>
+
+            <div class="diary-row">
+              <div>
+                <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Data</label>
+                <input id="reminderDate" type="date">
+              </div>
+              <div>
+                <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Horário</label>
+                <input id="reminderTime" type="time">
+              </div>
+            </div>
+
+            <div id="reminderWeekdaysWrap" style="display:none">
+              <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:8px">Dias da semana</label>
+              <div class="weekday-picker" id="reminderWeekdays"></div>
+            </div>
+
+            <textarea id="reminderNotes" placeholder="Observações do lembrete..." style="min-height:90px"></textarea>
+            <button class="btn btn-primary" onclick="saveReminder()">Salvar lembrete</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-top:0">⏰ Próximos lembretes</h3>
+          <div id="upcomingReminders"></div>
+        </div>
+      </div>
+
+      <div class="section-title"><h3>📋 Todos os lembretes</h3><span>Ative, pause, edite ou exclua</span></div>
+      <div class="card">
+        <div id="reminderList"></div>
+      </div>
+    </section>
+
     <section class="section" id="calendario">
       <div class="card">
         <div class="calendar-head">
@@ -1436,6 +1595,7 @@ if(!state.events) state.events = [];
 if(!state.weeklyPlans) state.weeklyPlans = [];
 if(!state.customGoals) state.customGoals = [];
 if(!state.achievementsUnlocked) state.achievementsUnlocked = {};
+if(!state.reminders) state.reminders = [];
 if(!state.finance) state.finance = {transactions:[], debts:[], goals:[]};
 let calendarCursor = new Date();
 
@@ -2598,6 +2758,8 @@ async function bootstrapCloudState(){
 
   document.getElementById("loginScreen").classList.add("hidden");
   updateCloudUI();
+  refreshBackgroundPushUI();
+  setTimeout(syncPushRemindersToCloud,1000);
 }
 
 function normalizeCloudState(){
@@ -2727,6 +2889,374 @@ function restoreSidebarState(){
 }
 window.addEventListener("resize",restoreSidebarState);
 
+
+let reminderWeekdays=[1,2,3,4,5];
+
+function renderReminderWeekdays(){
+  const box=document.getElementById("reminderWeekdays"); if(!box) return;
+  const labels=[["Dom",0],["Seg",1],["Ter",2],["Qua",3],["Qui",4],["Sex",5],["Sáb",6]];
+  box.innerHTML="";
+  labels.forEach(([label,val])=>{
+    const b=document.createElement("button"); b.type="button";
+    b.textContent=label;
+    b.className=reminderWeekdays.includes(val)?"active":"";
+    b.onclick=()=>{
+      reminderWeekdays=reminderWeekdays.includes(val)?reminderWeekdays.filter(x=>x!==val):[...reminderWeekdays,val].sort((a,b)=>a-b);
+      renderReminderWeekdays();
+    };
+    box.appendChild(b);
+  });
+}
+function updateReminderRepeatUI(){
+  const repeat=document.getElementById("reminderRepeat")?.value;
+  const wrap=document.getElementById("reminderWeekdaysWrap");
+  if(wrap) wrap.style.display=repeat==="weekly"?"block":"none";
+}
+function saveReminder(){
+  const title=document.getElementById("reminderTitle").value.trim();
+  const category=document.getElementById("reminderCategory").value;
+  const repeat=document.getElementById("reminderRepeat").value;
+  const date=document.getElementById("reminderDate").value;
+  const time=document.getElementById("reminderTime").value;
+  const notes=document.getElementById("reminderNotes").value.trim();
+
+  if(!title || !time || (repeat==="once" && !date)) return;
+
+  state.reminders.push({
+    id:Date.now(),
+    title,category,repeat,date,time,notes,
+    weekdays:repeat==="weekly"?[...reminderWeekdays]:[],
+    enabled:true,lastTriggered:null,createdAt:new Date().toISOString()
+  });
+
+  document.getElementById("reminderTitle").value="";
+  document.getElementById("reminderNotes").value="";
+  save();
+  setTimeout(syncPushRemindersToCloud,800);
+}
+function toggleReminder(id){
+  const r=state.reminders.find(x=>x.id===id);
+  if(r){r.enabled=!r.enabled;save();setTimeout(syncPushRemindersToCloud,800);}
+}
+function deleteReminder(id){
+  state.reminders=state.reminders.filter(x=>x.id!==id);
+  save();
+  setTimeout(syncPushRemindersToCloud,800);
+}
+function editReminder(id){
+  const r=state.reminders.find(x=>x.id===id); if(!r) return;
+  const title=prompt("Título do lembrete:",r.title); if(title===null)return;
+  const time=prompt("Horário (HH:MM):",r.time); if(time===null)return;
+  const notes=prompt("Observações:",r.notes||""); if(notes===null)return;
+  r.title=title.trim()||r.title;
+  r.time=time.trim()||r.time;
+  r.notes=notes.trim();
+  save();
+  setTimeout(syncPushRemindersToCloud,800);
+}
+function reminderNextDate(r){
+  const now=new Date();
+  const [hh,mm]=(r.time||"00:00").split(":").map(Number);
+  if(r.repeat==="once"){
+    if(!r.date) return null;
+    const d=new Date(r.date+"T00:00:00"); d.setHours(hh,mm,0,0); return d;
+  }
+  if(r.repeat==="daily"){
+    const d=new Date(); d.setHours(hh,mm,0,0);
+    if(d<=now)d.setDate(d.getDate()+1);
+    return d;
+  }
+  if(r.repeat==="weekly"){
+    for(let i=0;i<8;i++){
+      const d=new Date(); d.setDate(d.getDate()+i); d.setHours(hh,mm,0,0);
+      if(r.weekdays.includes(d.getDay()) && d>now)return d;
+    }
+  }
+  return null;
+}
+function formatReminderRepeat(r){
+  if(r.repeat==="once") return r.date?new Date(r.date+"T12:00:00").toLocaleDateString("pt-BR"):"Uma vez";
+  if(r.repeat==="daily") return "Todos os dias";
+  const labels=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+  return (r.weekdays||[]).map(x=>labels[x]).join(", ");
+}
+function renderReminders(){
+  const list=document.getElementById("reminderList"); if(!list)return;
+  const sorted=[...(state.reminders||[])].sort((a,b)=>{
+    const da=reminderNextDate(a)?.getTime()||Infinity;
+    const db=reminderNextDate(b)?.getTime()||Infinity;
+    return da-db;
+  });
+
+  list.innerHTML=sorted.length?sorted.map(r=>{
+    const next=reminderNextDate(r);
+    return `<div class="reminder-card ${r.enabled?"":"disabled"}">
+      <div class="reminder-head">
+        <div>
+          <div class="reminder-title">🔔 ${escapeHtml(r.title)}</div>
+          <div class="reminder-meta">${escapeHtml(r.category)} • ${formatReminderRepeat(r)} • ${r.time}${next?` • Próximo: ${next.toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}`:""}</div>
+          ${r.notes?`<div class="reminder-meta" style="margin-top:7px">${escapeHtml(r.notes)}</div>`:""}
+        </div>
+        <span class="reminder-status">${r.enabled?"Ativo":"Pausado"}</span>
+      </div>
+      <div class="reminder-actions">
+        <button class="btn btn-ghost" onclick="toggleReminder(${r.id})">${r.enabled?"Pausar":"Ativar"}</button>
+        <button class="btn btn-ghost" onclick="editReminder(${r.id})">Editar</button>
+        <button class="btn btn-danger" onclick="deleteReminder(${r.id})">Excluir</button>
+      </div>
+    </div>`;
+  }).join(""):'<p class="quote">Nenhum lembrete criado ainda.</p>';
+
+  const upcoming=document.getElementById("upcomingReminders");
+  if(upcoming){
+    const nexts=sorted.filter(r=>r.enabled && reminderNextDate(r)).slice(0,6);
+    upcoming.innerHTML=nexts.length?nexts.map(r=>{
+      const n=reminderNextDate(r);
+      return `<div class="smart-item"><strong>${escapeHtml(r.title)}</strong><span>${n.toLocaleString("pt-BR",{weekday:"short",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}</span></div>`;
+    }).join(""):'<p class="quote">Nenhum lembrete futuro.</p>';
+  }
+}
+function showInAppReminder(r){
+  const toast=document.getElementById("inappToast");
+  if(!toast) return;
+  document.getElementById("inappToastTitle").textContent="🔔 "+r.title;
+  document.getElementById("inappToastText").textContent=r.notes||r.category;
+  toast.classList.add("show");
+  setTimeout(()=>toast.classList.remove("show"),7000);
+}
+async function showBrowserNotification(r){
+  if(!("Notification" in window)) return;
+  if(Notification.permission!=="granted") return;
+  try{
+    if("serviceWorker" in navigator){
+      const reg=await navigator.serviceWorker.ready;
+      await reg.showNotification(r.title,{
+        body:r.notes||r.category,
+        icon:"./icon-192.png",
+        badge:"./icon-192.png",
+        tag:"reminder-"+r.id
+      });
+    }else{
+      new Notification(r.title,{body:r.notes||r.category,icon:"./icon-192.png"});
+    }
+  }catch(e){console.warn("Falha ao mostrar notificação",e);}
+}
+function reminderShouldTrigger(r,now){
+  if(!r.enabled)return false;
+  const hh=String(now.getHours()).padStart(2,"0"), mm=String(now.getMinutes()).padStart(2,"0");
+  if(r.time!==`${hh}:${mm}`)return false;
+  const today=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`;
+  const key=today+" "+r.time;
+  if(r.lastTriggered===key)return false;
+  if(r.repeat==="once" && r.date!==today)return false;
+  if(r.repeat==="weekly" && !(r.weekdays||[]).includes(now.getDay()))return false;
+  return true;
+}
+function checkReminders(){
+  const now=new Date();
+  let changed=false;
+  (state.reminders||[]).forEach(r=>{
+    if(reminderShouldTrigger(r,now)){
+      const today=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`;
+      r.lastTriggered=today+" "+r.time;
+      showInAppReminder(r);
+      showBrowserNotification(r);
+      changed=true;
+    }
+  });
+  if(changed){
+    localStorage.setItem("saudeV1",JSON.stringify(state));
+    scheduleCloudSync();
+    renderReminders();
+  }
+}
+async function requestNotificationPermission(){
+  const text=document.getElementById("notificationPermissionText");
+  if(!("Notification" in window)){
+    if(text)text.textContent="Este navegador não oferece notificações Web.";
+    return;
+  }
+  const p=await Notification.requestPermission();
+  updateNotificationPermissionUI();
+}
+function updateNotificationPermissionUI(){
+  const text=document.getElementById("notificationPermissionText"); if(!text)return;
+  if(!("Notification" in window)){text.textContent="Notificações Web não disponíveis neste navegador.";return;}
+  if(Notification.permission==="granted") text.textContent="Permitidas. O app pode alertar enquanto o navegador/PWA estiver ativo.";
+  else if(Notification.permission==="denied") text.textContent="Bloqueadas nas configurações do navegador.";
+  else text.textContent="Ainda não ativadas.";
+}
+function initReminderSystem(){
+  renderReminderWeekdays();
+  updateReminderRepeatUI();
+  updateNotificationPermissionUI();
+  const d=document.getElementById("reminderDate"); if(d && !d.value)d.value=dateKey();
+  const t=document.getElementById("reminderTime"); if(t && !t.value){
+    const now=new Date(); now.setMinutes(now.getMinutes()+5);
+    t.value=`${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;
+  }
+  checkReminders();
+  refreshBackgroundPushUI();
+  setInterval(checkReminders,30000);
+}
+
+
+
+function urlBase64ToUint8Array(base64String){
+  const padding="=".repeat((4-base64String.length%4)%4);
+  const base64=(base64String+padding).replace(/-/g,"+").replace(/_/g,"/");
+  const raw=atob(base64);
+  return Uint8Array.from([...raw].map(c=>c.charCodeAt(0)));
+}
+
+function isStandalonePWA(){
+  return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone===true;
+}
+
+async function getPushSubscription(){
+  if(!("serviceWorker" in navigator)) return null;
+  const reg=await navigator.serviceWorker.ready;
+  return await reg.pushManager.getSubscription();
+}
+
+async function savePushSubscriptionToCloud(sub){
+  if(!cloudClient || !cloudUser) throw new Error("Faça login primeiro.");
+  const json=sub.toJSON();
+  const row={
+    user_id:cloudUser.id,
+    endpoint:json.endpoint,
+    p256dh:json.keys?.p256dh||"",
+    auth:json.keys?.auth||"",
+    user_agent:navigator.userAgent,
+    updated_at:new Date().toISOString()
+  };
+  const {error}=await cloudClient.from("push_subscriptions").upsert(row,{onConflict:"endpoint"});
+  if(error) throw error;
+}
+
+async function enableBackgroundPush(){
+  const status=document.getElementById("pushBackgroundStatus");
+  try{
+    if(!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)){
+      throw new Error("Este navegador não oferece Web Push.");
+    }
+    if(!cloudUser) throw new Error("Faça login na sua conta antes.");
+    if(/iPhone|iPad|iPod/.test(navigator.userAgent) && !isStandalonePWA()){
+      throw new Error("No iPhone, adicione o site à Tela de Início e abra pelo ícone do app.");
+    }
+
+    const perm=await Notification.requestPermission();
+    if(perm!=="granted") throw new Error("A permissão de notificações não foi concedida.");
+
+    const reg=await navigator.serviceWorker.ready;
+    let sub=await reg.pushManager.getSubscription();
+    if(!sub){
+      sub=await reg.pushManager.subscribe({
+        userVisibleOnly:true,
+        applicationServerKey:urlBase64ToUint8Array(window.APP_CONFIG.VAPID_PUBLIC_KEY)
+      });
+    }
+    await savePushSubscriptionToCloud(sub);
+    localStorage.setItem("pushEnabled","1");
+    updateBackgroundPushUI("Ativado neste dispositivo",true);
+  }catch(e){
+    updateBackgroundPushUI(e.message||"Não foi possível ativar",false);
+  }
+}
+
+async function disableBackgroundPush(){
+  try{
+    const sub=await getPushSubscription();
+    if(sub){
+      if(cloudClient && cloudUser){
+        await cloudClient.from("push_subscriptions").delete().eq("endpoint",sub.endpoint).eq("user_id",cloudUser.id);
+      }
+      await sub.unsubscribe();
+    }
+    localStorage.removeItem("pushEnabled");
+    updateBackgroundPushUI("Desativado neste dispositivo",false);
+  }catch(e){
+    updateBackgroundPushUI("Erro ao desativar",false);
+  }
+}
+
+function updateBackgroundPushUI(message,enabled){
+  const dot=document.getElementById("pushBackgroundDot");
+  const status=document.getElementById("pushBackgroundStatus");
+  const help=document.getElementById("pushBackgroundHelp");
+  if(status)status.textContent=message||"";
+  if(dot)dot.className="cloud-dot "+(enabled?"online":"offline");
+  if(help){
+    if(/iPhone|iPad|iPod/.test(navigator.userAgent) && !isStandalonePWA()){
+      help.textContent="No iPhone, o Web Push exige que o aplicativo esteja adicionado à Tela de Início.";
+    }else{
+      help.textContent="Depois de ativado, o servidor pode enviar lembretes mesmo com o aplicativo fechado.";
+    }
+  }
+}
+
+async function refreshBackgroundPushUI(){
+  if(!document.getElementById("pushBackgroundStatus"))return;
+  if(!("serviceWorker" in navigator)||!("PushManager" in window)){
+    updateBackgroundPushUI("Web Push não suportado neste navegador",false);return;
+  }
+  try{
+    const sub=await getPushSubscription();
+    updateBackgroundPushUI(sub?"Ativado neste dispositivo":"Ainda não ativado",!!sub);
+  }catch(e){
+    updateBackgroundPushUI("Não foi possível verificar",false);
+  }
+}
+
+async function syncPushRemindersToCloud(){
+  if(!cloudClient || !cloudUser) return;
+  const timezone=Intl.DateTimeFormat().resolvedOptions().timeZone || "America/Maceio";
+  const rows=(state.reminders||[]).map(r=>({
+    user_id:cloudUser.id,
+    reminder_id:String(r.id),
+    title:r.title,
+    body:r.notes||r.category||"Lembrete",
+    category:r.category||"Outro",
+    repeat_type:r.repeat||"once",
+    reminder_date:r.date||null,
+    reminder_time:r.time,
+    weekdays:r.weekdays||[],
+    enabled:!!r.enabled,
+    timezone,
+    updated_at:new Date().toISOString()
+  }));
+
+  // Simple authoritative mirror: delete user's rows and recreate from app state.
+  const del=await cloudClient.from("push_reminders").delete().eq("user_id",cloudUser.id);
+  if(del.error){console.warn("Falha ao limpar lembretes push",del.error);return;}
+  if(rows.length){
+    const ins=await cloudClient.from("push_reminders").insert(rows);
+    if(ins.error)console.warn("Falha ao sincronizar lembretes push",ins.error);
+  }
+}
+
+async function sendPushTest(){
+  if(!cloudClient || !cloudUser){
+    updateBackgroundPushUI("Faça login antes de testar",false);return;
+  }
+  try{
+    const {data:{session}}=await cloudClient.auth.getSession();
+    const res=await fetch(window.APP_CONFIG.SUPABASE_URL+"/functions/v1/send-push",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":"Bearer "+session.access_token,
+        "apikey":window.APP_CONFIG.SUPABASE_PUBLISHABLE_KEY
+      },
+      body:JSON.stringify({mode:"test"})
+    });
+    if(!res.ok) throw new Error(await res.text());
+    updateBackgroundPushUI("Teste enviado. Aguarde alguns segundos.",true);
+  }catch(e){
+    updateBackgroundPushUI("Falha no teste: "+(e.message||e),false);
+  }
+}
+
 function doLogin(){
   const u=document.getElementById("loginUser").value.trim();
   const p=document.getElementById("loginPass").value;
@@ -2840,7 +3370,7 @@ function renderCalendar(){
   }
 }
 
-function renderAll(){renderHeader();renderChecklist();renderWater();renderMeals();renderNightPlan();renderWeight();renderTrainings();renderGoals();renderCalendar();renderFinance();renderAchievements();}
+function renderAll(){renderHeader();renderChecklist();renderWater();renderMeals();renderNightPlan();renderWeight();renderTrainings();renderGoals();renderCalendar();renderFinance();renderAchievements();renderReminders();}
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active")); b.classList.add("active");
   document.querySelectorAll(".section").forEach(x=>x.classList.remove("active")); document.getElementById(b.dataset.page).classList.add("active");
@@ -2851,6 +3381,7 @@ document.getElementById("loginPass").addEventListener("keydown",e=>{if(e.key==="
 const fm=document.getElementById("financeMonth"); if(fm) fm.value=dateKey().slice(0,7);
 const fd=document.getElementById("finDate"); if(fd) fd.value=dateKey();
 renderAll();
+initReminderSystem();
 restoreSidebarState();
 initializeSupabaseApp();
 </script>
@@ -2862,6 +3393,12 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   });
 }
 </script>
+
+
+<div class="inapp-toast" id="inappToast">
+  <strong id="inappToastTitle">Lembrete</strong>
+  <span id="inappToastText"></span>
+</div>
 
 </body>
 </html>
