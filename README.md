@@ -38,3 +38,12 @@ Isso significa que os dados do computador e do iPhone NÃO sincronizam automatic
 Use a aba Backup para exportar/restaurar os dados entre dispositivos.
 
 Para sincronização automática entre iPhone e computador, a próxima etapa seria usar um banco de dados online.
+
+
+## Planejamento semanal
+- visão de segunda a domingo
+- semana anterior, atual e próxima
+- data, horário, categoria, prioridade e observações
+- concluir, reabrir, excluir e copiar item para a semana seguinte
+- indicadores de progresso
+- integração com backup

@@ -6,7 +6,6 @@
   "display": "standalone",
   "background_color": "#0b1020",
   "theme_color": "#0b1020",
-  "description": "Aplicativo pessoal de saúde, finanças, mercado, diário e agenda.",
   "icons": [
     {
       "src": "./icon-192.png",

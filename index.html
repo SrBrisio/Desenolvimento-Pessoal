@@ -268,39 +268,22 @@
     }
 
   
-    /* Correção do menu mobile: várias abas visíveis e rolagem horizontal */
-    @media(max-width:900px){
-      aside nav{
-        display:flex !important;
-        flex-wrap:nowrap !important;
-        gap:6px !important;
-        overflow-x:auto !important;
-        overflow-y:hidden !important;
-        width:100% !important;
-        scrollbar-width:none;
-        -webkit-overflow-scrolling:touch;
-      }
-      aside nav::-webkit-scrollbar{display:none}
-      aside nav button{
-        width:auto !important;
-        min-width:82px !important;
-        max-width:none !important;
-        flex:0 0 auto !important;
-        padding:9px 10px !important;
-        margin:0 !important;
-        text-align:center !important;
-        white-space:nowrap !important;
-        font-size:11px !important;
-        border-radius:12px !important;
-      }
-    }
-    @media(max-width:620px){
-      aside nav button{
-        min-width:78px !important;
-        font-size:10.5px !important;
-        padding:8px 9px !important;
-      }
-    }
+    .planning-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+    .week-board{display:grid;grid-template-columns:repeat(7,minmax(220px,1fr));gap:12px;overflow-x:auto;padding-bottom:8px}
+    .day-column{background:#0e1629;border:1px solid var(--line);border-radius:16px;padding:12px;min-height:280px}
+    .day-column.today{outline:2px solid var(--accent2)}
+    .day-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
+    .day-head h4{margin:0;font-size:14px}.day-date{color:var(--muted);font-size:11px}
+    .plan-card{padding:10px;border:1px solid var(--line);border-radius:12px;background:#121b31;margin-bottom:8px}
+    .plan-card.done{opacity:.55}.plan-card.done .plan-title{text-decoration:line-through}
+    .plan-title{font-weight:700;font-size:13px}.plan-meta{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}
+    .priority-high{color:#fda4af}.priority-medium{color:#fde68a}.priority-low{color:#a7f3d0}
+    .plan-actions{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}.plan-actions .btn{padding:6px 8px;min-height:auto;font-size:11px}
+    .planning-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+    .planning-stat{background:#0e1629;border:1px solid var(--line);border-radius:14px;padding:14px}
+    .planning-stat small{display:block;color:var(--muted);margin-bottom:5px}.planning-stat strong{font-size:20px}
+    @media(max-width:900px){.week-board{grid-template-columns:repeat(7,230px)}.planning-stats{grid-template-columns:1fr 1fr}}
+    @media(max-width:620px){.planning-stats{grid-template-columns:1fr 1fr}.planning-toolbar{display:grid;grid-template-columns:1fr 1fr}}
 
 </style>
 </head>
@@ -346,6 +329,7 @@
       <button data-page="calendario">📅 Calendário</button>
       <button data-page="backup">💾 Backup</button>
       <button data-page="diario">📖 Diário & Agenda</button>
+      <button data-page="planejamento">🗓️ Planejamento</button>
     </nav>
     <div class="user-card">
       <strong id="sidebarUser">Higor</strong>
@@ -751,6 +735,39 @@
       </div>
     </section>
 
+
+    <section class="section" id="planejamento">
+      <div class="card">
+        <div class="section-title" style="margin-top:0"><div><h3>🗓️ Planejamento semanal</h3><span>Organize sua semana de segunda a domingo.</span></div></div>
+        <div class="planning-toolbar">
+          <button class="btn btn-ghost" onclick="changePlanningWeek(-1)">← Semana anterior</button>
+          <button class="btn btn-primary" onclick="goCurrentPlanningWeek()">Semana atual</button>
+          <button class="btn btn-ghost" onclick="changePlanningWeek(1)">Próxima semana →</button>
+          <span class="date-pill" id="planningWeekLabel"></span>
+        </div>
+        <div class="planning-stats">
+          <div class="planning-stat"><small>Planejado</small><strong id="planCount">0</strong></div>
+          <div class="planning-stat"><small>Concluído</small><strong id="planDone">0</strong></div>
+          <div class="planning-stat"><small>Conclusão</small><strong id="planPct">0%</strong></div>
+          <div class="planning-stat"><small>Alta prioridade</small><strong id="planHigh">0</strong></div>
+        </div>
+        <div class="week-board" id="weekBoard"></div>
+      </div>
+      <div class="section-title"><h3>➕ Adicionar ao planejamento</h3><span>Tarefas, treinos, compromissos e objetivos</span></div>
+      <div class="card">
+        <div class="form-row" style="grid-template-columns:1fr 1fr 1fr">
+          <input type="date" id="planDate"><input type="time" id="planTime">
+          <select id="planType"><option>Saúde</option><option>Treino</option><option>Alimentação</option><option>Financeiro</option><option>Trabalho</option><option>Estudo</option><option>Pessoal</option><option>Outro</option></select>
+        </div>
+        <div class="form-row" style="grid-template-columns:2fr 1fr 1fr;margin-top:10px">
+          <input type="text" id="planTitle" placeholder="O que você precisa fazer?">
+          <select id="planPriority"><option value="Alta">Prioridade alta</option><option value="Média" selected>Prioridade média</option><option value="Baixa">Prioridade baixa</option></select>
+          <button class="btn btn-primary" onclick="addWeeklyPlan()">Adicionar</button>
+        </div>
+        <textarea id="planNotes" placeholder="Observações, detalhes ou objetivo..." style="margin-top:10px;min-height:80px"></textarea>
+      </div>
+    </section>
+
     <section class="section" id="backup">
       <div class="grid grid-2">
         <div class="card">
@@ -811,6 +828,7 @@ if(!state.marketChecks) state.marketChecks = {};
 if(!state.marketPeriod) state.marketPeriod = "week";
 if(!state.diaryEntries) state.diaryEntries = [];
 if(!state.events) state.events = [];
+if(!state.weeklyPlans) state.weeklyPlans = [];
 if(!state.finance) state.finance = {transactions:[], debts:[], goals:[]};
 let calendarCursor = new Date();
 
@@ -1261,6 +1279,20 @@ function escapeHtml(str){
   return String(str||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 }
 
+
+let planningWeekStart = getMonday(new Date());
+function getMonday(date){const d=new Date(date),day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1);d.setDate(diff);d.setHours(12,0,0,0);return d;}
+function fmtKey(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
+function addDays(date,n){const d=new Date(date);d.setDate(d.getDate()+n);return d;}
+function changePlanningWeek(delta){planningWeekStart=addDays(planningWeekStart,delta*7);renderPlanning();}
+function goCurrentPlanningWeek(){planningWeekStart=getMonday(new Date());renderPlanning();}
+function addWeeklyPlan(){const date=document.getElementById("planDate").value,time=document.getElementById("planTime").value,title=document.getElementById("planTitle").value.trim(),type=document.getElementById("planType").value,priority=document.getElementById("planPriority").value,notes=document.getElementById("planNotes").value.trim();if(!date||!title)return;state.weeklyPlans.push({id:Date.now(),date,time,title,type,priority,notes,done:false,createdAt:new Date().toISOString()});document.getElementById("planTitle").value="";document.getElementById("planNotes").value="";save();}
+function toggleWeeklyPlan(id){const p=state.weeklyPlans.find(x=>x.id===id);if(p){p.done=!p.done;save();}}
+function deleteWeeklyPlan(id){state.weeklyPlans=state.weeklyPlans.filter(x=>x.id!==id);save();}
+function copyPlanToNextWeek(id){const p=state.weeklyPlans.find(x=>x.id===id);if(!p)return;const d=new Date(p.date+"T12:00:00");d.setDate(d.getDate()+7);state.weeklyPlans.push({...p,id:Date.now(),date:fmtKey(d),done:false,createdAt:new Date().toISOString()});save();}
+function priorityClass(p){return p==="Alta"?"priority-high":p==="Média"?"priority-medium":"priority-low";}
+function renderPlanning(){const board=document.getElementById("weekBoard");if(!board)return;const start=getMonday(planningWeekStart),end=addDays(start,6);document.getElementById("planningWeekLabel").textContent=`${start.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})} a ${end.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"numeric"})}`;const keys=Array.from({length:7},(_,i)=>fmtKey(addDays(start,i)));const week=state.weeklyPlans.filter(p=>keys.includes(p.date)),done=week.filter(p=>p.done).length,high=week.filter(p=>p.priority==="Alta"&&!p.done).length;document.getElementById("planCount").textContent=week.length;document.getElementById("planDone").textContent=done;document.getElementById("planPct").textContent=week.length?Math.round(done/week.length*100)+"%":"0%";document.getElementById("planHigh").textContent=high;const names=["Segunda","Terça","Quarta","Quinta","Sexta","Sábado","Domingo"];board.innerHTML="";for(let i=0;i<7;i++){const d=addDays(start,i),key=fmtKey(d),plans=state.weeklyPlans.filter(p=>p.date===key).sort((a,b)=>(a.time||"99:99").localeCompare(b.time||"99:99"));const col=document.createElement("div");col.className="day-column"+(key===dateKey()?" today":"");col.innerHTML=`<div class="day-head"><h4>${names[i]}</h4><span class="day-date">${d.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})}</span></div>`;if(!plans.length)col.innerHTML+=`<div style="color:var(--muted);font-size:12px;padding:10px 2px">Nada planejado.</div>`;plans.forEach(p=>{const item=document.createElement("div");item.className="plan-card"+(p.done?" done":"");item.innerHTML=`<div class="plan-title">${escapeHtml(p.title)}</div><div class="plan-meta">${p.time?p.time+" • ":""}${escapeHtml(p.type)} • <span class="${priorityClass(p.priority)}">${p.priority}</span></div>${p.notes?`<div class="plan-meta" style="margin-top:7px">${escapeHtml(p.notes)}</div>`:""}<div class="plan-actions"><button class="btn btn-ghost" onclick="toggleWeeklyPlan(${p.id})">${p.done?"Reabrir":"Concluir"}</button><button class="btn btn-ghost" onclick="copyPlanToNextWeek(${p.id})">+7 dias</button><button class="btn btn-danger" onclick="deleteWeeklyPlan(${p.id})">Excluir</button></div>`;col.appendChild(item);});board.appendChild(col);}const pd=document.getElementById("planDate");if(pd&&!pd.value)pd.value=dateKey();}
+
 function doLogin(){
   const u=document.getElementById("loginUser").value.trim();
   const p=document.getElementById("loginPass").value;
@@ -1396,19 +1428,6 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
     navigator.serviceWorker.register('./service-worker.js').catch(() => {});
   });
 }
-</script>
-
-
-<div id="mobileMenuHint" style="display:none;position:fixed;left:12px;right:12px;bottom:88px;z-index:1200;background:#17223f;border:1px solid #34405f;color:#eef4ff;padding:10px 12px;border-radius:12px;font-size:12px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.28)">Deslize o menu inferior para os lados para ver todas as abas.</div>
-
-
-<script>
-(function(){
-  if(window.matchMedia("(max-width: 900px)").matches && !localStorage.getItem("menuHintSeen")){
-    const h=document.getElementById("mobileMenuHint");
-    if(h){h.style.display="block";setTimeout(()=>{h.style.display="none";localStorage.setItem("menuHintSeen","1");},5000);}
-  }
-})();
 </script>
 
 </body>
