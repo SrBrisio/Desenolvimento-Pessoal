@@ -605,7 +605,7 @@
     }
 
 
-/* ===== V15 • Perfil inteligente + Hoje ===== */
+/* ===== V15.1 • Perfil inteligente + Hoje ===== */
 :root{
   --radius-v15:18px;
 }
@@ -3567,9 +3567,9 @@ function renderCalendar(){
 }
 
 
-/* ===== V15 Inteligência de Perfil ===== */
+/* ===== V15.1 Inteligência de Perfil ===== */
 state.profile = state.profile || {};
-state.profile.activities = state.profile.activities || [];
+state.profile.activities = Array.isArray(state.profile.activities) ? state.profile.activities : [];
 state.profile.goalAreas = state.profile.goalAreas || [];
 state.profile.availability = state.profile.availability || [];
 state.profile.foodsLike = state.profile.foodsLike || "";
@@ -3577,9 +3577,9 @@ state.profile.foodsAvoid = state.profile.foodsAvoid || "";
 state.profile.mealStyle = state.profile.mealStyle || "Prático";
 state.profile.mealsCount = state.profile.mealsCount || 3;
 state.profile.profileSetupCompletedAt = state.profile.profileSetupCompletedAt || (state.profile.configured ? new Date().toISOString() : null);
-state.profileHistory = state.profileHistory || [];
+state.profileHistory = Array.isArray(state.profileHistory) ? state.profileHistory : [];
 state.dailyCheckins = state.dailyCheckins || {};
-state.goalSuggestions = state.goalSuggestions || [];
+state.goalSuggestions = Array.isArray(state.goalSuggestions) ? state.goalSuggestions : [];
 state.uiPrefs = state.uiPrefs || {light:false,compact:false};
 state.smartPlan = state.smartPlan || {};
 
@@ -3725,52 +3725,132 @@ function v15OpenWizard(edit=false){
   document.getElementById("setupOverlay")?.classList.remove("hidden");
 }
 function v15SaveQuestionnaire(){
-  const old=JSON.parse(JSON.stringify(state.profile||{}));
-  const p=state.profile||{};
-  p.configured=true;
-  p.profileSetupCompletedAt=p.profileSetupCompletedAt||new Date().toISOString();
-  p.name=document.getElementById("setupName")?.value.trim()||p.name||"Usuário";
-  p.age=Number(document.getElementById("setupAge")?.value)||null;
-  p.sex=document.getElementById("setupSex")?.value||"";
-  p.height=Number(document.getElementById("setupHeight")?.value)||null;
-  p.weight=Number(document.getElementById("setupWeight")?.value)||null;
-  p.waterGoal=Number(document.getElementById("setupWater")?.value)||2500;
-  p.goalAreas=v15Selected("v15GoalAreas");
-  p.mainObjective=document.getElementById("setupMainObjective")?.value.trim()||"";
-  p.activities=v15DraftActivities.filter(a=>a.name.trim()).map(a=>({...a,id:undefined}));
-  p.workStart=document.getElementById("setupWorkStart")?.value||"08:00";
-  p.workEnd=document.getElementById("setupWorkEnd")?.value||"18:00";
-  p.sleepTime=document.getElementById("setupSleep")?.value||"23:00";
-  p.wakeTime=document.getElementById("setupWake")?.value||"06:30";
-  p.availability=v15Selected("v15Availability");
-  p.foodsLike=document.getElementById("setupFoodsLike")?.value.trim()||"";
-  p.foodsAvoid=document.getElementById("setupFoodsAvoid")?.value.trim()||"";
-  p.mealStyle=document.getElementById("setupMealStyle")?.value||"Prático";
-  p.mealsCount=Number(document.getElementById("setupMealsCount")?.value)||3;
+  const overlay=document.getElementById("setupOverlay");
+  const btn=document.getElementById("v15NextBtn");
 
-  // Compatibilidade com módulos antigos
-  const bjj=p.activities.find(a=>/jiu|jitsu|jitsu|bjj/i.test(a.name));
-  const run=p.activities.find(a=>/corr|caminh/i.test(a.name));
-  p.bjjPerWeek=bjj?.frequency||0; p.bjjDays=bjj?.days||[]; p.bjjTime=bjj?.time||"06:00"; p.bjjDuration=bjj?.duration||60;
-  p.runPerWeek=run?.frequency||0; p.runDays=run?.days||[];
+  try{
+    if(btn){
+      btn.disabled=true;
+      btn.textContent="Salvando...";
+    }
 
-  if(p.weight && (!state.weight?.length || Number(state.weight.at(-1).value)!==p.weight)){
-    state.weight.push({date:dateKey(),value:p.weight});
+    // Normaliza estruturas antigas para evitar erro ao migrar dados de versões anteriores.
+    if(!state.profile || typeof state.profile!=="object") state.profile={};
+    if(!Array.isArray(state.weight)) state.weight=[];
+    if(!Array.isArray(state.profileHistory)) state.profileHistory=[];
+    if(!Array.isArray(state.customGoals)) state.customGoals=[];
+    if(!state.dailyCheckins || typeof state.dailyCheckins!=="object") state.dailyCheckins={};
+    if(!Array.isArray(state.goalSuggestions)) state.goalSuggestions=[];
+
+    const p=state.profile;
+
+    const val=id=>document.getElementById(id)?.value ?? "";
+    const num=id=>{
+      const n=Number(val(id));
+      return Number.isFinite(n) && n>0 ? n : null;
+    };
+
+    p.configured=true;
+    p.profileSetupCompletedAt=p.profileSetupCompletedAt||new Date().toISOString();
+    p.name=String(val("setupName")).trim()||p.name||"Usuário";
+    p.age=num("setupAge");
+    p.sex=String(val("setupSex"));
+    p.height=num("setupHeight");
+    p.weight=num("setupWeight");
+    p.waterGoal=num("setupWater")||2500;
+    p.goalAreas=v15Selected("v15GoalAreas");
+    p.mainObjective=String(val("setupMainObjective")).trim();
+    p.activities=(Array.isArray(v15DraftActivities)?v15DraftActivities:[])
+      .filter(a=>a && String(a.name||"").trim())
+      .map(a=>({
+        name:String(a.name||"").trim(),
+        frequency:Number(a.frequency)||1,
+        time:a.time||"18:30",
+        days:Array.isArray(a.days)?a.days:[],
+        duration:Number(a.duration)||60
+      }));
+
+    p.workStart=String(val("setupWorkStart"))||"08:00";
+    p.workEnd=String(val("setupWorkEnd"))||"18:00";
+    p.sleepTime=String(val("setupSleep"))||"23:00";
+    p.wakeTime=String(val("setupWake"))||"06:30";
+    p.availability=v15Selected("v15Availability");
+    p.foodsLike=String(val("setupFoodsLike")).trim();
+    p.foodsAvoid=String(val("setupFoodsAvoid")).trim();
+    p.mealStyle=String(val("setupMealStyle"))||"Prático";
+    p.mealsCount=num("setupMealsCount")||3;
+
+    // Mantém compatibilidade com partes antigas do aplicativo.
+    const bjj=p.activities.find(a=>/jiu|jitsu|bjj/i.test(a.name));
+    const run=p.activities.find(a=>/corr|caminh/i.test(a.name));
+    p.bjjPerWeek=bjj?.frequency||0;
+    p.bjjDays=bjj?.days||[];
+    p.bjjTime=bjj?.time||"06:00";
+    p.bjjDuration=bjj?.duration||60;
+    p.runPerWeek=run?.frequency||0;
+    p.runDays=run?.days||[];
+
+    if(p.weight){
+      const last=state.weight.length ? Number(state.weight[state.weight.length-1]?.value) : null;
+      if(last!==Number(p.weight)){
+        state.weight.push({date:dateKey(),value:Number(p.weight)});
+      }
+    }
+
+    state.profile=p;
+
+    state.profileHistory.unshift({
+      date:new Date().toISOString(),
+      name:p.name,
+      weight:p.weight,
+      height:p.height,
+      goalAreas:Array.isArray(p.goalAreas)?[...p.goalAreas]:[],
+      activities:p.activities.map(a=>({name:a.name,frequency:a.frequency}))
+    });
+    state.profileHistory=state.profileHistory.slice(0,30);
+
+    // Fecha primeiro o questionário. Assim, mesmo que um módulo secundário falhe,
+    // o usuário não fica preso na tela de configuração.
+    overlay?.classList.add("hidden");
+
+    // Salva o núcleo do perfil imediatamente.
+    try{
+      localStorage.setItem("saudeV1",JSON.stringify(state));
+    }catch(storageErr){
+      console.error("Falha ao salvar localmente:",storageErr);
+    }
+
+    // Gera os recursos inteligentes de forma independente.
+    try{ v15GenerateGoalSuggestions(false); }catch(e){ console.error("Sugestões:",e); }
+    try{ v15RebuildPlan(false); }catch(e){ console.error("Plano:",e); }
+    try{ renderAll(); }catch(e){ console.error("Renderização:",e); }
+
+    // Persiste novamente após gerar plano e sugestões.
+    try{
+      localStorage.setItem("saudeV1",JSON.stringify(state));
+    }catch(e){ console.error("Persistência final:",e); }
+
+    // Sincronização em nuvem, sem bloquear a conclusão do questionário.
+    setTimeout(()=>{
+      try{
+        if(typeof syncPushRemindersToCloud==="function") syncPushRemindersToCloud();
+        if(typeof scheduleCloudSync==="function") scheduleCloudSync();
+      }catch(e){ console.error("Sincronização:",e); }
+    },700);
+
+    if(typeof showInAppToast==="function"){
+      try{ showInAppToast("Perfil salvo","Seu plano inicial foi criado."); }catch(e){}
+    }
+
+  }catch(err){
+    console.error("Erro ao salvar questionário:",err);
+    alert("Não foi possível concluir o questionário. O erro foi registrado no console. Tente novamente.");
+  }finally{
+    if(btn){
+      btn.disabled=false;
+      btn.textContent="Salvar e criar meu plano";
+    }
   }
-
-  state.profile=p;
-  state.profileHistory.unshift({
-    date:new Date().toISOString(),
-    name:p.name,weight:p.weight,height:p.height,
-    goalAreas:[...p.goalAreas],activities:p.activities.map(a=>({name:a.name,frequency:a.frequency}))
-  });
-  state.profileHistory=state.profileHistory.slice(0,30);
-
-  v15GenerateGoalSuggestions(false);
-  v15RebuildPlan(false);
-  document.getElementById("setupOverlay")?.classList.add("hidden");
-  save();
-  setTimeout(()=>{if(typeof syncPushRemindersToCloud==="function")syncPushRemindersToCloud();},600);
 }
 
 function saveInitialSetup(){ v15SaveQuestionnaire(); }

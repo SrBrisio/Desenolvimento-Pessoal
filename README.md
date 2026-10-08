@@ -183,3 +183,11 @@ Principais mudanças:
 - preserva Supabase, login, Web Push e demais módulos da V14
 
 Observação: as metas sugeridas são de organização e hábitos. O aplicativo não cria metas agressivas de peso ou alimentação restritiva.
+
+
+## V15.1 — Correção do questionário
+- corrige travamento no botão “Salvar e criar meu plano”
+- normaliza dados vindos de versões anteriores
+- fecha o questionário antes de processar módulos secundários
+- salva o perfil mesmo se algum painel secundário apresentar erro
+- mantém sincronização em nuvem sem bloquear o usuário
