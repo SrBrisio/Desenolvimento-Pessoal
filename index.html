@@ -605,7 +605,312 @@
     }
 
 
-/* ===== V15.1 • Perfil inteligente + Hoje ===== */
+
+/* ===== V16 Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
+state.weeklyReviews = state.weeklyReviews && typeof state.weeklyReviews==="object" ? state.weeklyReviews : {};
+state.adaptiveGoalSuggestions = Array.isArray(state.adaptiveGoalSuggestions) ? state.adaptiveGoalSuggestions : [];
+
+let v16SaveTimer=null;
+let v16SaveFallback=null;
+
+function v16ShowSaveStatus(mode="loading", detail="Aguarde um instante."){
+  const box=document.getElementById("v16SaveStatus");
+  const title=document.getElementById("v16SaveTitle");
+  const desc=document.getElementById("v16SaveDetail");
+  if(!box)return;
+  box.className="v16-save-status show"+(mode==="success"?" success":mode==="error"?" error":"");
+  if(title)title.textContent=mode==="loading"?"Salvando...":mode==="success"?"Salvo com sucesso":"Não foi possível salvar";
+  if(desc)desc.textContent=detail;
+  clearTimeout(v16SaveTimer);
+  if(mode!=="loading"){
+    v16SaveTimer=setTimeout(()=>box.classList.remove("show"),1800);
+  }
+}
+function v16BeginSave(){
+  clearTimeout(v16SaveFallback);
+  v16ShowSaveStatus("loading","Salvando suas alterações.");
+  v16SaveFallback=setTimeout(()=>{
+    const box=document.getElementById("v16SaveStatus");
+    if(box?.classList.contains("show") && !box.classList.contains("success") && !box.classList.contains("error")){
+      v16ShowSaveStatus("error","O salvamento demorou mais que o esperado. Tente novamente.");
+    }
+  },7000);
+}
+function v16FinishSave(ok=true,msg=""){
+  clearTimeout(v16SaveFallback);
+  v16ShowSaveStatus(ok?"success":"error",msg||(ok?"Alterações registradas.":"Tente novamente."));
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button");
+  if(!b)return;
+  const t=(b.textContent||"").trim().toLowerCase();
+  if(t.includes("salvar") || t.includes("gravar alterações")){
+    v16BeginSave();
+  }
+},true);
+
+function v16Monday(d=new Date()){
+  const x=new Date(d);x.setHours(12,0,0,0);
+  const day=x.getDay();x.setDate(x.getDate()-(day===0?6:day-1));
+  return x;
+}
+function v16DateKey(d){return new Date(d).toISOString().slice(0,10)}
+function v16AddDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
+function v16WeekKeys(start){
+  return Array.from({length:7},(_,i)=>v16DateKey(v16AddDays(start,i)));
+}
+function v16WeekId(start){return v16DateKey(start)}
+function v16Pct(n,d){return d?Math.round((n/d)*100):0}
+
+function v16AnalyzeWeek(startDate){
+  const start=v16Monday(startDate||new Date());
+  const keys=v16WeekKeys(start);
+  const p=state.profile||{};
+  const trainings=(state.trainings||[]).filter(t=>keys.includes(String(t.date||"").slice(0,10)));
+  const waterGoal=Number(p.waterGoal||2500);
+  const waterDays=keys.filter(k=>Number(state.water?.[k]||0)>=waterGoal).length;
+  const checkins=keys.filter(k=>state.dailyCheckins?.[k]).map(k=>state.dailyCheckins[k]);
+  const plans=(state.weeklyPlans||[]).filter(x=>keys.includes(String(x.date||"").slice(0,10)));
+  const plansDone=plans.filter(x=>x.done).length;
+  const events=(state.events||[]).filter(x=>keys.includes(String(x.date||"").slice(0,10)));
+  const eventsDone=events.filter(x=>x.done).length;
+  const diary=(state.diaryEntries||[]).filter(x=>keys.includes(String(x.date||"").slice(0,10)));
+  const tx=(state.finance?.transactions||[]).filter(x=>keys.includes(String(x.date||"").slice(0,10)));
+
+  const expectedActivities=(p.activities||[]).reduce((s,a)=>s+Number(a.frequency||0),0);
+  const activityScore=expectedActivities?Math.min(100,v16Pct(trainings.length,expectedActivities)):70;
+  const waterScore=v16Pct(waterDays,7);
+  const planningScore=plans.length?v16Pct(plansDone,plans.length):70;
+  const checkinScore=v16Pct(checkins.length,7);
+  const score=Math.round(activityScore*.35+waterScore*.25+planningScore*.25+checkinScore*.15);
+
+  const avg=(arr,key)=>{
+    const vals=arr.map(x=>Number(x?.[key]||0)).filter(Boolean);
+    return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;
+  };
+
+  return {
+    start,keys,score,trainings,waterDays,checkins,plans,plansDone,events,eventsDone,diary,tx,
+    expectedActivities,activityScore,waterScore,planningScore,checkinScore,
+    avgEnergy:avg(checkins,"energy"),avgSleep:avg(checkins,"sleep"),avgMood:avg(checkins,"mood")
+  };
+}
+
+function v16BuildWeeklyReview(startDate){
+  const a=v16AnalyzeWeek(startDate);
+  const strengths=[], adjustments=[];
+
+  if(a.expectedActivities && a.trainings.length>=a.expectedActivities){
+    strengths.push("Você atingiu a frequência de atividades físicas definida no perfil.");
+  }else if(a.expectedActivities){
+    adjustments.push(`Você registrou ${a.trainings.length} de ${a.expectedActivities} atividades previstas. Vale manter a meta ou reorganizar os dias.`);
+  }
+
+  if(a.waterDays>=5) strengths.push(`Sua meta de hidratação foi alcançada em ${a.waterDays} dias.`);
+  else adjustments.push(`A hidratação atingiu a meta em ${a.waterDays} de 7 dias. Um lembrete em um horário difícil pode ajudar.`);
+
+  if(a.plans.length && a.planningScore>=75) strengths.push(`Você concluiu ${a.planningScore}% do que colocou no planejamento.`);
+  else if(a.plans.length) adjustments.push(`Seu planejamento ficou em ${a.planningScore}% concluído. Considere planejar menos itens por dia.`);
+
+  if(a.checkins.length>=4) strengths.push(`Você fez ${a.checkins.length} check-ins. Isso melhora bastante a leitura da sua rotina.`);
+  else adjustments.push("Faça alguns check-ins durante a semana para o app entender melhor energia, sono e humor.");
+
+  if(a.avgEnergy && a.avgEnergy<3) adjustments.push("Sua energia média registrada ficou baixa. Priorize uma semana mais sustentável em vez de aumentar metas.");
+  if(a.avgSleep && a.avgSleep>=4) strengths.push("Seus check-ins indicaram uma percepção boa de sono nesta semana.");
+
+  if(!strengths.length) strengths.push("Você já tem dados suficientes para começar a ajustar a próxima semana sem aumentar a pressão.");
+  if(!adjustments.length) adjustments.push("Mantenha as metas atuais por mais uma semana antes de aumentar qualquer frequência.");
+
+  let headline="Semana em construção";
+  if(a.score>=85) headline="Semana muito consistente";
+  else if(a.score>=70) headline="Boa semana, com pequenos ajustes";
+  else if(a.score>=50) headline="Há uma base boa para organizar";
+  else headline="Vale simplificar a próxima semana";
+
+  const summary=`Foram ${a.trainings.length} atividades registradas, ${a.waterDays} dias com a meta de água e ${a.checkins.length} check-ins. O objetivo da revisão é ajustar a rotina, não punir dias que saíram do plano.`;
+
+  return {
+    id:v16WeekId(a.start),
+    generatedAt:new Date().toISOString(),
+    score:a.score,headline,summary,strengths,adjustments,
+    metrics:{
+      trainings:a.trainings.length,
+      expectedActivities:a.expectedActivities,
+      waterDays:a.waterDays,
+      planningScore:a.planningScore,
+      checkins:a.checkins.length
+    }
+  };
+}
+
+function v16GenerateWeeklyReview(persist=true){
+  const start=typeof smartWeekStart!=="undefined"?smartWeekStart:v16Monday(new Date());
+  const review=v16BuildWeeklyReview(start);
+  state.weeklyReviews[review.id]=review;
+  if(persist)save();
+  else v16RenderWeeklyReview();
+}
+function v16RenderWeeklyReview(){
+  const start=typeof smartWeekStart!=="undefined"?v16Monday(smartWeekStart):v16Monday(new Date());
+  const id=v16WeekId(start);
+  const r=state.weeklyReviews[id]||v16BuildWeeklyReview(start);
+  const set=(id,val)=>{const e=document.getElementById(id);if(e)e.textContent=val};
+  set("v16ReviewScore",r.score+"%");
+  set("v16ReviewHeadline",r.headline);
+  set("v16ReviewSummary",r.summary);
+
+  const s=document.getElementById("v16ReviewStrengths");
+  const a=document.getElementById("v16ReviewAdjustments");
+  if(s)s.innerHTML=r.strengths.map(x=>`<div class="v16-review-item">✅ ${escapeHtml(x)}</div>`).join("");
+  if(a)a.innerHTML=r.adjustments.map(x=>`<div class="v16-review-item">💡 ${escapeHtml(x)}</div>`).join("");
+}
+function v16SendReviewToGoals(){
+  const start=typeof smartWeekStart!=="undefined"?v16Monday(smartWeekStart):v16Monday(new Date());
+  const r=state.weeklyReviews[v16WeekId(start)]||v16BuildWeeklyReview(start);
+  const created=[];
+  r.adjustments.slice(0,3).forEach((txt,i)=>{
+    let title=txt;
+    if(/hidrata/i.test(txt)) title="Acompanhar minha hidratação em pelo menos 5 dias desta semana";
+    else if(/check-in/i.test(txt)) title="Fazer pelo menos 4 check-ins nesta semana";
+    else if(/planejamento/i.test(txt)) title="Planejar uma semana com menos tarefas e prioridades mais claras";
+    else if(/atividades|registrou/i.test(txt)) title="Organizar meus dias de atividade física para esta semana";
+    created.push({
+      id:"review-"+r.id+"-"+i,
+      category:"Organização",
+      title,
+      reason:"Sugestão gerada pela sua Revisão Semanal."
+    });
+  });
+  state.adaptiveGoalSuggestions=[
+    ...created,
+    ...(state.adaptiveGoalSuggestions||[]).filter(x=>!String(x.id).startsWith("review-"+r.id))
+  ];
+  save();
+  v15GoTo("metas");
+}
+
+function v16RecentKeys(days=14){
+  const arr=[];const now=new Date();
+  for(let i=days-1;i>=0;i--)arr.push(v16DateKey(v16AddDays(now,-i)));
+  return arr;
+}
+function v16GenerateAdaptiveGoals(persist=true){
+  const p=state.profile||{};
+  const keys=v16RecentKeys(14);
+  const trainings=(state.trainings||[]).filter(t=>keys.includes(String(t.date||"").slice(0,10)));
+  const checkins=keys.filter(k=>state.dailyCheckins?.[k]);
+  const waterDays=keys.filter(k=>Number(state.water?.[k]||0)>=Number(p.waterGoal||2500)).length;
+  const suggestions=[];
+
+  (p.activities||[]).forEach(a=>{
+    const name=String(a.name||"");
+    const actual=trainings.filter(t=>{
+      const typ=String(t.type||"").toLowerCase();
+      const nm=name.toLowerCase();
+      if(/jiu|jitsu|bjj/.test(nm)) return /jiu|jitsu|bjj/.test(typ);
+      if(/corr|caminh/.test(nm)) return /corr|caminh/.test(typ);
+      return typ.includes(nm) || nm.includes(typ);
+    }).length;
+    const expected=Math.max(1,Number(a.frequency||1)*2);
+    const ratio=actual/expected;
+
+    if(ratio<0.55){
+      suggestions.push({
+        id:"adapt-"+name+"-steady",category:"Saúde",
+        title:`Organizar ${Math.max(1,Number(a.frequency||1)-1)} sessão(ões) de ${name} nesta semana`,
+        reason:`Nas últimas duas semanas foram ${actual} registros para uma referência de ${expected}. A sugestão reduz um pouco a carga para recuperar consistência.`,
+        confidence:"Alta"
+      });
+    }else if(ratio>=0.9){
+      suggestions.push({
+        id:"adapt-"+name+"-keep",category:"Saúde",
+        title:`Manter ${Number(a.frequency||1)} sessão(ões) de ${name} nesta semana`,
+        reason:"Sua frequência recente está próxima do que você definiu. O melhor próximo passo é consolidar, não aumentar automaticamente.",
+        confidence:"Alta"
+      });
+    }else{
+      suggestions.push({
+        id:"adapt-"+name+"-organize",category:"Saúde",
+        title:`Manter ${Number(a.frequency||1)} sessão(ões) de ${name}, reorganizando os dias se necessário`,
+        reason:"Você está perto da frequência escolhida. Um ajuste de agenda pode ser mais útil que mudar a meta.",
+        confidence:"Média"
+      });
+    }
+  });
+
+  if(waterDays<7){
+    suggestions.push({
+      id:"adapt-water",category:"Saúde",
+      title:"Acompanhar a hidratação em pelo menos 5 dias desta semana",
+      reason:`Nas últimas duas semanas, a meta diária foi atingida em ${waterDays} de 14 dias. A proposta é buscar regularidade sem transformar todos os dias em obrigação.`,
+      confidence:"Média"
+    });
+  }
+
+  if(checkins.length<6){
+    suggestions.push({
+      id:"adapt-checkin",category:"Pessoal",
+      title:"Fazer 4 check-ins rápidos nesta semana",
+      reason:`Foram ${checkins.length} check-ins nos últimos 14 dias. Mais registros ajudam o app a entender melhor sua rotina.`,
+      confidence:"Alta"
+    });
+  }
+
+  if((p.goalAreas||[]).includes("Finanças")){
+    const tx=(state.finance?.transactions||[]).filter(t=>keys.includes(String(t.date||"").slice(0,10)));
+    if(tx.length<5)suggestions.push({
+      id:"adapt-finance",category:"Finanças",
+      title:"Registrar meus gastos ao longo de 7 dias",
+      reason:"Há poucos registros financeiros recentes. Primeiro precisamos enxergar o padrão antes de criar metas maiores.",
+      confidence:"Média"
+    });
+  }
+
+  state.adaptiveGoalSuggestions=suggestions.slice(0,8);
+  if(persist)save(); else v16RenderAdaptiveGoals();
+}
+function v16AcceptAdaptiveGoal(id){
+  const s=(state.adaptiveGoalSuggestions||[]).find(x=>x.id===id);if(!s)return;
+  const end=new Date();end.setDate(end.getDate()+7);
+  state.customGoals=Array.isArray(state.customGoals)?state.customGoals:[];
+  if(!state.customGoals.some(g=>g.smartSource===id)){
+    state.customGoals.push({
+      id:Date.now(),title:s.title,category:s.category||"Pessoal",priority:"Média",
+      start:dateKey(),deadline:end.toISOString().slice(0,10),description:s.reason||"",
+      status:"Ativa",steps:[],createdAt:new Date().toISOString(),smartSource:id
+    });
+  }
+  state.adaptiveGoalSuggestions=state.adaptiveGoalSuggestions.filter(x=>x.id!==id);
+  save();
+}
+function v16DismissAdaptiveGoal(id){
+  state.adaptiveGoalSuggestions=state.adaptiveGoalSuggestions.filter(x=>x.id!==id);save();
+}
+function v16RenderAdaptiveGoals(){
+  const box=document.getElementById("v16AdaptiveGoals");if(!box)return;
+  if(!state.adaptiveGoalSuggestions.length){
+    box.innerHTML='<div class="empty">Clique em “Analisar novamente” para gerar sugestões com base nos seus registros recentes.</div>';
+    return;
+  }
+  box.innerHTML=state.adaptiveGoalSuggestions.map(s=>`
+    <div class="v16-smart-goal">
+      <div class="v16-smart-goal-head">
+        <div><strong>${escapeHtml(s.title)}</strong><div class="quote">${escapeHtml(s.reason||"")}</div></div>
+        <span class="badge">${escapeHtml(s.category||"Meta")}</span>
+      </div>
+      <div class="v16-confidence">Confiança da sugestão: ${escapeHtml(s.confidence||"Média")}</div>
+      <div class="v16-smart-goal-actions">
+        <button class="btn btn-primary" onclick="v16AcceptAdaptiveGoal('${String(s.id).replaceAll("'","\\'")}')">Adicionar meta</button>
+        <button class="btn btn-ghost" onclick="v16DismissAdaptiveGoal('${String(s.id).replaceAll("'","\\'")}')">Ignorar</button>
+      </div>
+    </div>`).join("");
+}
+function v16RenderAll(){
+  v16RenderWeeklyReview();
+  v16RenderAdaptiveGoals();
+}
+
+/* ===== V16 • Perfil inteligente + Hoje ===== */
 :root{
   --radius-v15:18px;
 }
@@ -671,6 +976,46 @@ body.v15-light .v15-checkin-scale button{background:#f7f9fc;color:#172033}
   #nav button[data-page="metas"],
   #nav button[data-page="planejamento"],
   #nav button[data-page="perfil"]{display:flex}
+}
+
+
+/* ===== V16 • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
+.v16-save-status{
+  position:fixed;top:18px;right:18px;z-index:9999;
+  min-width:190px;max-width:340px;
+  display:flex;align-items:center;gap:10px;
+  padding:12px 14px;border-radius:14px;
+  border:1px solid var(--line);background:var(--panel);
+  box-shadow:0 16px 40px rgba(0,0,0,.35);
+  opacity:0;transform:translateY(-10px);pointer-events:none;
+  transition:.2s ease;
+}
+.v16-save-status.show{opacity:1;transform:translateY(0)}
+.v16-save-status.success{border-color:#2f705c}
+.v16-save-status.error{border-color:#9b3e4b}
+.v16-save-spinner{
+  width:18px;height:18px;border-radius:50%;
+  border:2px solid var(--line);border-top-color:var(--accent);
+  animation:v16spin .8s linear infinite;flex:0 0 auto
+}
+.v16-save-status.success .v16-save-spinner,
+.v16-save-status.error .v16-save-spinner{animation:none;border:0;width:22px;height:22px;display:grid;place-items:center}
+.v16-save-status.success .v16-save-spinner:before{content:"✓";font-weight:900;font-size:18px}
+.v16-save-status.error .v16-save-spinner:before{content:"!";font-weight:900;font-size:18px}
+@keyframes v16spin{to{transform:rotate(360deg)}}
+.v16-review-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}
+.v16-review-score{display:flex;align-items:center;gap:14px}
+.v16-review-score strong{font-size:34px}
+.v16-review-list{display:flex;flex-direction:column;gap:8px}
+.v16-review-item{padding:12px;border:1px solid var(--line);border-radius:13px;background:#0e1629}
+.v16-smart-goal{padding:14px;border:1px solid var(--line);border-radius:14px;background:#0e1629;margin-bottom:9px}
+.v16-smart-goal-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.v16-smart-goal-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.v16-confidence{font-size:11px;color:var(--muted)}
+body.v15-light .v16-review-item,body.v15-light .v16-smart-goal{background:#f7f9fc}
+@media(max-width:800px){
+  .v16-review-grid{grid-template-columns:1fr}
+  .v16-save-status{left:14px;right:14px;top:14px;max-width:none}
 }
 
 </style>
@@ -963,6 +1308,36 @@ body.v15-light .v15-checkin-scale button{background:#f7f9fc;color:#172033}
     </section>
 
     <section class="section" id="painel-semanal">
+
+      <div class="card" style="margin-bottom:14px">
+        <div class="section-title">
+          <div>
+            <div class="v15-kicker">Revisão Semanal</div>
+            <h3>🧭 O que sua semana está dizendo</h3>
+          </div>
+          <button class="btn btn-primary" onclick="v16GenerateWeeklyReview(true)">Gerar revisão</button>
+        </div>
+        <p class="quote">A revisão usa seus registros reais para destacar o que funcionou e sugerir ajustes pequenos para a próxima semana.</p>
+        <div class="v16-review-grid">
+          <div>
+            <div class="v16-review-score">
+              <strong id="v16ReviewScore">0%</strong>
+              <div>
+                <b id="v16ReviewHeadline">Semana em análise</b>
+                <div class="quote" id="v16ReviewSummary"></div>
+              </div>
+            </div>
+            <div class="section-title" style="margin-top:16px"><h3>✅ Pontos fortes</h3></div>
+            <div class="v16-review-list" id="v16ReviewStrengths"></div>
+          </div>
+          <div>
+            <div class="section-title" style="margin-top:0"><h3>🔧 Ajustes sugeridos</h3></div>
+            <div class="v16-review-list" id="v16ReviewAdjustments"></div>
+            <button class="btn btn-ghost" style="width:100%;margin-top:10px" onclick="v16SendReviewToGoals()">Transformar sugestões em metas</button>
+          </div>
+        </div>
+      </div>
+
       <div class="planning-toolbar">
         <button class="btn btn-ghost" onclick="changeSmartWeek(-1)">← Semana anterior</button>
         <button class="btn btn-primary" onclick="goSmartCurrentWeek()">Semana atual</button>
@@ -1216,7 +1591,14 @@ body.v15-light .v15-checkin-scale button{background:#f7f9fc;color:#172033}
           <button class="btn btn-ghost" onclick="v15GenerateGoalSuggestions(true)">Atualizar sugestões</button>
         </div>
         <p class="quote">Você escolhe o que faz sentido. Nada é adicionado sem sua confirmação.</p>
+        
         <div id="v15GoalSuggestions"></div>
+        <div class="section-title" style="margin-top:18px">
+          <div><h3>🧠 Metas adaptativas</h3><span>Consideram seu perfil e seus registros recentes.</span></div>
+          <button class="btn btn-ghost" onclick="v16GenerateAdaptiveGoals(true)">Analisar novamente</button>
+        </div>
+        <div id="v16AdaptiveGoals"></div>
+
       </div>
 
       <div class="goals-layout">
@@ -1795,14 +2177,28 @@ if(!state.reminders) state.reminders = [];
 if(!state.finance) state.finance = {transactions:[], debts:[], goals:[]};
 let calendarCursor = new Date();
 
-function save(){localStorage.setItem("saudeV1",JSON.stringify(state)); 
-renderDaySelector("setupBjjDays",setupBjjDays,"toggleSetupBjjDay");
-renderDaySelector("setupRunDays",setupRunDays,"toggleSetupRunDay");
-if(!state.profile.configured){
-  document.getElementById("setupOverlay").classList.remove("hidden");
+function save(){
+  try{
+    localStorage.setItem("saudeV1",JSON.stringify(state));
+    try{
+      renderDaySelector("setupBjjDays",setupBjjDays,"toggleSetupBjjDay");
+      renderDaySelector("setupRunDays",setupRunDays,"toggleSetupRunDay");
+    }catch(e){console.warn("Seletores de rotina:",e);}
+    if(!state.profile?.configured && !state.profile?.profileSetupCompletedAt){
+      document.getElementById("setupOverlay")?.classList.remove("hidden");
+    }
+    renderAll();
+    if(typeof scheduleCloudSync==="function"){
+      try{scheduleCloudSync();}catch(e){console.warn("Cloud sync:",e);}
+    }
+    if(typeof v16FinishSave==="function")v16FinishSave(true,"Alterações registradas.");
+    return true;
+  }catch(err){
+    console.error("Erro ao salvar:",err);
+    if(typeof v16FinishSave==="function")v16FinishSave(false,"Ocorreu um erro. Seus dados anteriores foram mantidos.");
+    return false;
+  }
 }
-
-renderAll();}
 const dateKey = ()=> new Date().toISOString().slice(0,10);
 
 const meals = {
@@ -2546,12 +2942,13 @@ let smartWeekStart = typeof getMonday==="function" ? getMonday(new Date()) : (fu
 
 function smartAddDays(date,n){const d=new Date(date);d.setDate(d.getDate()+n);return d;}
 function smartKey(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
-function changeSmartWeek(delta){smartWeekStart=smartAddDays(smartWeekStart,delta*7);renderSmartWeek();}
+function changeSmartWeek(delta){smartWeekStart=smartAddDays(smartWeekStart,delta*7);renderSmartWeek();v16RenderWeeklyReview();}
 function goSmartCurrentWeek(){
   smartWeekStart=typeof getMonday==="function"?getMonday(new Date()):(function(){
     const d=new Date(),day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1);d.setDate(diff);d.setHours(12,0,0,0);return d;
   })();
   renderSmartWeek();
+  v16RenderWeeklyReview();
 }
 function brlSmart(v){return Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});}
 function smartPct(n,d){return d?Math.round(n/d*100):0;}
@@ -3567,7 +3964,7 @@ function renderCalendar(){
 }
 
 
-/* ===== V15.1 Inteligência de Perfil ===== */
+/* ===== V16 Inteligência de Perfil ===== */
 state.profile = state.profile || {};
 state.profile.activities = Array.isArray(state.profile.activities) ? state.profile.activities : [];
 state.profile.goalAreas = state.profile.goalAreas || [];
@@ -3841,9 +4238,11 @@ function v15SaveQuestionnaire(){
     if(typeof showInAppToast==="function"){
       try{ showInAppToast("Perfil salvo","Seu plano inicial foi criado."); }catch(e){}
     }
+    if(typeof v16FinishSave==="function")v16FinishSave(true,"Perfil e plano atualizados.");
 
   }catch(err){
     console.error("Erro ao salvar questionário:",err);
+    if(typeof v16FinishSave==="function")v16FinishSave(false,"Não foi possível concluir o questionário.");
     alert("Não foi possível concluir o questionário. O erro foi registrado no console. Tente novamente.");
   }finally{
     if(btn){
@@ -4017,7 +4416,7 @@ if(!state.profile.profileSetupCompletedAt && !state.profile.configured){
   setTimeout(()=>v15OpenWizard(false),300);
 }
 
-function renderAll(){renderHeader();renderChecklist();renderWater();renderMeals();renderNightPlan();renderWeight();renderTrainings();renderGoals();renderCalendar();renderFinance();renderAchievements();renderReminders();v15RenderAll();}
+function renderAll(){renderHeader();renderChecklist();renderWater();renderMeals();renderNightPlan();renderWeight();renderTrainings();renderGoals();renderCalendar();renderFinance();renderAchievements();renderReminders();v15RenderAll();v16RenderAll();}
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active")); b.classList.add("active");
   document.querySelectorAll(".section").forEach(x=>x.classList.remove("active")); document.getElementById(b.dataset.page).classList.add("active");
@@ -4027,6 +4426,7 @@ if(document.getElementById("sidebarUser")) document.getElementById("sidebarUser"
 document.getElementById("loginPass").addEventListener("keydown",e=>{if(e.key==="Enter")doCloudAuth();});
 const fm=document.getElementById("financeMonth"); if(fm) fm.value=dateKey().slice(0,7);
 const fd=document.getElementById("finDate"); if(fd) fd.value=dateKey();
+if(!state.adaptiveGoalSuggestions.length)v16GenerateAdaptiveGoals(false);
 renderAll();
 initReminderSystem();
 restoreSidebarState();
@@ -4053,6 +4453,15 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
     <button onclick="v15GoTo('financas');v15ToggleQuick()">💰 Gasto</button>
     <button onclick="v15GoTo('diario');v15ToggleQuick()">📖 Diário</button>
     <button onclick="v15GoTo('lembretes');v15ToggleQuick()">🔔 Lembrete</button>
+  </div>
+</div>
+
+
+<div class="v16-save-status" id="v16SaveStatus" role="status" aria-live="polite">
+  <div class="v16-save-spinner"></div>
+  <div>
+    <strong id="v16SaveTitle">Salvando...</strong>
+    <div class="quote" id="v16SaveDetail">Aguarde um instante.</div>
   </div>
 </div>
 

@@ -191,3 +191,27 @@ Observação: as metas sugeridas são de organização e hábitos. O aplicativo 
 - fecha o questionário antes de processar módulos secundários
 - salva o perfil mesmo se algum painel secundário apresentar erro
 - mantém sincronização em nuvem sem bloquear o usuário
+
+
+## V16 — Revisão Semanal + Metas Inteligentes + Salvamento visual
+
+### Salvamento
+- todo botão com ação de salvar mostra `Salvando...`
+- confirmação visual `✓ Salvo com sucesso`
+- aviso quando o processo demora ou falha
+- `save()` passou a tratar erros para reduzir telas travadas
+- sincronização em nuvem não deve bloquear o salvamento local
+
+### Revisão Semanal
+- analisa atividades, água, planejamento, check-ins e outros registros
+- calcula um indicador semanal
+- destaca pontos fortes
+- sugere ajustes pequenos para a próxima semana
+- permite transformar ajustes em sugestões de metas
+
+### Metas adaptativas
+- usa perfil e os últimos 14 dias de registros
+- compara frequência desejada com frequência realmente registrada
+- recomenda manter, simplificar ou reorganizar metas
+- o usuário sempre escolhe se quer adicionar ou ignorar
+- não cria automaticamente metas agressivas de peso ou alimentação
