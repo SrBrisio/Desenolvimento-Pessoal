@@ -241,3 +241,22 @@ Observação: as metas sugeridas são de organização e hábitos. O aplicativo 
 - Web Push / notificações
 - Supabase
 - salvamento visual
+
+## V18 — Refino, Insights e Sincronização Inteligente
+
+Inclui:
+- Login | Criar conta
+- lembrar e-mail
+- manter conectado
+- mostrar/ocultar senha
+- recuperação de senha
+- refinamento específico para iPhone/mobile
+- formulários de Metas e Lembretes reorganizados
+- mensagens amigáveis de Web Push
+- Central de Insights
+- Revisão Mensal
+- Caixa de Entrada rápida
+- Central de Atualizações
+- indicador de sincronização
+- base para comparação de última alteração local versus nuvem
+- manutenção de todos os recursos anteriores

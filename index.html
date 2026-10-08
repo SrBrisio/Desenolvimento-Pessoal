@@ -607,7 +607,7 @@
 
 
 
-/* ===== V17 • Perfil inteligente + Hoje ===== */
+/* ===== V18 • Perfil inteligente + Hoje ===== */
 :root{
   --radius-v15:18px;
 }
@@ -676,7 +676,7 @@ body.v15-light .v15-checkin-scale button{background:#f7f9fc;color:#172033}
 }
 
 
-/* ===== V17 • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
+/* ===== V18 • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
 .v16-save-status{
   position:fixed;top:18px;right:18px;z-index:9999;
   min-width:190px;max-width:340px;
@@ -716,7 +716,7 @@ body.v15-light .v16-review-item,body.v15-light .v16-smart-goal{background:#f7f9f
 }
 
 
-/* ===== V17 • Evolução geral de UX ===== */
+/* ===== V18 • Evolução geral de UX ===== */
 :root{--sidebar-collapsed:78px}
 
 /* Sidebar realmente recolhida */
@@ -845,6 +845,71 @@ body.v15-light .v17-routine-item{background:#f7f9fc}
   .v17-focus{padding:12px}.v17-focus-shell{padding-top:2vh}
 }
 
+
+/* ===== V18 • Refino, Insights e Sincronização Inteligente ===== */
+:root{
+  --tap:46px;
+}
+.auth-tabs button.active{font-weight:800}
+.v18-login-options{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.v18-login-options label{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:13px}
+.v18-password-wrap{position:relative}
+.v18-password-wrap input{padding-right:48px!important}
+.v18-eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);min-width:36px;height:36px;border:0;background:transparent;color:var(--muted);cursor:pointer}
+.v18-auth-link{background:none;border:0;color:var(--accent);cursor:pointer;padding:0;font-weight:700}
+.v18-sync-chip{display:inline-flex;align-items:center;gap:7px;padding:8px 11px;border-radius:999px;border:1px solid var(--line);font-size:12px;color:var(--muted)}
+.v18-sync-dot{width:8px;height:8px;border-radius:50%;background:#f4ca72}
+.v18-sync-dot.ok{background:#56d39b}.v18-sync-dot.bad{background:#ff7f90}
+.v18-insight-card{border:1px solid var(--line);border-radius:16px;padding:14px;background:#0e1629;margin-bottom:10px}
+.v18-insight-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.v18-insight-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.v18-inbox-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px}
+.v18-month-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.v18-version-item{border-left:3px solid var(--accent);padding:10px 12px;background:#0e1629;border-radius:10px;margin-bottom:8px}
+.v18-sync-conflict{border:1px solid #a97c2d;background:#201a0c;border-radius:14px;padding:13px;margin-top:10px}
+body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7f9fc}
+@media(max-width:760px){
+  .v18-month-grid{grid-template-columns:repeat(2,1fr)}
+  .v18-inbox-row{grid-template-columns:1fr}
+  .v18-login-options{align-items:flex-start;flex-direction:column}
+}
+
+/* iPhone / mobile global polish */
+@media(max-width:720px){
+  body{padding-bottom:calc(78px + env(safe-area-inset-bottom,0px))}
+  .app{padding-top:env(safe-area-inset-top,0px)}
+  main{padding-left:12px!important;padding-right:12px!important}
+  input,select,textarea,button,.btn{min-height:var(--tap)}
+  textarea{width:100%!important}
+  .card{padding:14px!important;border-radius:16px!important}
+  .setup-overlay{padding:calc(10px + env(safe-area-inset-top,0px)) 10px calc(12px + env(safe-area-inset-bottom,0px))}
+  .setup-card{max-height:calc(100vh - 24px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))!important;overflow:auto!important}
+  #nav{padding-bottom:env(safe-area-inset-bottom,0px)!important}
+  .v15-fab{bottom:calc(86px + env(safe-area-inset-bottom,0px))!important}
+  .v15-quick{bottom:calc(152px + env(safe-area-inset-bottom,0px))!important}
+  .goal-form,.reminder-form{grid-template-columns:1fr!important}
+  .goal-form .diary-row,.reminder-form .diary-row{grid-template-columns:1fr!important}
+  .goal-form textarea,.reminder-form textarea{grid-column:1/-1!important}
+}
+
+/* Specific goal/reminder form restructuring */
+#metas .goal-form{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+}
+#metas .goal-form > label:nth-of-type(1){grid-column:1/-1}
+#metas .goal-form > label:nth-of-type(4),
+#metas .goal-form > label:nth-of-type(5){grid-column:auto}
+#metas .goal-form > label:has(textarea){grid-column:1/-1!important}
+#metas .goal-form .step-builder{grid-column:1/-1!important}
+#metas .goal-form > .btn{grid-column:1/-1!important;justify-self:end!important}
+
+#lembretes .goal-form{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+}
+#lembretes .goal-form > label:first-child{grid-column:1/-1}
+#lembretes .goal-form > label:has(textarea){grid-column:1/-1!important}
+#lembretes .goal-form > .btn{grid-column:1/-1!important;justify-self:end!important}
+
 </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./config.js"></script>
@@ -859,7 +924,7 @@ body.v15-light .v17-routine-item{background:#f7f9fc}
     <p>Entre com sua conta para sincronizar seus dados entre iPhone e computador.</p>
 
     <div class="cloud-login-tabs">
-      <button class="btn btn-primary" id="tabLogin" onclick="setAuthMode('login')">Entrar</button>
+      <button class="btn btn-primary" id="tabLogin" onclick="setAuthMode('login')">Login</button>
       <button class="btn btn-ghost" id="tabSignup" onclick="setAuthMode('signup')">Criar conta</button>
     </div>
 
@@ -997,6 +1062,7 @@ body.v15-light .v17-routine-item{background:#f7f9fc}
       <button data-page="hoje">✨ Hoje</button>
       <button data-page="planejamento">🗓️ Semana</button>
 <button data-page="pendencias">📥 Pendências</button>
+      <button data-page="caixa-entrada">📨 Caixa de Entrada</button>
       <button data-page="metas">🎯 Metas</button>
 
       <div class="v15-nav-label">Saúde</div>
@@ -1016,6 +1082,8 @@ body.v15-light .v17-routine-item{background:#f7f9fc}
       <button data-page="financas">💰 Finanças</button>
       <button data-page="conquistas">🏆 Conquistas</button>
       <button data-page="painel-semanal">🧠 Painel Semanal</button>
+      <button data-page="insights">💡 Insights</button>
+      <button data-page="revisao-mensal">📊 Revisão Mensal</button>
 
       <div class="v15-nav-label">Configurações</div>
       <button data-page="perfil">⚙️ Perfil & Rotina</button>
@@ -1023,6 +1091,7 @@ body.v15-light .v17-routine-item{background:#f7f9fc}
       <button data-page="backup">💾 Backup</button>
 <button data-page="historico">🕘 Histórico</button>
       <button data-page="saude-sistema">🩺 Saúde do Sistema</button>
+      <button data-page="atualizacoes">🆕 Atualizações</button>
     </nav>
     <div class="user-card">
       <strong id="sidebarUser">Higor</strong>
@@ -1043,7 +1112,7 @@ body.v15-light .v17-routine-item{background:#f7f9fc}
           <div class="v17-search-results" id="v17SearchResults"></div>
         </div>
         <button class="btn btn-ghost" onclick="v17OpenFocus()">🎯 Foco</button>
-        <div class="date-pill" id="today"></div>
+        <span class="v18-sync-chip"><span class="v18-sync-dot" id="v18SyncDot"></span><span id="v18SyncText">Sincronização</span></span><div class="date-pill" id="today"></div>
       </div>
 
     </div>
@@ -1617,6 +1686,57 @@ body.v15-light .v17-routine-item{background:#f7f9fc}
         </div>
         <p class="quote">Aqui você consegue conferir rapidamente se navegador, armazenamento, nuvem, PWA e notificações estão funcionando.</p>
         <div id="v17SystemHealth"></div>
+      </div>
+    </section>
+
+
+    <section class="section" id="caixa-entrada">
+      <div class="card">
+        <div class="section-title" style="margin-top:0">
+          <div><div class="v15-kicker">Captura rápida</div><h3>📨 Caixa de Entrada</h3></div>
+          <span class="badge" id="v18InboxCount">0 itens</span>
+        </div>
+        <div class="v18-inbox-row">
+          <input id="v18InboxInput" placeholder="Digite uma ideia, tarefa, compromisso ou lembrete...">
+          <button class="btn btn-primary" onclick="v18AddInbox()">Adicionar</button>
+        </div>
+        <p class="quote">Registre primeiro. Organize depois.</p>
+        <div id="v18InboxList"></div>
+      </div>
+    </section>
+
+    <section class="section" id="insights">
+      <div class="card">
+        <div class="section-title" style="margin-top:0">
+          <div><div class="v15-kicker">Central de Insights</div><h3>💡 O que seus registros estão mostrando</h3></div>
+          <button class="btn btn-primary" onclick="v18GenerateInsights(true)">Analisar agora</button>
+        </div>
+        <p class="quote">Os insights usam padrões simples dos seus próprios registros. Você decide se quer aplicar alguma sugestão.</p>
+        <div id="v18Insights"></div>
+      </div>
+    </section>
+
+    <section class="section" id="revisao-mensal">
+      <div class="card">
+        <div class="section-title" style="margin-top:0">
+          <div><div class="v15-kicker">Visão mensal</div><h3>📊 Revisão Mensal</h3></div>
+          <button class="btn btn-ghost" onclick="v18ChangeMonth(-1)">←</button>
+          <button class="btn btn-ghost" onclick="v18ChangeMonth(1)">→</button>
+        </div>
+        <div class="quote" id="v18MonthLabel"></div>
+        <div class="v18-month-grid" id="v18MonthStats"></div>
+        <div class="section-title"><h3>Comparação com o mês anterior</h3></div>
+        <div id="v18MonthCompare"></div>
+      </div>
+    </section>
+
+    <section class="section" id="atualizacoes">
+      <div class="card">
+        <div class="section-title" style="margin-top:0">
+          <div><div class="v15-kicker">Versão do aplicativo</div><h3>🆕 O que mudou</h3></div>
+          <span class="badge">V18</span>
+        </div>
+        <div id="v18Updates"></div>
       </div>
     </section>
 
@@ -3669,7 +3789,7 @@ async function sendPushTest(){
     if(!res.ok) throw new Error(await res.text());
     updateBackgroundPushUI("Teste enviado. Aguarde alguns segundos.",true);
   }catch(e){
-    updateBackgroundPushUI("Falha no teste: "+(e.message||e),false);
+    updateBackgroundPushUI("Não foi possível conectar ao servidor de notificações. Verifique a configuração do Supabase.",false);
   }
 }
 
@@ -3787,8 +3907,8 @@ function renderCalendar(){
 }
 
 
-/* ===== V17 Inteligência de Perfil ===== */
-/* ===== V17 Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
+/* ===== V18 Inteligência de Perfil ===== */
+/* ===== V18 Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
 state.weeklyReviews = state.weeklyReviews && typeof state.weeklyReviews==="object" ? state.weeklyReviews : {};
 state.adaptiveGoalSuggestions = Array.isArray(state.adaptiveGoalSuggestions) ? state.adaptiveGoalSuggestions : [];
 
@@ -4544,7 +4664,7 @@ if(!state.profile.profileSetupCompletedAt && !state.profile.configured){
 }
 
 
-/* ===== V17 Evolução Geral ===== */
+/* ===== V18 Evolução Geral ===== */
 state.changeHistory = Array.isArray(state.changeHistory) ? state.changeHistory : [];
 
 function v17TrackChange(type,description,meta={}){
@@ -4726,7 +4846,7 @@ async function v17RunHealthCheck(){
   const checks=[];
   const add=(name,status,detail,cls)=>checks.push({name,status,detail,cls});
 
-  add("Versão","V17","Evolução Geral","v17-health-ok");
+  add("Versão","V18","Evolução Geral","v17-health-ok");
 
   try{
     localStorage.setItem("__v17_test","1");localStorage.removeItem("__v17_test");
@@ -4829,7 +4949,238 @@ v16GenerateWeeklyReview = function(persist=true){
 v17PrepareSidebar();
 
 
-function renderAll(){renderHeader();renderChecklist();renderWater();renderMeals();renderNightPlan();renderWeight();renderTrainings();renderGoals();renderCalendar();renderFinance();renderAchievements();renderReminders();v15RenderAll();v16RenderAll();v17RenderAll();}
+
+/* ===== V18 Refino, Insights e Sincronização Inteligente ===== */
+state.inbox = Array.isArray(state.inbox)?state.inbox:[];
+state.insights = Array.isArray(state.insights)?state.insights:[];
+state.syncMeta = state.syncMeta && typeof state.syncMeta==="object" ? state.syncMeta : {lastLocalChange:null,lastCloudSync:null};
+let v18MonthCursor = new Date();
+
+function v18TogglePassword(id,btn){
+  const el=document.getElementById(id);if(!el)return;
+  el.type=el.type==="password"?"text":"password";
+  if(btn)btn.textContent=el.type==="password"?"👁":"🙈";
+}
+function v18InitAuthPrefs(){
+  const email=localStorage.getItem("rememberedEmail")||"";
+  const remember=localStorage.getItem("rememberEmail")==="1";
+  const keep=localStorage.getItem("keepSession")!=="0";
+  const e=document.getElementById("loginEmail"),r=document.getElementById("rememberEmail"),k=document.getElementById("keepSession");
+  if(e&&remember)e.value=email;
+  if(r)r.checked=remember;
+  if(k)k.checked=keep;
+}
+async function v18ForgotPassword(){
+  try{
+    const email=document.getElementById("loginEmail")?.value.trim();
+    if(!email){alert("Informe seu e-mail para receber o link de recuperação.");return}
+    if(!cloudClient){alert("Supabase ainda não está disponível.");return}
+    const redirectTo=location.origin+location.pathname;
+    const {error}=await cloudClient.auth.resetPasswordForEmail(email,{redirectTo});
+    if(error)throw error;
+    alert("Enviamos um link de recuperação para seu e-mail.");
+  }catch(e){alert("Não foi possível enviar o link de recuperação.");}
+}
+function v18SaveAuthPrefs(){
+  const email=document.getElementById("loginEmail")?.value.trim()||"";
+  const remember=!!document.getElementById("rememberEmail")?.checked;
+  const keep=!!document.getElementById("keepSession")?.checked;
+  localStorage.setItem("rememberEmail",remember?"1":"0");
+  localStorage.setItem("keepSession",keep?"1":"0");
+  if(remember)localStorage.setItem("rememberedEmail",email); else localStorage.removeItem("rememberedEmail");
+}
+const v18DoLogin=doLogin;
+doLogin=async function(){
+  v18SaveAuthPrefs();
+  return await v18DoLogin.apply(this,arguments);
+}
+
+function v18AddInbox(){
+  const input=document.getElementById("v18InboxInput");
+  const text=input?.value.trim();if(!text)return;
+  state.inbox.unshift({id:Date.now(),text,createdAt:new Date().toISOString(),status:"open"});
+  input.value="";
+  save();
+}
+function v18ClassifyInbox(id,type){
+  const item=state.inbox.find(x=>x.id===id);if(!item)return;
+  if(type==="task"){
+    state.weeklyPlans=Array.isArray(state.weeklyPlans)?state.weeklyPlans:[];
+    state.weeklyPlans.push({id:Date.now(),title:item.text,date:dateKey(),time:"",done:false,priority:"Média",notes:"Criado pela Caixa de Entrada"});
+  }else if(type==="reminder"){
+    state.reminders=Array.isArray(state.reminders)?state.reminders:[];
+    state.reminders.push({id:Date.now(),title:item.text,repeat:"once",date:dateKey(),time:"18:00",category:"Outro",notes:"",enabled:true});
+  }else if(type==="goal"){
+    const end=new Date();end.setDate(end.getDate()+7);
+    state.customGoals=Array.isArray(state.customGoals)?state.customGoals:[];
+    state.customGoals.push({id:Date.now(),title:item.text,category:"Pessoal",priority:"Média",start:dateKey(),deadline:end.toISOString().slice(0,10),description:"Criado pela Caixa de Entrada",status:"Ativa",steps:[],createdAt:new Date().toISOString()});
+  }else if(type==="note"){
+    state.diaryEntries=Array.isArray(state.diaryEntries)?state.diaryEntries:[];
+    state.diaryEntries.push({id:Date.now(),date:dateKey(),title:"Nota rápida",text:item.text});
+  }
+  item.status="done";item.classifiedAs=type;
+  save();
+}
+function v18RenderInbox(){
+  const box=document.getElementById("v18InboxList"),count=document.getElementById("v18InboxCount");if(!box)return;
+  const rows=(state.inbox||[]).filter(x=>x.status!=="done");
+  if(count)count.textContent=`${rows.length} item${rows.length===1?"":"s"}`;
+  box.innerHTML=rows.length?rows.map(x=>`
+    <div class="v17-pending-item">
+      <strong>${escapeHtml(x.text)}</strong>
+      <div class="quote">${new Date(x.createdAt).toLocaleString("pt-BR")}</div>
+      <div class="v18-insight-actions">
+        <button class="btn btn-ghost" onclick="v18ClassifyInbox(${x.id},'task')">Tarefa</button>
+        <button class="btn btn-ghost" onclick="v18ClassifyInbox(${x.id},'reminder')">Lembrete</button>
+        <button class="btn btn-ghost" onclick="v18ClassifyInbox(${x.id},'goal')">Meta</button>
+        <button class="btn btn-ghost" onclick="v18ClassifyInbox(${x.id},'note')">Nota</button>
+      </div>
+    </div>`).join(""):'<div class="v17-empty">Caixa de entrada vazia.</div>';
+}
+
+function v18GenerateInsights(persist=true){
+  const insights=[];
+  const keys=v16RecentKeys(14);
+  const checkins=keys.map(k=>state.dailyCheckins?.[k]).filter(Boolean);
+  const trainings=(state.trainings||[]).filter(t=>keys.includes(String(t.date||"").slice(0,10)));
+  const plans=(state.weeklyPlans||[]).filter(t=>keys.includes(String(t.date||"").slice(0,10)));
+  const done=plans.filter(x=>x.done).length;
+  const waterDays=keys.filter(k=>Number(state.water?.[k]||0)>=Number(state.profile?.waterGoal||2500)).length;
+
+  if(plans.length>=4){
+    const pct=Math.round(done/plans.length*100);
+    insights.push({id:"plan",title:`Seu planejamento recente ficou em ${pct}% de conclusão`,body:pct<60?"Talvez valha reduzir a quantidade de tarefas por dia.":"Seu volume de tarefas parece compatível com sua rotina.",action:pct<60?"Simplificar a próxima semana":"Manter o ritmo"});
+  }
+  if(checkins.length>=4){
+    const avg=checkins.reduce((s,x)=>s+Number(x.energy||0),0)/checkins.length;
+    insights.push({id:"energy",title:`Energia média recente: ${avg.toFixed(1)}/5`,body:avg<3?"Considere metas mais leves nos próximos dias.":"Seus registros mostram uma energia relativamente estável.",action:"Rever metas"});
+  }
+  insights.push({id:"water",title:`Meta de água atingida em ${waterDays} de 14 dias`,body:waterDays<7?"Um lembrete em horários específicos pode ajudar mais do que aumentar a meta.":"Sua hidratação está relativamente consistente.",action:"Abrir água"});
+  if(trainings.length){
+    insights.push({id:"training",title:`Você registrou ${trainings.length} atividades nas últimas duas semanas`,body:"O app pode comparar isso com a frequência definida no seu perfil.",action:"Ver metas inteligentes"});
+  }
+  state.insights=insights;
+  if(persist)save(); else v18RenderInsights();
+}
+function v18ApplyInsight(id){
+  const i=state.insights.find(x=>x.id===id);if(!i)return;
+  if(id==="water")v15GoTo("agua");
+  else if(id==="training"||id==="energy")v15GoTo("metas");
+  else if(id==="plan")v15GoTo("planejamento");
+}
+function v18DismissInsight(id){
+  state.insights=state.insights.filter(x=>x.id!==id);save();
+}
+function v18RenderInsights(){
+  const box=document.getElementById("v18Insights");if(!box)return;
+  box.innerHTML=(state.insights||[]).length?state.insights.map(i=>`
+    <div class="v18-insight-card">
+      <div class="v18-insight-head"><strong>${escapeHtml(i.title)}</strong><span class="badge">Insight</span></div>
+      <div class="quote" style="margin-top:6px">${escapeHtml(i.body||"")}</div>
+      <div class="v18-insight-actions">
+        <button class="btn btn-primary" onclick="v18ApplyInsight('${i.id}')">${escapeHtml(i.action||"Aplicar")}</button>
+        <button class="btn btn-ghost" onclick="v18DismissInsight('${i.id}')">Ignorar</button>
+      </div>
+    </div>`).join(""):'<div class="v17-empty">Clique em “Analisar agora” para gerar insights.</div>';
+}
+
+function v18MonthRange(d){
+  const start=new Date(d.getFullYear(),d.getMonth(),1,12);
+  const end=new Date(d.getFullYear(),d.getMonth()+1,0,12);
+  return {start,end};
+}
+function v18KeysForMonth(d){
+  const {start,end}=v18MonthRange(d),keys=[];
+  for(let x=new Date(start);x<=end;x.setDate(x.getDate()+1))keys.push(v16DateKey(x));
+  return keys;
+}
+function v18MonthMetrics(d){
+  const keys=v18KeysForMonth(d);
+  const trainings=(state.trainings||[]).filter(t=>keys.includes(String(t.date||"").slice(0,10))).length;
+  const checkins=keys.filter(k=>state.dailyCheckins?.[k]).length;
+  const water=keys.filter(k=>Number(state.water?.[k]||0)>=Number(state.profile?.waterGoal||2500)).length;
+  const goals=(state.customGoals||[]).filter(g=>g.status==="Concluída"&&keys.includes(String(g.completedAt||g.deadline||"").slice(0,10))).length;
+  const tx=(state.finance?.transactions||[]).filter(t=>keys.includes(String(t.date||"").slice(0,10)));
+  const expenses=tx.filter(t=>String(t.type||"").toLowerCase().includes("desp")).reduce((s,t)=>s+Number(t.value||t.amount||0),0);
+  return {trainings,checkins,water,goals,expenses};
+}
+function v18ChangeMonth(delta){
+  v18MonthCursor=new Date(v18MonthCursor.getFullYear(),v18MonthCursor.getMonth()+delta,1);
+  v18RenderMonthlyReview();
+}
+function v18RenderMonthlyReview(){
+  const label=document.getElementById("v18MonthLabel"),stats=document.getElementById("v18MonthStats"),cmp=document.getElementById("v18MonthCompare");if(!stats)return;
+  const cur=v18MonthMetrics(v18MonthCursor);
+  const prevDate=new Date(v18MonthCursor.getFullYear(),v18MonthCursor.getMonth()-1,1);
+  const prev=v18MonthMetrics(prevDate);
+  if(label)label.textContent=v18MonthCursor.toLocaleDateString("pt-BR",{month:"long",year:"numeric"});
+  stats.innerHTML=[
+    ["Treinos",cur.trainings],["Check-ins",cur.checkins],["Dias com água",cur.water],["Metas concluídas",cur.goals]
+  ].map(([a,b])=>`<div class="v17-status-card"><small>${a}</small><strong>${b}</strong></div>`).join("");
+  const diff=(a,b)=>a===b?"igual ao mês anterior":a>b?`+${a-b} em relação ao mês anterior`:`${a-b} em relação ao mês anterior`;
+  if(cmp)cmp.innerHTML=`
+    <div class="v17-pending-item"><strong>Treinos</strong><div class="quote">${diff(cur.trainings,prev.trainings)}</div></div>
+    <div class="v17-pending-item"><strong>Check-ins</strong><div class="quote">${diff(cur.checkins,prev.checkins)}</div></div>
+    <div class="v17-pending-item"><strong>Hidratação</strong><div class="quote">${diff(cur.water,prev.water)}</div></div>
+    <div class="v17-pending-item"><strong>Metas concluídas</strong><div class="quote">${diff(cur.goals,prev.goals)}</div></div>`;
+}
+
+function v18RenderUpdates(){
+  const box=document.getElementById("v18Updates");if(!box)return;
+  const items=[
+    ["V18","Refino de layout, login melhorado, iPhone, sincronização inteligente, Insights, Revisão Mensal e Caixa de Entrada."],
+    ["V18","Pendências, histórico, busca global, modo foco e saúde do sistema."],
+    ["V16","Revisão semanal, metas adaptativas e feedback visual ao salvar."],
+    ["V15","Questionário inteligente, Modo Hoje e perfil evolutivo."]
+  ];
+  box.innerHTML=items.map(([v,t])=>`<div class="v18-version-item"><strong>${v}</strong><div class="quote">${t}</div></div>`).join("");
+}
+
+function v18FormatRelativeTime(iso){
+  if(!iso)return "Nunca sincronizado";
+  const ms=Date.now()-new Date(iso).getTime();
+  const m=Math.max(0,Math.round(ms/60000));
+  if(m<1)return "Sincronizado agora";
+  if(m<60)return `Sincronizado há ${m} min`;
+  const h=Math.round(m/60);return `Sincronizado há ${h} h`;
+}
+function v18RenderSyncStatus(){
+  const dot=document.getElementById("v18SyncDot"),txt=document.getElementById("v18SyncText");if(!txt)return;
+  const logged=typeof cloudUser!=="undefined"&&!!cloudUser;
+  txt.textContent=logged?v18FormatRelativeTime(state.syncMeta.lastCloudSync):"Nuvem desconectada";
+  if(dot)dot.className="v18-sync-dot "+(logged?"ok":"bad");
+}
+
+/* last-write guard: cloud data only overwrites local if clearly newer */
+function v18ShouldUseCloud(cloudData,cloudUpdatedAt){
+  const localTs=state.syncMeta?.lastLocalChange ? new Date(state.syncMeta.lastLocalChange).getTime() : 0;
+  const cloudTs=cloudUpdatedAt ? new Date(cloudUpdatedAt).getTime() : 0;
+  return cloudTs>localTs;
+}
+
+/* Track successful local saves */
+const v18OriginalSave = save;
+save = function(){
+  state.syncMeta=state.syncMeta||{};
+  state.syncMeta.lastLocalChange=new Date().toISOString();
+  const ok=v18OriginalSave.apply(this,arguments);
+  v18RenderSyncStatus();
+  return ok;
+};
+
+function v18RenderAll(){
+  v18RenderInbox();
+  v18RenderInsights();
+  v18RenderMonthlyReview();
+  v18RenderUpdates();
+  v18RenderSyncStatus();
+}
+
+setTimeout(v18InitAuthPrefs,50);
+if(!state.insights.length)setTimeout(()=>v18GenerateInsights(false),100);
+
+
+function renderAll(){renderHeader();renderChecklist();renderWater();renderMeals();renderNightPlan();renderWeight();renderTrainings();renderGoals();renderCalendar();renderFinance();renderAchievements();renderReminders();v15RenderAll();v16RenderAll();v17RenderAll();v18RenderAll();}
 v17PrepareSidebar();
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active")); b.classList.add("active");
