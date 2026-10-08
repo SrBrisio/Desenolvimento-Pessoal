@@ -604,6 +604,75 @@
       .inapp-toast{top:12px;right:12px;width:calc(100% - 24px)}
     }
 
+
+/* ===== V15 • Perfil inteligente + Hoje ===== */
+:root{
+  --radius-v15:18px;
+}
+.v15-kicker{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:800}
+.v15-stepbar{display:flex;gap:8px;margin:12px 0 18px}
+.v15-stepdot{height:7px;flex:1;border-radius:999px;background:var(--line)}
+.v15-stepdot.active{background:var(--accent)}
+.v15-step{display:none}
+.v15-step.active{display:block}
+.v15-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.v15-choice{border:1px solid var(--line);background:#0e1629;color:var(--text);padding:12px;border-radius:14px;cursor:pointer;text-align:left}
+.v15-choice.active{outline:2px solid var(--accent);background:#142338}
+.v15-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.v15-pill{border:1px solid var(--line);background:#0e1629;color:var(--muted);border-radius:999px;padding:8px 11px;cursor:pointer}
+.v15-pill.active{background:#19392f;color:#9ff2d2;border-color:#2f705c}
+.v15-wizard-actions{display:flex;justify-content:space-between;gap:10px;margin-top:20px}
+.v15-activity-row{display:grid;grid-template-columns:1.3fr .8fr .8fr auto;gap:8px;margin-bottom:8px;align-items:center}
+.v15-today-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
+.v15-agenda-item,.v15-suggestion,.v15-history-item{border:1px solid var(--line);border-radius:14px;padding:12px;background:#0e1629;margin-bottom:8px}
+.v15-suggestion{display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
+.v15-suggestion-main{min-width:0}
+.v15-score{font-size:30px;font-weight:900}
+.v15-checkin-scale{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.v15-checkin-scale button{padding:10px;border-radius:12px;border:1px solid var(--line);background:#0e1629;color:var(--text);cursor:pointer}
+.v15-checkin-scale button.active{background:#19392f;border-color:#2f705c;color:#9ff2d2}
+.v15-nav-label{padding:12px 12px 5px;color:var(--muted);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.12em}
+.v15-fab{position:fixed;right:18px;bottom:24px;z-index:90;width:56px;height:56px;border-radius:50%;border:0;background:var(--accent);color:#06111c;font-size:27px;font-weight:900;box-shadow:0 12px 28px rgba(0,0,0,.35);cursor:pointer}
+.v15-quick{position:fixed;right:18px;bottom:90px;z-index:91;width:min(320px,calc(100vw - 36px));background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 18px 45px rgba(0,0,0,.45);display:none}
+.v15-quick.show{display:block}
+.v15-quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.v15-quick button{border:1px solid var(--line);background:#0e1629;color:var(--text);border-radius:12px;padding:12px;cursor:pointer;text-align:left}
+.v15-plan-box{border:1px solid var(--line);border-radius:16px;padding:14px;background:linear-gradient(180deg,rgba(38,108,83,.13),rgba(14,22,41,.35))}
+.v15-settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+body.v15-compact .card{padding:12px}
+body.v15-compact .grid{gap:10px}
+body.v15-light{
+  --bg:#f5f7fb; --panel:#ffffff; --card:#ffffff; --line:#dfe5ef; --text:#172033; --muted:#637083;
+}
+body.v15-light aside,body.v15-light .v15-quick{background:#ffffff}
+body.v15-light input,body.v15-light select,body.v15-light textarea,
+body.v15-light .v15-choice,body.v15-light .v15-pill,body.v15-light .v15-agenda-item,
+body.v15-light .v15-suggestion,body.v15-light .v15-history-item,body.v15-light .v15-quick button,
+body.v15-light .v15-checkin-scale button{background:#f7f9fc;color:#172033}
+@media(max-width:900px){
+  .v15-today-grid{grid-template-columns:1fr}
+  .v15-activity-row{grid-template-columns:1fr 1fr}
+  .v15-settings-grid{grid-template-columns:1fr}
+}
+@media(max-width:720px){
+  .setup-card{max-height:88vh;overflow:auto}
+  .v15-choice-grid{grid-template-columns:1fr}
+  .v15-activity-row{grid-template-columns:1fr}
+  .v15-fab{bottom:78px}
+  .v15-quick{bottom:145px}
+  .v15-nav-label{display:none}
+}
+
+
+@media(max-width:720px){
+  #nav button[data-page]{display:none}
+  #nav button[data-page="inicio"],
+  #nav button[data-page="hoje"],
+  #nav button[data-page="metas"],
+  #nav button[data-page="planejamento"],
+  #nav button[data-page="perfil"]{display:flex}
+}
+
 </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./config.js"></script>
@@ -642,60 +711,104 @@
 </div>
 
 
+
 <div class="setup-overlay hidden" id="setupOverlay">
-  <div class="setup-card">
-    <h2>Vamos configurar sua rotina</h2>
-    <p>O aplicativo vai usar suas respostas para criar metas e sugestões realistas, em vez de assumir uma rotina que você não tem.</p>
+  <div class="setup-card" style="max-width:760px">
+    <div class="v15-kicker">Configuração inteligente</div>
+    <h2 id="v15WizardTitle">Vamos conhecer sua rotina</h2>
+    <p id="v15WizardSubtitle">Suas respostas serão usadas para sugerir metas e organizar o aplicativo do seu jeito.</p>
+    <div class="v15-stepbar">
+      <div class="v15-stepdot active"></div><div class="v15-stepdot"></div><div class="v15-stepdot"></div><div class="v15-stepdot"></div><div class="v15-stepdot"></div>
+    </div>
 
-    <div class="profile-grid">
-      <div>
-        <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Nome</label>
-        <input id="setupName" value="Higor">
-      </div>
-      <div>
-        <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Meta diária de água (ml)</label>
-        <input id="setupWater" type="number" min="1000" step="250" value="3000">
-      </div>
-      <div>
-        <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Jiu-jítsu: quantas vezes por semana?</label>
-        <input id="setupBjjCount" type="number" min="0" max="7" value="3">
-      </div>
-      <div>
-        <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Corrida/caminhada: quantas vezes por semana?</label>
-        <input id="setupRunCount" type="number" min="0" max="7" value="3">
+    <div class="v15-step active" data-v15-step="0">
+      <div class="profile-grid">
+        <div><label>Nome</label><input id="setupName" placeholder="Como quer ser chamado?"></div>
+        <div><label>Idade</label><input id="setupAge" type="number" min="10" max="100"></div>
+        <div><label>Sexo</label><select id="setupSex"><option value="">Prefiro não informar</option><option>Masculino</option><option>Feminino</option><option>Outro</option></select></div>
+        <div><label>Altura (cm)</label><input id="setupHeight" type="number" min="100" max="230"></div>
+        <div><label>Peso atual (kg)</label><input id="setupWeight" type="number" min="20" max="300" step="0.1"></div>
+        <div><label>Meta diária de água (ml)</label><input id="setupWater" type="number" min="1000" step="250" value="2500"></div>
       </div>
     </div>
 
-    <div style="margin-top:16px">
-      <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:8px">Quais dias você tem jiu-jítsu?</label>
-      <div class="day-select" id="setupBjjDays"></div>
-    </div>
-
-    <div style="margin-top:16px">
-      <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:8px">Quais dias prefere corrida/caminhada?</label>
-      <div class="day-select" id="setupRunDays"></div>
-    </div>
-
-    <div class="profile-grid" style="margin-top:16px">
-      <div>
-        <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Horário do jiu-jítsu</label>
-        <input id="setupBjjTime" type="time" value="06:00">
+    <div class="v15-step" data-v15-step="1">
+      <h3>Em quais áreas você quer evoluir?</h3>
+      <div class="v15-choice-grid" id="v15GoalAreas">
+        <button type="button" class="v15-choice" data-value="Saúde">❤️ Saúde e bem-estar</button>
+        <button type="button" class="v15-choice" data-value="Condicionamento">🏃 Condicionamento</button>
+        <button type="button" class="v15-choice" data-value="Alimentação">🥗 Alimentação</button>
+        <button type="button" class="v15-choice" data-value="Finanças">💰 Finanças</button>
+        <button type="button" class="v15-choice" data-value="Estudos">📚 Estudos</button>
+        <button type="button" class="v15-choice" data-value="Trabalho">💼 Trabalho</button>
+        <button type="button" class="v15-choice" data-value="Pessoal">🌱 Desenvolvimento pessoal</button>
+        <button type="button" class="v15-choice" data-value="Organização">🗓️ Organização</button>
       </div>
-      <div>
-        <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Duração média do jiu-jítsu (min)</label>
-        <input id="setupBjjDuration" type="number" min="15" value="75">
-      </div>
-      <div>
-        <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Início do trabalho</label>
-        <input id="setupWorkStart" type="time" value="08:00">
-      </div>
-      <div>
-        <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Fim do trabalho</label>
-        <input id="setupWorkEnd" type="time" value="18:00">
+      <div style="margin-top:14px">
+        <label>Qual é sua prioridade principal agora?</label>
+        <textarea id="setupMainObjective" rows="3" placeholder="Ex.: melhorar meu condicionamento e organizar melhor minha semana"></textarea>
       </div>
     </div>
 
-    <button class="btn btn-primary" style="width:100%;margin-top:18px" onclick="saveInitialSetup()">Salvar minha rotina</button>
+    <div class="v15-step" data-v15-step="2">
+      <h3>Atividades físicas</h3>
+      <p class="quote">Cadastre quantas quiser. O app usa os dias e horários para montar metas que cabem na sua semana.</p>
+      <div id="v15Activities"></div>
+      <button class="btn btn-ghost" type="button" onclick="v15AddActivity()">+ Adicionar atividade</button>
+    </div>
+
+    <div class="v15-step" data-v15-step="3">
+      <h3>Sua rotina</h3>
+      <div class="profile-grid">
+        <div><label>Início do trabalho/estudo</label><input id="setupWorkStart" type="time" value="08:00"></div>
+        <div><label>Fim do trabalho/estudo</label><input id="setupWorkEnd" type="time" value="18:00"></div>
+        <div><label>Horário aproximado de dormir</label><input id="setupSleep" type="time" value="23:00"></div>
+        <div><label>Horário aproximado de acordar</label><input id="setupWake" type="time" value="06:30"></div>
+      </div>
+      <h3 style="margin-top:18px">Quando você costuma ter mais tempo livre?</h3>
+      <div class="v15-pills" id="v15Availability">
+        <button type="button" class="v15-pill" data-value="Manhã">Manhã</button>
+        <button type="button" class="v15-pill" data-value="Tarde">Tarde</button>
+        <button type="button" class="v15-pill" data-value="Noite">Noite</button>
+        <button type="button" class="v15-pill" data-value="Fim de semana">Fim de semana</button>
+      </div>
+    </div>
+
+    <div class="v15-step" data-v15-step="4">
+      <h3>Alimentação e preferências</h3>
+      <div class="profile-grid">
+        <div style="grid-column:1/-1">
+          <label>Comidas que você gosta</label>
+          <textarea id="setupFoodsLike" rows="3" placeholder="Ex.: frango, arroz, feijão, ovos, cuscuz, banana..."></textarea>
+        </div>
+        <div style="grid-column:1/-1">
+          <label>Comidas que prefere evitar</label>
+          <textarea id="setupFoodsAvoid" rows="2" placeholder="Opcional"></textarea>
+        </div>
+        <div>
+          <label>Como prefere organizar as refeições?</label>
+          <select id="setupMealStyle">
+            <option value="Prático">Refeições práticas</option>
+            <option value="Marmitas">Preparar marmitas</option>
+            <option value="Cozinhar">Cozinhar no dia</option>
+            <option value="Misto">Um pouco de cada</option>
+          </select>
+        </div>
+        <div>
+          <label>Quantas refeições principais costuma fazer?</label>
+          <input id="setupMealsCount" type="number" min="2" max="6" value="3">
+        </div>
+      </div>
+      <div class="v15-plan-box" style="margin-top:16px">
+        <strong>Depois de salvar</strong>
+        <p class="quote" style="margin-bottom:0">O app vai montar sugestões de metas, rotina semanal e um plano inicial. Você poderá aceitar, editar ou ignorar cada sugestão.</p>
+      </div>
+    </div>
+
+    <div class="v15-wizard-actions">
+      <button class="btn btn-ghost" id="v15PrevBtn" type="button" onclick="v15WizardPrev()" style="visibility:hidden">Voltar</button>
+      <button class="btn btn-primary" id="v15NextBtn" type="button" onclick="v15WizardNext()">Continuar</button>
+    </div>
   </div>
 </div>
 
@@ -707,22 +820,34 @@
       <div><h1>Meu Desenvolvimento</h1><small>Level Up • Desenvolvimento Pessoal</small></div>
     </div>
     <nav id="nav">
+      <div class="v15-nav-label">Principal</div>
       <button class="active" data-page="inicio">🏠 Início</button>
+      <button data-page="hoje">✨ Hoje</button>
+      <button data-page="planejamento">🗓️ Semana</button>
+      <button data-page="metas">🎯 Metas</button>
+
+      <div class="v15-nav-label">Saúde</div>
       <button data-page="rotina">✅ Rotina</button>
-      <button data-page="alimentacao">🍽️ Alimentação</button>
-      <button data-page="mercado">🛒 Mercado</button>
       <button data-page="treinos">🥋 Treinos</button>
       <button data-page="agua">💧 Água</button>
+      <button data-page="alimentacao">🍽️ Alimentação</button>
+      <button data-page="mercado">🛒 Mercado</button>
       <button data-page="progresso">📈 Progresso</button>
-      <button data-page="metas">🎯 Metas</button>
-      <button data-page="perfil">⚙️ Minha Rotina</button>
-      <button data-page="financas">💰 Finanças</button>
+
+      <div class="v15-nav-label">Organização</div>
       <button data-page="calendario">📅 Calendário</button>
       <button data-page="lembretes">🔔 Lembretes</button>
-      <button data-page="backup">💾 Backup</button>
-      <button data-page="nuvem">☁️ Nuvem</button>
       <button data-page="diario">📖 Diário & Agenda</button>
-      <button data-page="planejamento">🗓️ Planejamento</button>
+
+      <div class="v15-nav-label">Vida</div>
+      <button data-page="financas">💰 Finanças</button>
+      <button data-page="conquistas">🏆 Conquistas</button>
+      <button data-page="painel-semanal">🧠 Painel Semanal</button>
+
+      <div class="v15-nav-label">Configurações</div>
+      <button data-page="perfil">⚙️ Perfil & Rotina</button>
+      <button data-page="nuvem">☁️ Nuvem</button>
+      <button data-page="backup">💾 Backup</button>
     </nav>
     <div class="user-card">
       <strong id="sidebarUser">Higor</strong>
@@ -738,7 +863,44 @@
       <div class="date-pill" id="today"></div>
     </div>
 
-    <section class="section active" id="inicio">
+    
+    <section class="section" id="hoje">
+      <div class="v15-today-grid">
+        <div>
+          <div class="card">
+            <div class="section-title"><div><div class="v15-kicker">Seu dia</div><h3 id="v15TodayTitle">Hoje</h3></div><span class="badge" id="v15TodayScore">0%</span></div>
+            <div id="v15TodayAgenda"></div>
+          </div>
+
+          <div class="card" style="margin-top:14px">
+            <div class="section-title"><h3>🎯 Metas que importam hoje</h3></div>
+            <div id="v15TodayGoals"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <div class="section-title"><h3>🌤️ Check-in rápido</h3><span class="badge" id="v15CheckinStatus">Não feito</span></div>
+            <label>Como está sua energia hoje?</label>
+            <div class="v15-checkin-scale" id="v15EnergyScale"></div>
+            <label style="display:block;margin-top:12px">Como você dormiu?</label>
+            <div class="v15-checkin-scale" id="v15SleepScale"></div>
+            <label style="display:block;margin-top:12px">Como está seu humor?</label>
+            <div class="v15-checkin-scale" id="v15MoodScale"></div>
+            <label style="display:block;margin-top:12px">Uma observação rápida</label>
+            <textarea id="v15CheckinNote" rows="3" placeholder="Opcional"></textarea>
+            <button class="btn btn-primary" style="width:100%;margin-top:10px" onclick="v15SaveCheckin()">Salvar check-in</button>
+          </div>
+
+          <div class="card" style="margin-top:14px">
+            <div class="section-title"><h3>🍽️ Plano simples de hoje</h3></div>
+            <div id="v15FoodPlan" class="v15-plan-box"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<section class="section active" id="inicio">
       <div class="grid grid-4">
         <div class="card metric"><div><small>Água hoje</small><strong id="waterMetric">0,0 L</strong><div class="sub">Meta personalizada</div></div><div class="icon">💧</div></div>
         <div class="card metric"><div><small>Checklist</small><strong id="checkMetric">0%</strong><div class="sub">Rotina do dia</div></div><div class="icon">✅</div></div>
@@ -1048,6 +1210,15 @@
 
     
     <section class="section" id="metas">
+      <div class="card" style="margin-bottom:14px">
+        <div class="section-title">
+          <div><div class="v15-kicker">Sugestões inteligentes</div><h3>Metas baseadas no seu perfil</h3></div>
+          <button class="btn btn-ghost" onclick="v15GenerateGoalSuggestions(true)">Atualizar sugestões</button>
+        </div>
+        <p class="quote">Você escolhe o que faz sentido. Nada é adicionado sem sua confirmação.</p>
+        <div id="v15GoalSuggestions"></div>
+      </div>
+
       <div class="goals-layout">
         <div class="card">
           <div class="section-title" style="margin-top:0">
@@ -1193,6 +1364,31 @@
 
 
     <section class="section" id="perfil">
+      <div class="card" style="margin-bottom:14px">
+        <div class="section-title">
+          <div><div class="v15-kicker">Perfil inteligente</div><h3>Suas informações</h3></div>
+          <button class="btn btn-primary" onclick="v15OpenWizard(true)">Editar questionário</button>
+        </div>
+        <div class="profile-summary" id="v15ProfileSummary"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+          <button class="btn btn-ghost" onclick="v15GenerateGoalSuggestions(true);v15GoTo('metas')">✨ Refazer minhas metas</button>
+          <button class="btn btn-ghost" onclick="v15RebuildPlan()">🔄 Refazer meu plano</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:14px">
+        <div class="section-title"><h3>📈 Evolução do perfil</h3></div>
+        <div id="v15ProfileHistory"></div>
+      </div>
+
+      <div class="card" style="margin-bottom:14px">
+        <div class="section-title"><h3>🎨 Aparência</h3></div>
+        <div class="v15-settings-grid">
+          <label class="check"><input type="checkbox" id="v15LightTheme" onchange="v15SaveUIPrefs()"><span class="txt">Tema claro</span></label>
+          <label class="check"><input type="checkbox" id="v15CompactMode" onchange="v15SaveUIPrefs()"><span class="txt">Modo compacto</span></label>
+        </div>
+      </div>
+
       <div class="card">
         <div class="section-title" style="margin-top:0">
           <div><h3>⚙️ Minha Rotina</h3><span>Edite aqui as informações que o app usa para montar metas e sugestões.</span></div>
@@ -3370,7 +3566,378 @@ function renderCalendar(){
   }
 }
 
-function renderAll(){renderHeader();renderChecklist();renderWater();renderMeals();renderNightPlan();renderWeight();renderTrainings();renderGoals();renderCalendar();renderFinance();renderAchievements();renderReminders();}
+
+/* ===== V15 Inteligência de Perfil ===== */
+state.profile = state.profile || {};
+state.profile.activities = state.profile.activities || [];
+state.profile.goalAreas = state.profile.goalAreas || [];
+state.profile.availability = state.profile.availability || [];
+state.profile.foodsLike = state.profile.foodsLike || "";
+state.profile.foodsAvoid = state.profile.foodsAvoid || "";
+state.profile.mealStyle = state.profile.mealStyle || "Prático";
+state.profile.mealsCount = state.profile.mealsCount || 3;
+state.profile.profileSetupCompletedAt = state.profile.profileSetupCompletedAt || (state.profile.configured ? new Date().toISOString() : null);
+state.profileHistory = state.profileHistory || [];
+state.dailyCheckins = state.dailyCheckins || {};
+state.goalSuggestions = state.goalSuggestions || [];
+state.uiPrefs = state.uiPrefs || {light:false,compact:false};
+state.smartPlan = state.smartPlan || {};
+
+let v15WizardStep = 0;
+let v15EditingProfile = false;
+let v15DraftActivities = [];
+let v15CheckinDraft = {energy:0,sleep:0,mood:0};
+
+function v15ApplyUIPrefs(){
+  document.body.classList.toggle("v15-light", !!state.uiPrefs.light);
+  document.body.classList.toggle("v15-compact", !!state.uiPrefs.compact);
+  const a=document.getElementById("v15LightTheme"); if(a)a.checked=!!state.uiPrefs.light;
+  const b=document.getElementById("v15CompactMode"); if(b)b.checked=!!state.uiPrefs.compact;
+}
+function v15SaveUIPrefs(){
+  state.uiPrefs.light=!!document.getElementById("v15LightTheme")?.checked;
+  state.uiPrefs.compact=!!document.getElementById("v15CompactMode")?.checked;
+  v15ApplyUIPrefs(); save();
+}
+function v15GoTo(page){
+  const btn=[...document.querySelectorAll("#nav button[data-page]")].find(b=>b.dataset.page===page);
+  if(btn) btn.click();
+}
+function v15ToggleQuick(){
+  document.getElementById("v15QuickMenu")?.classList.toggle("show");
+}
+function v15QuickWater(){
+  const amount=prompt("Quantos ml de água deseja registrar?","250");
+  if(!amount)return;
+  const n=parseInt(amount);
+  if(!Number.isFinite(n)||n<=0)return;
+  const k=dateKey();
+  state.water[k]=(state.water[k]||0)+n;
+  save();
+  v15ToggleQuick();
+}
+
+function v15ToggleButtonGroup(containerId,value){
+  const box=document.getElementById(containerId); if(!box)return;
+  const btn=[...box.querySelectorAll("[data-value]")].find(b=>b.dataset.value===value);
+  if(btn)btn.classList.toggle("active");
+}
+function v15Selected(containerId){
+  const box=document.getElementById(containerId); if(!box)return [];
+  return [...box.querySelectorAll("[data-value].active")].map(b=>b.dataset.value);
+}
+function v15BindChoices(){
+  ["v15GoalAreas","v15Availability"].forEach(id=>{
+    const box=document.getElementById(id); if(!box)return;
+    box.querySelectorAll("[data-value]").forEach(b=>b.onclick=()=>b.classList.toggle("active"));
+  });
+}
+
+function v15AddActivity(data={}){
+  const id=Date.now()+Math.random();
+  v15DraftActivities.push({
+    id,
+    name:data.name||"",
+    frequency:Number(data.frequency||2),
+    time:data.time||"18:30",
+    days:Array.isArray(data.days)?data.days:[],
+    duration:Number(data.duration||60)
+  });
+  v15RenderActivities();
+}
+function v15RemoveActivity(id){
+  v15DraftActivities=v15DraftActivities.filter(a=>String(a.id)!==String(id));
+  v15RenderActivities();
+}
+function v15RenderActivities(){
+  const box=document.getElementById("v15Activities"); if(!box)return;
+  const dayNames=["D","S","T","Q","Q","S","S"];
+  box.innerHTML=v15DraftActivities.map((a,i)=>`
+    <div class="v15-agenda-item">
+      <div class="v15-activity-row">
+        <input placeholder="Atividade, ex.: Jiu-jítsu" value="${escapeHtml(a.name)}" oninput="v15DraftActivities[${i}].name=this.value">
+        <input type="number" min="1" max="7" value="${a.frequency}" title="Vezes por semana" oninput="v15DraftActivities[${i}].frequency=Number(this.value||1)">
+        <input type="time" value="${a.time}" oninput="v15DraftActivities[${i}].time=this.value">
+        <button class="btn btn-danger" onclick="v15RemoveActivity('${a.id}')">Excluir</button>
+      </div>
+      <div style="display:grid;grid-template-columns:140px 1fr;gap:10px;align-items:center">
+        <input type="number" min="10" max="300" value="${a.duration}" title="Duração em minutos" oninput="v15DraftActivities[${i}].duration=Number(this.value||60)">
+        <div class="day-select">
+          ${dayNames.map((d,day)=>`<button type="button" class="day-chip ${a.days.includes(day)?"active":""}" onclick="v15ToggleActivityDay(${i},${day})">${d}</button>`).join("")}
+        </div>
+      </div>
+      <small class="quote">Campos: atividade • vezes/semana • horário • duração em minutos • dias</small>
+    </div>`).join("");
+}
+function v15ToggleActivityDay(i,day){
+  const a=v15DraftActivities[i]; if(!a)return;
+  a.days=a.days.includes(day)?a.days.filter(x=>x!==day):[...a.days,day].sort((x,y)=>x-y);
+  v15RenderActivities();
+}
+
+function v15WizardRender(){
+  document.querySelectorAll(".v15-step").forEach((e,i)=>e.classList.toggle("active",i===v15WizardStep));
+  document.querySelectorAll(".v15-stepdot").forEach((e,i)=>e.classList.toggle("active",i<=v15WizardStep));
+  const prev=document.getElementById("v15PrevBtn"), next=document.getElementById("v15NextBtn");
+  if(prev) prev.style.visibility=v15WizardStep===0?"hidden":"visible";
+  if(next) next.textContent=v15WizardStep===4?"Salvar e criar meu plano":"Continuar";
+}
+function v15WizardNext(){
+  if(v15WizardStep<4){v15WizardStep++;v15WizardRender();return;}
+  v15SaveQuestionnaire();
+}
+function v15WizardPrev(){
+  if(v15WizardStep>0){v15WizardStep--;v15WizardRender();}
+}
+function v15OpenWizard(edit=false){
+  v15EditingProfile=edit;
+  const p=state.profile||{};
+  const set=(id,val)=>{const e=document.getElementById(id);if(e)e.value=val??""};
+  set("setupName",p.name||"");
+  set("setupAge",p.age||"");
+  set("setupSex",p.sex||"");
+  set("setupHeight",p.height||"");
+  set("setupWeight",p.weight||state.weight?.at(-1)?.value||"");
+  set("setupWater",p.waterGoal||2500);
+  set("setupMainObjective",p.mainObjective||"");
+  set("setupWorkStart",p.workStart||"08:00");
+  set("setupWorkEnd",p.workEnd||"18:00");
+  set("setupSleep",p.sleepTime||"23:00");
+  set("setupWake",p.wakeTime||"06:30");
+  set("setupFoodsLike",p.foodsLike||"");
+  set("setupFoodsAvoid",p.foodsAvoid||"");
+  set("setupMealStyle",p.mealStyle||"Prático");
+  set("setupMealsCount",p.mealsCount||3);
+
+  document.querySelectorAll("#v15GoalAreas [data-value],#v15Availability [data-value]").forEach(b=>b.classList.remove("active"));
+  (p.goalAreas||[]).forEach(v=>document.querySelector(`#v15GoalAreas [data-value="${CSS.escape(v)}"]`)?.classList.add("active"));
+  (p.availability||[]).forEach(v=>document.querySelector(`#v15Availability [data-value="${CSS.escape(v)}"]`)?.classList.add("active"));
+
+  v15DraftActivities=(p.activities||[]).map(a=>({...a,id:Date.now()+Math.random()}));
+  if(!v15DraftActivities.length){
+    if((p.bjjPerWeek||0)>0) v15DraftActivities.push({id:Date.now()+1,name:"Jiu-jítsu",frequency:p.bjjPerWeek,time:p.bjjTime||"06:00",days:p.bjjDays||[],duration:p.bjjDuration||60});
+    if((p.runPerWeek||0)>0) v15DraftActivities.push({id:Date.now()+2,name:"Corrida/caminhada",frequency:p.runPerWeek,time:"19:00",days:p.runDays||[],duration:30});
+  }
+  if(!v15DraftActivities.length) v15AddActivity({name:"",frequency:2,time:"18:30",days:[],duration:60});
+  else v15RenderActivities();
+
+  v15WizardStep=0;v15WizardRender();
+  document.getElementById("setupOverlay")?.classList.remove("hidden");
+}
+function v15SaveQuestionnaire(){
+  const old=JSON.parse(JSON.stringify(state.profile||{}));
+  const p=state.profile||{};
+  p.configured=true;
+  p.profileSetupCompletedAt=p.profileSetupCompletedAt||new Date().toISOString();
+  p.name=document.getElementById("setupName")?.value.trim()||p.name||"Usuário";
+  p.age=Number(document.getElementById("setupAge")?.value)||null;
+  p.sex=document.getElementById("setupSex")?.value||"";
+  p.height=Number(document.getElementById("setupHeight")?.value)||null;
+  p.weight=Number(document.getElementById("setupWeight")?.value)||null;
+  p.waterGoal=Number(document.getElementById("setupWater")?.value)||2500;
+  p.goalAreas=v15Selected("v15GoalAreas");
+  p.mainObjective=document.getElementById("setupMainObjective")?.value.trim()||"";
+  p.activities=v15DraftActivities.filter(a=>a.name.trim()).map(a=>({...a,id:undefined}));
+  p.workStart=document.getElementById("setupWorkStart")?.value||"08:00";
+  p.workEnd=document.getElementById("setupWorkEnd")?.value||"18:00";
+  p.sleepTime=document.getElementById("setupSleep")?.value||"23:00";
+  p.wakeTime=document.getElementById("setupWake")?.value||"06:30";
+  p.availability=v15Selected("v15Availability");
+  p.foodsLike=document.getElementById("setupFoodsLike")?.value.trim()||"";
+  p.foodsAvoid=document.getElementById("setupFoodsAvoid")?.value.trim()||"";
+  p.mealStyle=document.getElementById("setupMealStyle")?.value||"Prático";
+  p.mealsCount=Number(document.getElementById("setupMealsCount")?.value)||3;
+
+  // Compatibilidade com módulos antigos
+  const bjj=p.activities.find(a=>/jiu|jitsu|jitsu|bjj/i.test(a.name));
+  const run=p.activities.find(a=>/corr|caminh/i.test(a.name));
+  p.bjjPerWeek=bjj?.frequency||0; p.bjjDays=bjj?.days||[]; p.bjjTime=bjj?.time||"06:00"; p.bjjDuration=bjj?.duration||60;
+  p.runPerWeek=run?.frequency||0; p.runDays=run?.days||[];
+
+  if(p.weight && (!state.weight?.length || Number(state.weight.at(-1).value)!==p.weight)){
+    state.weight.push({date:dateKey(),value:p.weight});
+  }
+
+  state.profile=p;
+  state.profileHistory.unshift({
+    date:new Date().toISOString(),
+    name:p.name,weight:p.weight,height:p.height,
+    goalAreas:[...p.goalAreas],activities:p.activities.map(a=>({name:a.name,frequency:a.frequency}))
+  });
+  state.profileHistory=state.profileHistory.slice(0,30);
+
+  v15GenerateGoalSuggestions(false);
+  v15RebuildPlan(false);
+  document.getElementById("setupOverlay")?.classList.add("hidden");
+  save();
+  setTimeout(()=>{if(typeof syncPushRemindersToCloud==="function")syncPushRemindersToCloud();},600);
+}
+
+function saveInitialSetup(){ v15SaveQuestionnaire(); }
+
+function v15GenerateGoalSuggestions(shouldSave=true){
+  const p=state.profile||{};
+  const suggestions=[];
+  (p.activities||[]).forEach(a=>{
+    suggestions.push({
+      id:"activity-"+a.name,
+      category:"Saúde",
+      title:`Completar ${a.frequency} ${a.frequency===1?"sessão":"sessões"} de ${a.name} nesta semana`,
+      reason:`Baseado na frequência que você informou para ${a.name}.`
+    });
+  });
+  if((p.goalAreas||[]).includes("Organização")){
+    suggestions.push({id:"org-week",category:"Organização",title:"Planejar os 7 dias da semana antes de começar a segunda-feira",reason:"Ajuda a transformar sua rotina em compromissos visíveis."});
+  }
+  if((p.goalAreas||[]).includes("Finanças")){
+    suggestions.push({id:"fin-reg",category:"Finanças",title:"Registrar receitas e gastos durante 7 dias",reason:"Uma primeira meta simples para entender para onde o dinheiro está indo."});
+  }
+  if((p.goalAreas||[]).includes("Estudos")){
+    suggestions.push({id:"study",category:"Estudos",title:"Separar 3 blocos curtos de estudo na semana",reason:"A meta começa pequena e pode crescer conforme sua consistência."});
+  }
+  if((p.goalAreas||[]).includes("Alimentação")){
+    suggestions.push({id:"food-plan",category:"Saúde",title:"Planejar as refeições principais de 5 dias da semana",reason:"Usa suas preferências alimentares para reduzir decisões de última hora."});
+  }
+  if(p.waterGoal){
+    suggestions.push({id:"water",category:"Saúde",title:`Acompanhar a hidratação e tentar cumprir sua meta em 5 dias`,reason:"Usa a meta de água definida no seu perfil, sem transformar um dia ruim em fracasso."});
+  }
+  if(p.sleepTime && p.wakeTime){
+    suggestions.push({id:"sleep",category:"Saúde",title:"Manter horários de sono mais regulares em 5 dias desta semana",reason:"Baseado nos horários de dormir e acordar informados."});
+  }
+  if((p.goalAreas||[]).includes("Pessoal")){
+    suggestions.push({id:"reflection",category:"Pessoal",title:"Fazer 3 check-ins de reflexão nesta semana",reason:"Ajuda o app a aprender como sua rotina está funcionando."});
+  }
+  state.goalSuggestions=suggestions;
+  if(shouldSave)save(); else v15RenderGoalSuggestions();
+}
+function v15AcceptSuggestion(id){
+  const s=state.goalSuggestions.find(x=>x.id===id); if(!s)return;
+  state.customGoals=state.customGoals||[];
+  if(!state.customGoals.some(g=>g.smartSource===id)){
+    const end=new Date();end.setDate(end.getDate()+7);
+    state.customGoals.push({
+      id:Date.now(),title:s.title,category:s.category||"Pessoal",priority:"Média",
+      start:dateKey(),deadline:end.toISOString().slice(0,10),description:s.reason||"",
+      status:"Ativa",steps:[],createdAt:new Date().toISOString(),smartSource:id
+    });
+  }
+  state.goalSuggestions=state.goalSuggestions.filter(x=>x.id!==id);
+  save();
+}
+function v15DismissSuggestion(id){
+  state.goalSuggestions=state.goalSuggestions.filter(x=>x.id!==id);save();
+}
+function v15RenderGoalSuggestions(){
+  const box=document.getElementById("v15GoalSuggestions");if(!box)return;
+  if(!state.goalSuggestions.length){
+    box.innerHTML='<div class="empty">Nenhuma sugestão pendente. Você pode gerar novas sugestões quando mudar sua rotina.</div>';return;
+  }
+  box.innerHTML=state.goalSuggestions.map(s=>`
+    <div class="v15-suggestion">
+      <div class="v15-suggestion-main"><strong>${escapeHtml(s.title)}</strong><div class="quote">${escapeHtml(s.reason||"")}</div><span class="badge">${escapeHtml(s.category||"Meta")}</span></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">
+        <button class="btn btn-primary" onclick="v15AcceptSuggestion('${String(s.id).replaceAll("'","\\'")}')">Adicionar</button>
+        <button class="btn btn-ghost" onclick="v15DismissSuggestion('${String(s.id).replaceAll("'","\\'")}')">Ignorar</button>
+      </div>
+    </div>`).join("");
+}
+
+function v15RebuildPlan(shouldSave=true){
+  const p=state.profile||{};
+  const today=new Date().getDay();
+  const acts=(p.activities||[]).filter(a=>(a.days||[]).includes(today));
+  state.smartPlan={
+    generatedAt:new Date().toISOString(),
+    todayActivities:acts,
+    mainObjective:p.mainObjective||"",
+    foodMessage:p.foodsLike?`Priorize opções que você já gosta: ${p.foodsLike}.`:"Cadastre suas preferências alimentares para receber sugestões mais úteis."
+  };
+  if(shouldSave)save(); else v15RenderToday();
+}
+
+function v15RenderToday(){
+  const agenda=document.getElementById("v15TodayAgenda");
+  if(!agenda)return;
+  const p=state.profile||{};
+  const today=new Date(), dow=today.getDay(), k=dateKey();
+  const activities=(p.activities||[]).filter(a=>(a.days||[]).includes(dow));
+  const reminders=(state.reminders||[]).filter(r=>r.enabled && (r.date===k || r.repeat==="daily" || (r.repeat==="weekly" && (r.weekdays||[]).includes(dow))));
+  let items=[];
+  activities.forEach(a=>items.push({time:a.time||"",icon:"🏃",title:a.name,sub:`${a.duration||60} min`}));
+  reminders.forEach(r=>items.push({time:r.time||"",icon:"🔔",title:r.title,sub:r.category||"Lembrete"}));
+  items.sort((a,b)=>(a.time||"99:99").localeCompare(b.time||"99:99"));
+  agenda.innerHTML=items.length?items.map(i=>`<div class="v15-agenda-item"><strong>${i.icon} ${escapeHtml(i.time||"Hoje")} • ${escapeHtml(i.title)}</strong><div class="quote">${escapeHtml(i.sub||"")}</div></div>`).join(""):'<div class="empty">Nenhum compromisso automático para hoje. Aproveite para planejar o dia.</div>';
+
+  const goals=document.getElementById("v15TodayGoals");
+  const active=(state.customGoals||[]).filter(g=>g.status==="Ativa").slice(0,4);
+  if(goals)goals.innerHTML=active.length?active.map(g=>`<div class="v15-agenda-item"><strong>🎯 ${escapeHtml(g.title)}</strong><div class="quote">Prazo: ${escapeHtml(g.deadline||"sem prazo")}</div></div>`).join(""):'<div class="empty">Nenhuma meta ativa.</div>';
+
+  const food=document.getElementById("v15FoodPlan");
+  if(food){
+    const likes=(p.foodsLike||"").split(",").map(x=>x.trim()).filter(Boolean).slice(0,6);
+    food.innerHTML=likes.length?`<strong>Use o que já funciona para você</strong><p>${likes.map(escapeHtml).join(" • ")}</p><small class="quote">O plano evita inventar uma dieta rígida. A ideia é organizar escolhas que você já considera possíveis.</small>`:`<span class="quote">Complete suas preferências no Perfil para o app montar sugestões de refeições mais personalizadas.</span>`;
+  }
+  v15LoadCheckin();
+  v15RenderTodayScore();
+}
+function v15RenderTodayScore(){
+  const k=dateKey();
+  let done=0,total=3;
+  if((state.water[k]||0)>=(state.profile.waterGoal||2500))done++;
+  if(state.dailyCheckins[k])done++;
+  if((state.trainings||[]).some(t=>(t.date||"").slice(0,10)===k))done++;
+  const pct=Math.round(done/total*100);
+  const el=document.getElementById("v15TodayScore");if(el)el.textContent=pct+"%";
+}
+
+function v15Scale(containerId,key){
+  const box=document.getElementById(containerId);if(!box)return;
+  box.innerHTML=[1,2,3,4,5].map(n=>`<button class="${v15CheckinDraft[key]===n?"active":""}" onclick="v15SetScale('${key}',${n})">${n}</button>`).join("");
+}
+function v15SetScale(key,n){
+  v15CheckinDraft[key]=n;
+  v15Scale(key==="energy"?"v15EnergyScale":key==="sleep"?"v15SleepScale":"v15MoodScale",key);
+}
+function v15LoadCheckin(){
+  const c=state.dailyCheckins[dateKey()]||{};
+  v15CheckinDraft={energy:c.energy||0,sleep:c.sleep||0,mood:c.mood||0};
+  v15Scale("v15EnergyScale","energy");v15Scale("v15SleepScale","sleep");v15Scale("v15MoodScale","mood");
+  const note=document.getElementById("v15CheckinNote");if(note)note.value=c.note||"";
+  const status=document.getElementById("v15CheckinStatus");if(status)status.textContent=c.savedAt?"Feito":"Não feito";
+}
+function v15SaveCheckin(){
+  state.dailyCheckins[dateKey()]={...v15CheckinDraft,note:document.getElementById("v15CheckinNote")?.value.trim()||"",savedAt:new Date().toISOString()};
+  save();
+}
+function v15RenderProfileIntelligence(){
+  const p=state.profile||{};
+  const sum=document.getElementById("v15ProfileSummary");
+  if(sum){
+    const acts=(p.activities||[]).map(a=>a.name).join(", ")||"Nenhuma";
+    sum.innerHTML=`
+      <div class="profile-box"><small>Objetivo</small><strong>${escapeHtml(p.mainObjective||"Definir")}</strong></div>
+      <div class="profile-box"><small>Atividades</small><strong>${escapeHtml(acts)}</strong></div>
+      <div class="profile-box"><small>Rotina</small><strong>${escapeHtml((p.workStart||"--")+"–"+(p.workEnd||"--"))}</strong></div>
+      <div class="profile-box"><small>Áreas</small><strong>${escapeHtml((p.goalAreas||[]).join(", ")||"Definir")}</strong></div>`;
+  }
+  const hist=document.getElementById("v15ProfileHistory");
+  if(hist){
+    hist.innerHTML=state.profileHistory.length?state.profileHistory.slice(0,6).map(h=>`<div class="v15-history-item"><strong>${new Date(h.date).toLocaleDateString("pt-BR")}</strong><div class="quote">${h.activities?.map(a=>`${escapeHtml(a.name)} ${a.frequency}x`).join(" • ")||"Perfil atualizado"}</div></div>`).join(""):'<div class="empty">O histórico começa quando você salvar o novo questionário.</div>';
+  }
+  v15ApplyUIPrefs();
+}
+function v15RenderAll(){
+  v15RenderGoalSuggestions();
+  v15RenderToday();
+  v15RenderProfileIntelligence();
+}
+
+v15BindChoices();
+if(!state.profile.profileSetupCompletedAt && !state.profile.configured){
+  setTimeout(()=>v15OpenWizard(false),300);
+}
+
+function renderAll(){renderHeader();renderChecklist();renderWater();renderMeals();renderNightPlan();renderWeight();renderTrainings();renderGoals();renderCalendar();renderFinance();renderAchievements();renderReminders();v15RenderAll();}
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active")); b.classList.add("active");
   document.querySelectorAll(".section").forEach(x=>x.classList.remove("active")); document.getElementById(b.dataset.page).classList.add("active");
@@ -3394,6 +3961,20 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
 }
 </script>
 
+
+
+<button class="v15-fab" id="v15Fab" onclick="v15ToggleQuick()" aria-label="Adicionar rápido">+</button>
+<div class="v15-quick" id="v15QuickMenu">
+  <div class="section-title"><strong>Adicionar rápido</strong><button class="btn btn-ghost" onclick="v15ToggleQuick()">Fechar</button></div>
+  <div class="v15-quick-grid">
+    <button onclick="v15QuickWater()">💧 Água</button>
+    <button onclick="v15GoTo('progresso');v15ToggleQuick()">⚖️ Peso</button>
+    <button onclick="v15GoTo('treinos');v15ToggleQuick()">🏃 Treino</button>
+    <button onclick="v15GoTo('financas');v15ToggleQuick()">💰 Gasto</button>
+    <button onclick="v15GoTo('diario');v15ToggleQuick()">📖 Diário</button>
+    <button onclick="v15GoTo('lembretes');v15ToggleQuick()">🔔 Lembrete</button>
+  </div>
+</div>
 
 <div class="inapp-toast" id="inappToast">
   <strong id="inappToastTitle">Lembrete</strong>

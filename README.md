@@ -164,3 +164,22 @@ O servidor precisa ser configurado separadamente usando o pacote:
 `Meu_Desenvolvimento_V14_Supabase_Backend_PRIVADO.zip`
 
 Nunca envie o conteúdo do pacote privado para o GitHub.
+
+## V15 — Perfil Inteligente
+
+Principais mudanças:
+- questionário inicial em 5 etapas
+- perfil com idade, sexo, altura, peso, objetivos, rotina, sono e alimentação
+- múltiplas atividades físicas com dias, horários, duração e frequência
+- sugestões de metas baseadas no questionário
+- usuário aceita ou ignora cada meta sugerida
+- tela Hoje com agenda automática
+- check-in diário de energia, sono e humor
+- histórico de evolução do perfil
+- botão Refazer meu plano
+- layout reorganizado por grupos
+- ações rápidas pelo botão +
+- tema claro e modo compacto
+- preserva Supabase, login, Web Push e demais módulos da V14
+
+Observação: as metas sugeridas são de organização e hábitos. O aplicativo não cria metas agressivas de peso ou alimentação restritiva.
