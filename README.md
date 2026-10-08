@@ -330,3 +330,18 @@ Correção:
 - removido o problema dos escapes `\'` em atributos inline
 - suporte a mouse, toque, Enter e espaço
 - recursos das Fases 1, 2 e 3 preservados
+
+## V19 FINAL — Estável
+
+Acabamento final:
+- hub Mais com acessos para Arquivo, Manutenção e Rotina Temporária
+- tour inicial da nova navegação
+- botão "Voltar para o hub" dentro dos módulos
+- painel de versão/estado do aplicativo
+- teste rápido de instalação
+- backup de segurança antes de futuras atualizações
+- revisão de integração das fases anteriores
+- manutenção do foco em iPhone/mobile
+- status V19 Estável
+
+A V19 Final foi pensada como versão de uso prolongado.
