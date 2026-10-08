@@ -607,7 +607,7 @@
 
 
 
-/* ===== V19 Fase 2 • Perfil inteligente + Hoje ===== */
+/* ===== V19 Fase 3 • Perfil inteligente + Hoje ===== */
 :root{
   --radius-v15:18px;
 }
@@ -676,7 +676,7 @@ body.v15-light .v15-checkin-scale button{background:#f7f9fc;color:#172033}
 }
 
 
-/* ===== V19 Fase 2 • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
+/* ===== V19 Fase 3 • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
 .v16-save-status{
   position:fixed;top:18px;right:18px;z-index:9999;
   min-width:190px;max-width:340px;
@@ -716,7 +716,7 @@ body.v15-light .v16-review-item,body.v15-light .v16-smart-goal{background:#f7f9f
 }
 
 
-/* ===== V19 Fase 2 • Evolução geral de UX ===== */
+/* ===== V19 Fase 3 • Evolução geral de UX ===== */
 :root{--sidebar-collapsed:78px}
 
 /* Sidebar realmente recolhida */
@@ -846,7 +846,7 @@ body.v15-light .v17-routine-item{background:#f7f9fc}
 }
 
 
-/* ===== V19 Fase 2 • Refino, Insights e Sincronização Inteligente ===== */
+/* ===== V19 Fase 3 • Refino, Insights e Sincronização Inteligente ===== */
 :root{
   --tap:46px;
 }
@@ -911,7 +911,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 #lembretes .goal-form > .btn{grid-column:1/-1!important;justify-self:end!important}
 
 
-/* ===== V19 Fase 2 • Navegação Inteligente ===== */
+/* ===== V19 Fase 3 • Navegação Inteligente ===== */
 .v19-hub-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .v19-hub-card{border:1px solid var(--line);border-radius:18px;padding:18px;background:var(--panel);cursor:pointer;transition:.18s ease}
 .v19-hub-card:hover{transform:translateY(-2px);border-color:var(--accent)}
@@ -932,7 +932,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 }
 
 
-/* V19 Fase 2.1 */
+/* V19 Fase 3.1 */
 .v19-hub-card{position:relative}
 .v19-hub-card::after{
   content:"›";
@@ -949,7 +949,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 }
 
 
-/* ===== V19 Fase 2 • Automação Pessoal ===== */
+/* ===== V19 Fase 3 • Automação Pessoal ===== */
 .v19-message-card{
   border:1px solid var(--line);
   border-radius:20px;
@@ -982,6 +982,23 @@ body.v15-light .v19-planb-item{background:#f7f9fc}
   .v19-message-card blockquote{font-size:18px}
   .v19-week-state{align-items:flex-start;flex-direction:column}
 }
+
+
+/* ===== V19 Fase 3 • Uso de Longo Prazo ===== */
+.v19-long-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.v19-long-card{border:1px solid var(--line);border-radius:16px;padding:14px;background:var(--panel)}
+.v19-long-card h3{margin:0 0 6px}
+.v19-status-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.v19-status-row:last-child{border-bottom:0}
+.v19-archive-item,.v19-abandon-item,.v19-error-item,.v19-template-item{
+  border:1px solid var(--line);border-radius:14px;padding:13px;background:#0e1629;margin-bottom:9px
+}
+body.v15-light .v19-archive-item,body.v15-light .v19-abandon-item,body.v15-light .v19-error-item,body.v15-light .v19-template-item{background:#f7f9fc}
+.v19-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.v19-online{color:#6ed6aa}.v19-offline{color:#ff9c7b}.v19-warning{color:#e0c66a}
+.v19-travel-banner{border:1px solid var(--line);border-radius:15px;padding:13px;background:linear-gradient(180deg,rgba(120,90,255,.1),rgba(14,22,41,.08))}
+.v19-maintenance-box{border:1px dashed var(--line);border-radius:14px;padding:14px}
+@media(max-width:800px){.v19-long-grid{grid-template-columns:1fr}}
 
 </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1822,7 +1839,7 @@ body.v15-light .v19-planb-item{background:#f7f9fc}
       <div class="card">
         <div class="section-title" style="margin-top:0">
           <div><div class="v15-kicker">Versão do aplicativo</div><h3>🆕 O que mudou</h3></div>
-          <span class="badge">V19 Fase 2</span>
+          <span class="badge">V19 Fase 3</span>
         </div>
         <div id="v18Updates"></div>
       </div>
@@ -1849,7 +1866,15 @@ body.v15-light .v19-planb-item{background:#f7f9fc}
         <div class="v19-hub-card" role="button" tabindex="0" onclick="v19OpenModule(\'insights\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();v19OpenModule(\'insights\')}"><div class="v19-hub-icon">💡</div><h3>Insights</h3><p>Observações geradas a partir dos registros.</p></div>
         <div class="v19-hub-card" role="button" tabindex="0" onclick="v19OpenModule(\'conquistas\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();v19OpenModule(\'conquistas\')}"><div class="v19-hub-icon">🏆</div><h3>Conquistas</h3><p>Marcos, pontos e consistência.</p></div>
       </div>
-    </section>
+    
+      <div class="card" style="margin-top:14px">
+        <div class="section-title" style="margin-top:0">
+          <div><div class="v19-section-kicker">Detecção de abandono</div><h3>🧭 Isso ainda faz sentido?</h3></div>
+          <span class="badge" id="v19AbandonCount">0</span>
+        </div>
+        <div id="v19AbandonList"></div>
+      </div>
+</section>
 
     <section class="section" id="vida">
       <div class="section-title"><div><div class="v19-section-kicker">Vida prática</div><h2>🧩 Vida</h2></div></div>
@@ -1883,6 +1908,101 @@ body.v15-light .v19-planb-item{background:#f7f9fc}
       </div>
       <div class="v19-mobile-only" style="margin-top:14px">
         <button class="btn btn-ghost" style="width:100%" onclick="v19OpenModule('historico-hub')">🕘 Abrir Histórico</button>
+      </div>
+    </section>
+
+
+    <section class="section" id="arquivo">
+      <div class="card">
+        <div class="section-title" style="margin-top:0">
+          <div><div class="v19-section-kicker">Arquivo</div><h2>🗄️ Itens arquivados</h2></div>
+          <span class="badge" id="v19ArchiveCount">0</span>
+        </div>
+        <p class="quote">Itens arquivados saem das telas principais, mas continuam disponíveis para consulta ou restauração.</p>
+        <div id="v19ArchiveList"></div>
+      </div>
+    </section>
+
+    <section class="section" id="manutencao">
+      <div class="card">
+        <div class="section-title" style="margin-top:0">
+          <div><div class="v19-section-kicker">Uso de longo prazo</div><h2>🛠️ Manutenção do Sistema</h2></div>
+          <span class="badge" id="v19ConnectionBadge">Verificando...</span>
+        </div>
+
+        <div class="v19-long-grid">
+          <div class="v19-long-card">
+            <h3>💾 Backup automático</h3>
+            <div class="v19-status-row"><span>Último backup</span><strong id="v19LastBackup">Nunca</strong></div>
+            <div class="v19-actions">
+              <button class="btn btn-primary" onclick="v19CreateAutoBackup(true)">Criar backup agora</button>
+              <button class="btn btn-ghost" onclick="v19RestoreLastBackup()">Restaurar último backup</button>
+            </div>
+          </div>
+
+          <div class="v19-long-card">
+            <h3>📡 Modo offline</h3>
+            <div class="v19-status-row"><span>Status</span><strong id="v19OfflineStatus">...</strong></div>
+            <div class="quote">Você pode continuar registrando dados sem internet. A sincronização fica pendente até a conexão voltar.</div>
+          </div>
+
+          <div class="v19-long-card">
+            <h3>🧹 Ferramentas</h3>
+            <div class="v19-actions">
+              <button class="btn btn-ghost" onclick="v19RecalculatePanels()">Recalcular painéis</button>
+              <button class="btn btn-ghost" onclick="v19RebuildSearch()">Reconstruir busca</button>
+              <button class="btn btn-ghost" onclick="v19ForceSync()">Sincronizar tudo</button>
+              <button class="btn btn-ghost" onclick="v19VerifyData()">Verificar dados</button>
+              <button class="btn btn-ghost" onclick="v19ResetLayout()">Redefinir layout</button>
+            </div>
+          </div>
+
+          <div class="v19-long-card">
+            <h3>🩺 Diagnóstico</h3>
+            <div class="v19-actions">
+              <button class="btn btn-primary" onclick="v19RunDiagnostic()">Executar diagnóstico</button>
+              <button class="btn btn-ghost" onclick="v19CopyDiagnostic()">Copiar diagnóstico</button>
+            </div>
+            <div id="v19DiagnosticSummary" class="quote" style="margin-top:10px"></div>
+          </div>
+        </div>
+
+        <div class="section-title"><h3>Erros recentes</h3></div>
+        <div id="v19ErrorLog"></div>
+
+        <div class="section-title"><h3>🧽 Revisão de manutenção mensal</h3></div>
+        <div class="v19-maintenance-box" id="v19MonthlyMaintenance"></div>
+      </div>
+    </section>
+
+    <section class="section" id="rotina-temporaria">
+      <div class="card">
+        <div class="section-title" style="margin-top:0">
+          <div><div class="v19-section-kicker">Modo viagem / rotina temporária</div><h2>✈️ Ajuste temporário da rotina</h2></div>
+        </div>
+        <div id="v19TravelActive"></div>
+        <div class="profile-grid">
+          <div><label>Nome da rotina temporária</label><input id="v19TravelName" placeholder="Ex.: Viagem, férias, semana corrida"></div>
+          <div><label>Início</label><input id="v19TravelStart" type="date"></div>
+          <div><label>Fim</label><input id="v19TravelEnd" type="date"></div>
+          <div><label>Comportamento</label>
+            <select id="v19TravelMode">
+              <option value="reduce">Reduzir metas recorrentes</option>
+              <option value="pause">Pausar metas recorrentes</option>
+              <option value="custom">Somente adaptar planejamento</option>
+            </select>
+          </div>
+        </div>
+        <div class="v19-actions">
+          <button class="btn btn-primary" onclick="v19ActivateTemporaryRoutine()">Ativar rotina temporária</button>
+          <button class="btn btn-ghost" onclick="v19DeactivateTemporaryRoutine()">Encerrar agora</button>
+        </div>
+
+        <div class="section-title"><h3>Modelos de semana</h3></div>
+        <div class="v19-actions">
+          <button class="btn btn-ghost" onclick="v19SaveWeekTemplate()">Salvar semana atual como modelo</button>
+        </div>
+        <div id="v19WeekTemplates"></div>
       </div>
     </section>
 
@@ -4053,8 +4173,8 @@ function renderCalendar(){
 }
 
 
-/* ===== V19 Fase 2 Inteligência de Perfil ===== */
-/* ===== V19 Fase 2 Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
+/* ===== V19 Fase 3 Inteligência de Perfil ===== */
+/* ===== V19 Fase 3 Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
 state.weeklyReviews = state.weeklyReviews && typeof state.weeklyReviews==="object" ? state.weeklyReviews : {};
 state.adaptiveGoalSuggestions = Array.isArray(state.adaptiveGoalSuggestions) ? state.adaptiveGoalSuggestions : [];
 
@@ -4810,7 +4930,7 @@ if(!state.profile.profileSetupCompletedAt && !state.profile.configured){
 }
 
 
-/* ===== V19 Fase 2 Evolução Geral ===== */
+/* ===== V19 Fase 3 Evolução Geral ===== */
 state.changeHistory = Array.isArray(state.changeHistory) ? state.changeHistory : [];
 
 function v17TrackChange(type,description,meta={}){
@@ -4992,7 +5112,7 @@ async function v17RunHealthCheck(){
   const checks=[];
   const add=(name,status,detail,cls)=>checks.push({name,status,detail,cls});
 
-  add("Versão","V19 Fase 2","Evolução Geral","v17-health-ok");
+  add("Versão","V19 Fase 3","Evolução Geral","v17-health-ok");
 
   try{
     localStorage.setItem("__v17_test","1");localStorage.removeItem("__v17_test");
@@ -5096,7 +5216,7 @@ v17PrepareSidebar();
 
 
 
-/* ===== V19 Fase 2 Refino, Insights e Sincronização Inteligente ===== */
+/* ===== V19 Fase 3 Refino, Insights e Sincronização Inteligente ===== */
 state.inbox = Array.isArray(state.inbox)?state.inbox:[];
 state.insights = Array.isArray(state.insights)?state.insights:[];
 state.syncMeta = state.syncMeta && typeof state.syncMeta==="object" ? state.syncMeta : {lastLocalChange:null,lastCloudSync:null};
@@ -5274,8 +5394,8 @@ function v18RenderMonthlyReview(){
 function v18RenderUpdates(){
   const box=document.getElementById("v18Updates");if(!box)return;
   const items=[
-    ["V19 Fase 2","Refino de layout, login melhorado, iPhone, sincronização inteligente, Insights, Revisão Mensal e Caixa de Entrada."],
-    ["V19 Fase 2","Pendências, histórico, busca global, modo foco e saúde do sistema."],
+    ["V19 Fase 3","Refino de layout, login melhorado, iPhone, sincronização inteligente, Insights, Revisão Mensal e Caixa de Entrada."],
+    ["V19 Fase 3","Pendências, histórico, busca global, modo foco e saúde do sistema."],
     ["V16","Revisão semanal, metas adaptativas e feedback visual ao salvar."],
     ["V15","Questionário inteligente, Modo Hoje e perfil evolutivo."]
   ];
@@ -5327,7 +5447,7 @@ if(!state.insights.length)setTimeout(()=>v18GenerateInsights(false),100);
 
 
 
-/* ===== V19 Fase 2 • Navegação Inteligente ===== */
+/* ===== V19 Fase 3 • Navegação Inteligente ===== */
 
 function v19OpenModule(page){
   // Fecha resultados/menus flutuantes que possam estar abertos.
@@ -5384,7 +5504,7 @@ function v19OpenModule(page){
     nuvem:"Nuvem",
     backup:"Dados & Backup",
     "saude-sistema":"Saúde do Sistema",
-    atualizacoes:"Atualizações",
+    atualizacoes:"Atualizações", arquivo:"Arquivo", manutencao:"Manutenção", "rotina-temporaria":"Rotina Temporária",
     inicio:"Início",
     rotina:"Rotina"
   };
@@ -5769,7 +5889,307 @@ function v19Phase2RenderAll(){
 }
 
 
-function renderAll(){renderHeader();renderChecklist();renderWater();renderMeals();renderNightPlan();renderWeight();renderTrainings();renderGoals();renderCalendar();renderFinance();renderAchievements();renderReminders();v15RenderAll();v16RenderAll();v17RenderAll();v18RenderAll();v19RenderAll();v19Phase2RenderAll();}
+
+/* ===== V19 Fase 3 • Uso de Longo Prazo ===== */
+state.archive = Array.isArray(state.archive)?state.archive:[];
+state.autoBackups = Array.isArray(state.autoBackups)?state.autoBackups:[];
+state.errorLog = Array.isArray(state.errorLog)?state.errorLog:[];
+state.weekTemplates = Array.isArray(state.weekTemplates)?state.weekTemplates:[];
+state.temporaryRoutine = state.temporaryRoutine && typeof state.temporaryRoutine==="object" ? state.temporaryRoutine : null;
+state.pendingSync = Array.isArray(state.pendingSync)?state.pendingSync:[];
+state.maintenanceMeta = state.maintenanceMeta && typeof state.maintenanceMeta==="object" ? state.maintenanceMeta : {};
+
+function v19LogError(area,error){
+  const msg=typeof error==="string"?error:(error?.message||String(error||"Erro desconhecido"));
+  state.errorLog.unshift({at:new Date().toISOString(),area,msg});
+  state.errorLog=state.errorLog.slice(0,50);
+  try{localStorage.setItem("saudeV1",JSON.stringify(state))}catch(e){}
+}
+
+function v19CreateAutoBackup(showFeedback=false){
+  try{
+    const snapshot=JSON.stringify(state);
+    const backup={id:Date.now(),at:new Date().toISOString(),data:snapshot,size:snapshot.length};
+    state.autoBackups.unshift(backup);
+    state.autoBackups=state.autoBackups.slice(0,5);
+    state.maintenanceMeta.lastBackup=backup.at;
+    localStorage.setItem("v19LastBackup",JSON.stringify(backup));
+    localStorage.setItem("saudeV1",JSON.stringify(state));
+    if(showFeedback && typeof v16FinishSave==="function")v16FinishSave(true,"Backup criado.");
+    v19RenderLongTerm();
+    return true;
+  }catch(e){
+    v19LogError("Backup",e);
+    if(showFeedback)alert("Não foi possível criar o backup.");
+    return false;
+  }
+}
+function v19MaybeAutoBackup(){
+  const last=state.maintenanceMeta?.lastBackup ? new Date(state.maintenanceMeta.lastBackup).getTime() : 0;
+  if(Date.now()-last>24*60*60*1000) v19CreateAutoBackup(false);
+}
+function v19RestoreLastBackup(){
+  try{
+    const raw=localStorage.getItem("v19LastBackup");
+    if(!raw){alert("Nenhum backup automático encontrado.");return}
+    const backup=JSON.parse(raw);
+    const restored=JSON.parse(backup.data);
+    if(!confirm("Restaurar o último backup? Os dados atuais serão substituídos."))return;
+    localStorage.setItem("saudeV1",JSON.stringify(restored));
+    location.reload();
+  }catch(e){v19LogError("Restauração",e);alert("Não foi possível restaurar o backup.");}
+}
+
+function v19ArchiveItem(type,id,title,payload){
+  state.archive.unshift({archiveId:Date.now()+Math.random(),type,id,title,payload,archivedAt:new Date().toISOString()});
+  state.archive=state.archive.slice(0,300);
+}
+function v19RestoreArchived(archiveId){
+  const a=state.archive.find(x=>String(x.archiveId)===String(archiveId));if(!a)return;
+  if(a.type==="goal"){state.customGoals=Array.isArray(state.customGoals)?state.customGoals:[];state.customGoals.push(a.payload);}
+  if(a.type==="reminder"){state.reminders=Array.isArray(state.reminders)?state.reminders:[];state.reminders.push(a.payload);}
+  if(a.type==="plan"){state.weeklyPlans=Array.isArray(state.weeklyPlans)?state.weeklyPlans:[];state.weeklyPlans.push(a.payload);}
+  state.archive=state.archive.filter(x=>String(x.archiveId)!==String(archiveId));
+  save();
+}
+function v19DeleteArchived(archiveId){
+  state.archive=state.archive.filter(x=>String(x.archiveId)!==String(archiveId));
+  save();
+}
+function v19RenderArchive(){
+  const box=document.getElementById("v19ArchiveList"),count=document.getElementById("v19ArchiveCount");if(!box)return;
+  const rows=state.archive||[];
+  if(count)count.textContent=String(rows.length);
+  box.innerHTML=rows.length?rows.map(a=>`
+    <div class="v19-archive-item">
+      <strong>${escapeHtml(a.title||"Item arquivado")}</strong>
+      <div class="quote">${escapeHtml(a.type)} • ${new Date(a.archivedAt).toLocaleString("pt-BR")}</div>
+      <div class="v19-actions">
+        <button class="btn btn-primary" onclick="v19RestoreArchived('${a.archiveId}')">Restaurar</button>
+        <button class="btn btn-ghost" onclick="v19DeleteArchived('${a.archiveId}')">Excluir definitivamente</button>
+      </div>
+    </div>`).join(""):'<div class="v17-empty">Nenhum item arquivado.</div>';
+}
+
+function v19AbandonedItems(){
+  const now=Date.now(),days=86400000,rows=[];
+  (state.customGoals||[]).filter(g=>g.status==="Ativa").forEach(g=>{
+    const ref=new Date(g.updatedAt||g.createdAt||g.start||Date.now()).getTime();
+    if(now-ref>21*days)rows.push({type:"goal",id:g.id,title:g.title,payload:g,age:Math.floor((now-ref)/days)});
+  });
+  (state.reminders||[]).filter(r=>r.enabled).forEach(r=>{
+    const ref=new Date(r.updatedAt||r.date||Date.now()).getTime();
+    if(now-ref>30*days && r.repeat!=="daily" && r.repeat!=="weekly")rows.push({type:"reminder",id:r.id,title:r.title,payload:r,age:Math.floor((now-ref)/days)});
+  });
+  return rows.slice(0,10);
+}
+function v19KeepAbandoned(type,id){
+  if(type==="goal"){const g=(state.customGoals||[]).find(x=>String(x.id)===String(id));if(g)g.updatedAt=new Date().toISOString();}
+  if(type==="reminder"){const r=(state.reminders||[]).find(x=>String(x.id)===String(id));if(r)r.updatedAt=new Date().toISOString();}
+  save();
+}
+function v19ArchiveAbandoned(type,id){
+  if(type==="goal"){
+    const idx=(state.customGoals||[]).findIndex(x=>String(x.id)===String(id));if(idx>=0){const [g]=state.customGoals.splice(idx,1);v19ArchiveItem("goal",g.id,g.title,g);}
+  }
+  if(type==="reminder"){
+    const idx=(state.reminders||[]).findIndex(x=>String(x.id)===String(id));if(idx>=0){const [r]=state.reminders.splice(idx,1);v19ArchiveItem("reminder",r.id,r.title,r);}
+  }
+  save();
+}
+function v19RenderAbandonment(){
+  const box=document.getElementById("v19AbandonList"),count=document.getElementById("v19AbandonCount");if(!box)return;
+  const rows=v19AbandonedItems();
+  if(count)count.textContent=String(rows.length);
+  box.innerHTML=rows.length?rows.map(x=>`
+    <div class="v19-abandon-item">
+      <strong>${escapeHtml(x.title||"Item")}</strong>
+      <div class="quote">Sem atualização há aproximadamente ${x.age} dias.</div>
+      <div class="v19-actions">
+        <button class="btn btn-primary" onclick="v19KeepAbandoned('${x.type}','${x.id}')">Manter</button>
+        <button class="btn btn-ghost" onclick="v19OpenModule('${x.type==="goal"?"metas":"lembretes"}')">Ajustar</button>
+        <button class="btn btn-ghost" onclick="v19ArchiveAbandoned('${x.type}','${x.id}')">Arquivar</button>
+      </div>
+    </div>`).join(""):'<div class="v17-empty">Nenhum item aparenta estar abandonado.</div>';
+}
+
+function v19OnlineStatus(){
+  return navigator.onLine;
+}
+function v19QueuePendingSync(){
+  const snapshot={id:Date.now(),at:new Date().toISOString()};
+  state.pendingSync.push(snapshot);
+  state.pendingSync=state.pendingSync.slice(-50);
+  try{localStorage.setItem("saudeV1",JSON.stringify(state))}catch(e){}
+}
+async function v19FlushPendingSync(){
+  if(!navigator.onLine || !state.pendingSync.length)return;
+  try{
+    if(typeof scheduleCloudSync==="function")scheduleCloudSync();
+    state.pendingSync=[];
+    localStorage.setItem("saudeV1",JSON.stringify(state));
+  }catch(e){v19LogError("Sincronização pendente",e);}
+}
+window.addEventListener("online",()=>{v19FlushPendingSync();v19RenderLongTerm();});
+window.addEventListener("offline",()=>{v19RenderLongTerm();});
+
+const v19Phase3OriginalSave = save;
+save = function(){
+  const ok=v19Phase3OriginalSave.apply(this,arguments);
+  if(!navigator.onLine)v19QueuePendingSync();
+  return ok;
+};
+
+function v19ActivateTemporaryRoutine(){
+  const name=document.getElementById("v19TravelName")?.value.trim()||"Rotina temporária";
+  const start=document.getElementById("v19TravelStart")?.value;
+  const end=document.getElementById("v19TravelEnd")?.value;
+  const mode=document.getElementById("v19TravelMode")?.value||"reduce";
+  if(!start||!end){alert("Informe início e fim.");return}
+  if(end<start){alert("A data final precisa ser igual ou posterior à inicial.");return}
+  state.temporaryRoutine={name,start,end,mode,createdAt:new Date().toISOString(),active:true};
+  save();
+}
+function v19DeactivateTemporaryRoutine(){
+  if(state.temporaryRoutine)state.temporaryRoutine.active=false;
+  save();
+}
+function v19CheckTemporaryRoutine(){
+  const t=state.temporaryRoutine;if(!t?.active)return;
+  const today=dateKey();
+  if(today>t.end){t.active=false;try{localStorage.setItem("saudeV1",JSON.stringify(state))}catch(e){}}
+}
+function v19RenderTemporaryRoutine(){
+  const box=document.getElementById("v19TravelActive");if(!box)return;
+  const t=state.temporaryRoutine;
+  if(t?.active){
+    box.innerHTML=`<div class="v19-travel-banner"><strong>✈️ ${escapeHtml(t.name)}</strong><div class="quote">${escapeHtml(t.start)} até ${escapeHtml(t.end)} • ${escapeHtml(t.mode)}</div></div>`;
+  }else box.innerHTML='<div class="v17-empty">Nenhuma rotina temporária ativa.</div>';
+}
+
+function v19SaveWeekTemplate(){
+  const name=prompt("Nome do modelo de semana:","Semana normal");if(!name)return;
+  const start=v16Monday(new Date()),keys=v16WeekKeys(start);
+  const plans=(state.weeklyPlans||[]).filter(x=>keys.includes(String(x.date||"").slice(0,10))).map(x=>({...x}));
+  state.weekTemplates.unshift({id:Date.now(),name,createdAt:new Date().toISOString(),plans});
+  state.weekTemplates=state.weekTemplates.slice(0,20);
+  save();
+}
+function v19ApplyWeekTemplate(id){
+  const t=state.weekTemplates.find(x=>String(x.id)===String(id));if(!t)return;
+  const start=v16Monday(new Date());
+  t.plans.forEach((p,i)=>{
+    const originalDay=new Date((p.date||dateKey())+"T12:00:00").getDay();
+    const offset=originalDay===0?6:originalDay-1;
+    state.weeklyPlans.push({...p,id:Date.now()+Math.random(),date:v16DateKey(v16AddDays(start,offset)),done:false});
+  });
+  save();
+}
+function v19DeleteWeekTemplate(id){
+  state.weekTemplates=state.weekTemplates.filter(x=>String(x.id)!==String(id));save();
+}
+function v19RenderWeekTemplates(){
+  const box=document.getElementById("v19WeekTemplates");if(!box)return;
+  box.innerHTML=state.weekTemplates.length?state.weekTemplates.map(t=>`
+    <div class="v19-template-item">
+      <strong>${escapeHtml(t.name)}</strong>
+      <div class="quote">${t.plans.length} item(ns)</div>
+      <div class="v19-actions">
+        <button class="btn btn-primary" onclick="v19ApplyWeekTemplate('${t.id}')">Aplicar</button>
+        <button class="btn btn-ghost" onclick="v19DeleteWeekTemplate('${t.id}')">Excluir</button>
+      </div>
+    </div>`).join(""):'<div class="v17-empty">Nenhum modelo salvo.</div>';
+}
+
+function v19RecalculatePanels(){try{renderAll();if(typeof v16FinishSave==="function")v16FinishSave(true,"Painéis recalculados.");}catch(e){v19LogError("Painéis",e)}}
+function v19RebuildSearch(){try{if(typeof v17Search==="function")v17Search("");if(typeof v16FinishSave==="function")v16FinishSave(true,"Busca reconstruída.");}catch(e){v19LogError("Busca",e)}}
+function v19ForceSync(){try{if(typeof scheduleCloudSync==="function")scheduleCloudSync();if(typeof v16FinishSave==="function")v16FinishSave(true,"Sincronização solicitada.");}catch(e){v19LogError("Sincronização",e)}}
+function v19VerifyData(){
+  const issues=[];
+  if(!state.profile||typeof state.profile!=="object")issues.push("Perfil ausente");
+  if(!Array.isArray(state.customGoals))issues.push("Metas inválidas");
+  if(!Array.isArray(state.reminders))issues.push("Lembretes inválidos");
+  if(!Array.isArray(state.weeklyPlans))issues.push("Planejamento inválido");
+  state.maintenanceMeta.lastVerify={at:new Date().toISOString(),issues};
+  save();
+  alert(issues.length?`Foram encontrados ${issues.length} problema(s).`:"Dados principais parecem consistentes.");
+}
+function v19ResetLayout(){
+  state.uiPrefs={light:false,compact:false};
+  try{localStorage.removeItem("sidebarCollapsed")}catch(e){}
+  save();
+}
+function v19RunDiagnostic(){
+  const result={
+    at:new Date().toISOString(),
+    online:navigator.onLine,
+    storage:true,
+    serviceWorker:"serviceWorker" in navigator,
+    notifications:("Notification" in window)?Notification.permission:"unsupported",
+    pendingSync:state.pendingSync.length,
+    errors:state.errorLog.length,
+    version:"V19 Fase 3"
+  };
+  state.maintenanceMeta.lastDiagnostic=result;
+  try{localStorage.setItem("saudeV1",JSON.stringify(state))}catch(e){}
+  v19RenderLongTerm();
+}
+function v19CopyDiagnostic(){
+  const d=state.maintenanceMeta?.lastDiagnostic||{message:"Nenhum diagnóstico executado."};
+  const text=JSON.stringify(d,null,2);
+  if(navigator.clipboard?.writeText){navigator.clipboard.writeText(text).then(()=>alert("Diagnóstico copiado.")).catch(()=>prompt("Copie o diagnóstico:",text))}
+  else prompt("Copie o diagnóstico:",text);
+}
+
+function v19MonthlyMaintenanceItems(){
+  const items=[];
+  if(v19AbandonedItems().length)items.push(`${v19AbandonedItems().length} item(ns) aparentam abandono`);
+  if((state.archive||[]).length>50)items.push("Arquivo está grande e pode ser revisado");
+  if((state.errorLog||[]).length>=5)items.push("Há vários erros recentes para revisar");
+  if((state.pendingSync||[]).length)items.push("Existem sincronizações pendentes");
+  if(!items.length)items.push("Nenhuma manutenção importante necessária agora");
+  return items;
+}
+
+function v19RenderLongTerm(){
+  v19CheckTemporaryRoutine();
+
+  const online=navigator.onLine;
+  const badge=document.getElementById("v19ConnectionBadge");
+  const offline=document.getElementById("v19OfflineStatus");
+  if(badge){badge.textContent=online?"Online":"Offline";badge.className="badge "+(online?"v19-online":"v19-offline")}
+  if(offline)offline.textContent=online?(state.pendingSync.length?`Online • ${state.pendingSync.length} pendente(s)`:"Online e sincronizável"):"Offline • registros serão mantidos localmente";
+
+  const last=document.getElementById("v19LastBackup");
+  if(last)last.textContent=state.maintenanceMeta?.lastBackup?new Date(state.maintenanceMeta.lastBackup).toLocaleString("pt-BR"):"Nunca";
+
+  const diag=document.getElementById("v19DiagnosticSummary");
+  if(diag){
+    const d=state.maintenanceMeta?.lastDiagnostic;
+    diag.textContent=d?`Último diagnóstico: ${new Date(d.at).toLocaleString("pt-BR")} • ${d.errors} erro(s) registrados • ${d.pendingSync} sincronização(ões) pendentes`:"Nenhum diagnóstico executado nesta versão.";
+  }
+
+  const err=document.getElementById("v19ErrorLog");
+  if(err)err.innerHTML=state.errorLog.length?state.errorLog.slice(0,10).map(e=>`<div class="v19-error-item"><strong>${escapeHtml(e.area)}</strong><div class="quote">${new Date(e.at).toLocaleString("pt-BR")} • ${escapeHtml(e.msg)}</div></div>`).join(""):'<div class="v17-empty">Nenhum erro registrado.</div>';
+
+  const maint=document.getElementById("v19MonthlyMaintenance");
+  if(maint)maint.innerHTML=v19MonthlyMaintenanceItems().map(x=>`<div class="v19-status-row"><span>${escapeHtml(x)}</span><span>•</span></div>`).join("");
+
+  v19RenderArchive();
+  v19RenderAbandonment();
+  v19RenderTemporaryRoutine();
+  v19RenderWeekTemplates();
+}
+
+v19MaybeAutoBackup();
+v19FlushPendingSync();
+
+function v19Phase3RenderAll(){
+  v19RenderLongTerm();
+}
+
+
+function renderAll(){renderHeader();renderChecklist();renderWater();renderMeals();renderNightPlan();renderWeight();renderTrainings();renderGoals();renderCalendar();renderFinance();renderAchievements();renderReminders();v15RenderAll();v16RenderAll();v17RenderAll();v18RenderAll();v19RenderAll();v19Phase2RenderAll();v19Phase3RenderAll();}
 v17PrepareSidebar();
 document.querySelectorAll("#nav button[data-page]").forEach(b=>{
   b.onclick=()=>v19OpenModule(b.dataset.page);

@@ -303,3 +303,21 @@ Inclui:
 - reorganização sugerida para próximo dia disponível
 
 A Fase 2 usa os dados já existentes no aplicativo, sem criar novas abas desnecessárias.
+
+## V19 Fase 3 — Uso de Longo Prazo
+
+Inclui:
+- backup automático local diário
+- restaurar último backup
+- modo offline com fila de sincronização pendente
+- arquivo de itens
+- detecção de abandono
+- modo viagem / rotina temporária
+- modelos de semana
+- central de erros e diagnóstico
+- copiar diagnóstico
+- ferramentas de manutenção
+- revisão mensal de manutenção
+- verificação básica de consistência dos dados
+
+Esta fase foi pensada para permitir uso prolongado sem depender de atualizações frequentes.
