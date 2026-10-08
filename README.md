@@ -215,3 +215,29 @@ Observação: as metas sugeridas são de organização e hábitos. O aplicativo 
 - recomenda manter, simplificar ou reorganizar metas
 - o usuário sempre escolhe se quer adicionar ou ignorar
 - não cria automaticamente metas agressivas de peso ou alimentação
+
+
+## V17 — Evolução Geral
+
+### Correções
+- corrige definitivamente o JavaScript da Revisão Semanal/Metas Adaptativas que estava inserido no bloco de CSS da V16
+- sidebar recolhida passa a mostrar apenas ícones, sem textos cortados ou scrollbar
+- Perfil & Rotina simplificado, removendo o formulário legado duplicado
+- Lembretes e Nova Meta usam um padrão único de formulário responsivo
+
+### Novos recursos
+- Central de Pendências
+- Histórico de Alterações
+- Busca Global
+- Modo Foco
+- Central de Saúde do Sistema
+
+### Mantido
+- questionário inteligente
+- Modo Hoje
+- check-in
+- metas inteligentes/adaptativas
+- revisão semanal
+- Web Push / notificações
+- Supabase
+- salvamento visual

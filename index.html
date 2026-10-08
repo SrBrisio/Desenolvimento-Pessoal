@@ -606,311 +606,8 @@
 
 
 
-/* ===== V16 Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
-state.weeklyReviews = state.weeklyReviews && typeof state.weeklyReviews==="object" ? state.weeklyReviews : {};
-state.adaptiveGoalSuggestions = Array.isArray(state.adaptiveGoalSuggestions) ? state.adaptiveGoalSuggestions : [];
 
-let v16SaveTimer=null;
-let v16SaveFallback=null;
-
-function v16ShowSaveStatus(mode="loading", detail="Aguarde um instante."){
-  const box=document.getElementById("v16SaveStatus");
-  const title=document.getElementById("v16SaveTitle");
-  const desc=document.getElementById("v16SaveDetail");
-  if(!box)return;
-  box.className="v16-save-status show"+(mode==="success"?" success":mode==="error"?" error":"");
-  if(title)title.textContent=mode==="loading"?"Salvando...":mode==="success"?"Salvo com sucesso":"Não foi possível salvar";
-  if(desc)desc.textContent=detail;
-  clearTimeout(v16SaveTimer);
-  if(mode!=="loading"){
-    v16SaveTimer=setTimeout(()=>box.classList.remove("show"),1800);
-  }
-}
-function v16BeginSave(){
-  clearTimeout(v16SaveFallback);
-  v16ShowSaveStatus("loading","Salvando suas alterações.");
-  v16SaveFallback=setTimeout(()=>{
-    const box=document.getElementById("v16SaveStatus");
-    if(box?.classList.contains("show") && !box.classList.contains("success") && !box.classList.contains("error")){
-      v16ShowSaveStatus("error","O salvamento demorou mais que o esperado. Tente novamente.");
-    }
-  },7000);
-}
-function v16FinishSave(ok=true,msg=""){
-  clearTimeout(v16SaveFallback);
-  v16ShowSaveStatus(ok?"success":"error",msg||(ok?"Alterações registradas.":"Tente novamente."));
-}
-document.addEventListener("click",e=>{
-  const b=e.target.closest("button");
-  if(!b)return;
-  const t=(b.textContent||"").trim().toLowerCase();
-  if(t.includes("salvar") || t.includes("gravar alterações")){
-    v16BeginSave();
-  }
-},true);
-
-function v16Monday(d=new Date()){
-  const x=new Date(d);x.setHours(12,0,0,0);
-  const day=x.getDay();x.setDate(x.getDate()-(day===0?6:day-1));
-  return x;
-}
-function v16DateKey(d){return new Date(d).toISOString().slice(0,10)}
-function v16AddDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
-function v16WeekKeys(start){
-  return Array.from({length:7},(_,i)=>v16DateKey(v16AddDays(start,i)));
-}
-function v16WeekId(start){return v16DateKey(start)}
-function v16Pct(n,d){return d?Math.round((n/d)*100):0}
-
-function v16AnalyzeWeek(startDate){
-  const start=v16Monday(startDate||new Date());
-  const keys=v16WeekKeys(start);
-  const p=state.profile||{};
-  const trainings=(state.trainings||[]).filter(t=>keys.includes(String(t.date||"").slice(0,10)));
-  const waterGoal=Number(p.waterGoal||2500);
-  const waterDays=keys.filter(k=>Number(state.water?.[k]||0)>=waterGoal).length;
-  const checkins=keys.filter(k=>state.dailyCheckins?.[k]).map(k=>state.dailyCheckins[k]);
-  const plans=(state.weeklyPlans||[]).filter(x=>keys.includes(String(x.date||"").slice(0,10)));
-  const plansDone=plans.filter(x=>x.done).length;
-  const events=(state.events||[]).filter(x=>keys.includes(String(x.date||"").slice(0,10)));
-  const eventsDone=events.filter(x=>x.done).length;
-  const diary=(state.diaryEntries||[]).filter(x=>keys.includes(String(x.date||"").slice(0,10)));
-  const tx=(state.finance?.transactions||[]).filter(x=>keys.includes(String(x.date||"").slice(0,10)));
-
-  const expectedActivities=(p.activities||[]).reduce((s,a)=>s+Number(a.frequency||0),0);
-  const activityScore=expectedActivities?Math.min(100,v16Pct(trainings.length,expectedActivities)):70;
-  const waterScore=v16Pct(waterDays,7);
-  const planningScore=plans.length?v16Pct(plansDone,plans.length):70;
-  const checkinScore=v16Pct(checkins.length,7);
-  const score=Math.round(activityScore*.35+waterScore*.25+planningScore*.25+checkinScore*.15);
-
-  const avg=(arr,key)=>{
-    const vals=arr.map(x=>Number(x?.[key]||0)).filter(Boolean);
-    return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;
-  };
-
-  return {
-    start,keys,score,trainings,waterDays,checkins,plans,plansDone,events,eventsDone,diary,tx,
-    expectedActivities,activityScore,waterScore,planningScore,checkinScore,
-    avgEnergy:avg(checkins,"energy"),avgSleep:avg(checkins,"sleep"),avgMood:avg(checkins,"mood")
-  };
-}
-
-function v16BuildWeeklyReview(startDate){
-  const a=v16AnalyzeWeek(startDate);
-  const strengths=[], adjustments=[];
-
-  if(a.expectedActivities && a.trainings.length>=a.expectedActivities){
-    strengths.push("Você atingiu a frequência de atividades físicas definida no perfil.");
-  }else if(a.expectedActivities){
-    adjustments.push(`Você registrou ${a.trainings.length} de ${a.expectedActivities} atividades previstas. Vale manter a meta ou reorganizar os dias.`);
-  }
-
-  if(a.waterDays>=5) strengths.push(`Sua meta de hidratação foi alcançada em ${a.waterDays} dias.`);
-  else adjustments.push(`A hidratação atingiu a meta em ${a.waterDays} de 7 dias. Um lembrete em um horário difícil pode ajudar.`);
-
-  if(a.plans.length && a.planningScore>=75) strengths.push(`Você concluiu ${a.planningScore}% do que colocou no planejamento.`);
-  else if(a.plans.length) adjustments.push(`Seu planejamento ficou em ${a.planningScore}% concluído. Considere planejar menos itens por dia.`);
-
-  if(a.checkins.length>=4) strengths.push(`Você fez ${a.checkins.length} check-ins. Isso melhora bastante a leitura da sua rotina.`);
-  else adjustments.push("Faça alguns check-ins durante a semana para o app entender melhor energia, sono e humor.");
-
-  if(a.avgEnergy && a.avgEnergy<3) adjustments.push("Sua energia média registrada ficou baixa. Priorize uma semana mais sustentável em vez de aumentar metas.");
-  if(a.avgSleep && a.avgSleep>=4) strengths.push("Seus check-ins indicaram uma percepção boa de sono nesta semana.");
-
-  if(!strengths.length) strengths.push("Você já tem dados suficientes para começar a ajustar a próxima semana sem aumentar a pressão.");
-  if(!adjustments.length) adjustments.push("Mantenha as metas atuais por mais uma semana antes de aumentar qualquer frequência.");
-
-  let headline="Semana em construção";
-  if(a.score>=85) headline="Semana muito consistente";
-  else if(a.score>=70) headline="Boa semana, com pequenos ajustes";
-  else if(a.score>=50) headline="Há uma base boa para organizar";
-  else headline="Vale simplificar a próxima semana";
-
-  const summary=`Foram ${a.trainings.length} atividades registradas, ${a.waterDays} dias com a meta de água e ${a.checkins.length} check-ins. O objetivo da revisão é ajustar a rotina, não punir dias que saíram do plano.`;
-
-  return {
-    id:v16WeekId(a.start),
-    generatedAt:new Date().toISOString(),
-    score:a.score,headline,summary,strengths,adjustments,
-    metrics:{
-      trainings:a.trainings.length,
-      expectedActivities:a.expectedActivities,
-      waterDays:a.waterDays,
-      planningScore:a.planningScore,
-      checkins:a.checkins.length
-    }
-  };
-}
-
-function v16GenerateWeeklyReview(persist=true){
-  const start=typeof smartWeekStart!=="undefined"?smartWeekStart:v16Monday(new Date());
-  const review=v16BuildWeeklyReview(start);
-  state.weeklyReviews[review.id]=review;
-  if(persist)save();
-  else v16RenderWeeklyReview();
-}
-function v16RenderWeeklyReview(){
-  const start=typeof smartWeekStart!=="undefined"?v16Monday(smartWeekStart):v16Monday(new Date());
-  const id=v16WeekId(start);
-  const r=state.weeklyReviews[id]||v16BuildWeeklyReview(start);
-  const set=(id,val)=>{const e=document.getElementById(id);if(e)e.textContent=val};
-  set("v16ReviewScore",r.score+"%");
-  set("v16ReviewHeadline",r.headline);
-  set("v16ReviewSummary",r.summary);
-
-  const s=document.getElementById("v16ReviewStrengths");
-  const a=document.getElementById("v16ReviewAdjustments");
-  if(s)s.innerHTML=r.strengths.map(x=>`<div class="v16-review-item">✅ ${escapeHtml(x)}</div>`).join("");
-  if(a)a.innerHTML=r.adjustments.map(x=>`<div class="v16-review-item">💡 ${escapeHtml(x)}</div>`).join("");
-}
-function v16SendReviewToGoals(){
-  const start=typeof smartWeekStart!=="undefined"?v16Monday(smartWeekStart):v16Monday(new Date());
-  const r=state.weeklyReviews[v16WeekId(start)]||v16BuildWeeklyReview(start);
-  const created=[];
-  r.adjustments.slice(0,3).forEach((txt,i)=>{
-    let title=txt;
-    if(/hidrata/i.test(txt)) title="Acompanhar minha hidratação em pelo menos 5 dias desta semana";
-    else if(/check-in/i.test(txt)) title="Fazer pelo menos 4 check-ins nesta semana";
-    else if(/planejamento/i.test(txt)) title="Planejar uma semana com menos tarefas e prioridades mais claras";
-    else if(/atividades|registrou/i.test(txt)) title="Organizar meus dias de atividade física para esta semana";
-    created.push({
-      id:"review-"+r.id+"-"+i,
-      category:"Organização",
-      title,
-      reason:"Sugestão gerada pela sua Revisão Semanal."
-    });
-  });
-  state.adaptiveGoalSuggestions=[
-    ...created,
-    ...(state.adaptiveGoalSuggestions||[]).filter(x=>!String(x.id).startsWith("review-"+r.id))
-  ];
-  save();
-  v15GoTo("metas");
-}
-
-function v16RecentKeys(days=14){
-  const arr=[];const now=new Date();
-  for(let i=days-1;i>=0;i--)arr.push(v16DateKey(v16AddDays(now,-i)));
-  return arr;
-}
-function v16GenerateAdaptiveGoals(persist=true){
-  const p=state.profile||{};
-  const keys=v16RecentKeys(14);
-  const trainings=(state.trainings||[]).filter(t=>keys.includes(String(t.date||"").slice(0,10)));
-  const checkins=keys.filter(k=>state.dailyCheckins?.[k]);
-  const waterDays=keys.filter(k=>Number(state.water?.[k]||0)>=Number(p.waterGoal||2500)).length;
-  const suggestions=[];
-
-  (p.activities||[]).forEach(a=>{
-    const name=String(a.name||"");
-    const actual=trainings.filter(t=>{
-      const typ=String(t.type||"").toLowerCase();
-      const nm=name.toLowerCase();
-      if(/jiu|jitsu|bjj/.test(nm)) return /jiu|jitsu|bjj/.test(typ);
-      if(/corr|caminh/.test(nm)) return /corr|caminh/.test(typ);
-      return typ.includes(nm) || nm.includes(typ);
-    }).length;
-    const expected=Math.max(1,Number(a.frequency||1)*2);
-    const ratio=actual/expected;
-
-    if(ratio<0.55){
-      suggestions.push({
-        id:"adapt-"+name+"-steady",category:"Saúde",
-        title:`Organizar ${Math.max(1,Number(a.frequency||1)-1)} sessão(ões) de ${name} nesta semana`,
-        reason:`Nas últimas duas semanas foram ${actual} registros para uma referência de ${expected}. A sugestão reduz um pouco a carga para recuperar consistência.`,
-        confidence:"Alta"
-      });
-    }else if(ratio>=0.9){
-      suggestions.push({
-        id:"adapt-"+name+"-keep",category:"Saúde",
-        title:`Manter ${Number(a.frequency||1)} sessão(ões) de ${name} nesta semana`,
-        reason:"Sua frequência recente está próxima do que você definiu. O melhor próximo passo é consolidar, não aumentar automaticamente.",
-        confidence:"Alta"
-      });
-    }else{
-      suggestions.push({
-        id:"adapt-"+name+"-organize",category:"Saúde",
-        title:`Manter ${Number(a.frequency||1)} sessão(ões) de ${name}, reorganizando os dias se necessário`,
-        reason:"Você está perto da frequência escolhida. Um ajuste de agenda pode ser mais útil que mudar a meta.",
-        confidence:"Média"
-      });
-    }
-  });
-
-  if(waterDays<7){
-    suggestions.push({
-      id:"adapt-water",category:"Saúde",
-      title:"Acompanhar a hidratação em pelo menos 5 dias desta semana",
-      reason:`Nas últimas duas semanas, a meta diária foi atingida em ${waterDays} de 14 dias. A proposta é buscar regularidade sem transformar todos os dias em obrigação.`,
-      confidence:"Média"
-    });
-  }
-
-  if(checkins.length<6){
-    suggestions.push({
-      id:"adapt-checkin",category:"Pessoal",
-      title:"Fazer 4 check-ins rápidos nesta semana",
-      reason:`Foram ${checkins.length} check-ins nos últimos 14 dias. Mais registros ajudam o app a entender melhor sua rotina.`,
-      confidence:"Alta"
-    });
-  }
-
-  if((p.goalAreas||[]).includes("Finanças")){
-    const tx=(state.finance?.transactions||[]).filter(t=>keys.includes(String(t.date||"").slice(0,10)));
-    if(tx.length<5)suggestions.push({
-      id:"adapt-finance",category:"Finanças",
-      title:"Registrar meus gastos ao longo de 7 dias",
-      reason:"Há poucos registros financeiros recentes. Primeiro precisamos enxergar o padrão antes de criar metas maiores.",
-      confidence:"Média"
-    });
-  }
-
-  state.adaptiveGoalSuggestions=suggestions.slice(0,8);
-  if(persist)save(); else v16RenderAdaptiveGoals();
-}
-function v16AcceptAdaptiveGoal(id){
-  const s=(state.adaptiveGoalSuggestions||[]).find(x=>x.id===id);if(!s)return;
-  const end=new Date();end.setDate(end.getDate()+7);
-  state.customGoals=Array.isArray(state.customGoals)?state.customGoals:[];
-  if(!state.customGoals.some(g=>g.smartSource===id)){
-    state.customGoals.push({
-      id:Date.now(),title:s.title,category:s.category||"Pessoal",priority:"Média",
-      start:dateKey(),deadline:end.toISOString().slice(0,10),description:s.reason||"",
-      status:"Ativa",steps:[],createdAt:new Date().toISOString(),smartSource:id
-    });
-  }
-  state.adaptiveGoalSuggestions=state.adaptiveGoalSuggestions.filter(x=>x.id!==id);
-  save();
-}
-function v16DismissAdaptiveGoal(id){
-  state.adaptiveGoalSuggestions=state.adaptiveGoalSuggestions.filter(x=>x.id!==id);save();
-}
-function v16RenderAdaptiveGoals(){
-  const box=document.getElementById("v16AdaptiveGoals");if(!box)return;
-  if(!state.adaptiveGoalSuggestions.length){
-    box.innerHTML='<div class="empty">Clique em “Analisar novamente” para gerar sugestões com base nos seus registros recentes.</div>';
-    return;
-  }
-  box.innerHTML=state.adaptiveGoalSuggestions.map(s=>`
-    <div class="v16-smart-goal">
-      <div class="v16-smart-goal-head">
-        <div><strong>${escapeHtml(s.title)}</strong><div class="quote">${escapeHtml(s.reason||"")}</div></div>
-        <span class="badge">${escapeHtml(s.category||"Meta")}</span>
-      </div>
-      <div class="v16-confidence">Confiança da sugestão: ${escapeHtml(s.confidence||"Média")}</div>
-      <div class="v16-smart-goal-actions">
-        <button class="btn btn-primary" onclick="v16AcceptAdaptiveGoal('${String(s.id).replaceAll("'","\\'")}')">Adicionar meta</button>
-        <button class="btn btn-ghost" onclick="v16DismissAdaptiveGoal('${String(s.id).replaceAll("'","\\'")}')">Ignorar</button>
-      </div>
-    </div>`).join("");
-}
-function v16RenderAll(){
-  v16RenderWeeklyReview();
-  v16RenderAdaptiveGoals();
-}
-
-/* ===== V16 • Perfil inteligente + Hoje ===== */
+/* ===== V17 • Perfil inteligente + Hoje ===== */
 :root{
   --radius-v15:18px;
 }
@@ -979,7 +676,7 @@ body.v15-light .v15-checkin-scale button{background:#f7f9fc;color:#172033}
 }
 
 
-/* ===== V16 • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
+/* ===== V17 • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
 .v16-save-status{
   position:fixed;top:18px;right:18px;z-index:9999;
   min-width:190px;max-width:340px;
@@ -1016,6 +713,136 @@ body.v15-light .v16-review-item,body.v15-light .v16-smart-goal{background:#f7f9f
 @media(max-width:800px){
   .v16-review-grid{grid-template-columns:1fr}
   .v16-save-status{left:14px;right:14px;top:14px;max-width:none}
+}
+
+
+/* ===== V17 • Evolução geral de UX ===== */
+:root{--sidebar-collapsed:78px}
+
+/* Sidebar realmente recolhida */
+@media(min-width:901px){
+  .app.sidebar-collapsed{grid-template-columns:78px minmax(0,1fr)!important}
+  .app.sidebar-collapsed aside{padding:16px 10px!important;overflow:hidden!important}
+  .app.sidebar-collapsed .brand{justify-content:center!important;margin-bottom:12px}
+  .app.sidebar-collapsed .brand .logo{margin:0!important}
+  .app.sidebar-collapsed .brand > div:last-child,
+  .app.sidebar-collapsed .v15-nav-label,
+  .app.sidebar-collapsed .user-card,
+  .app.sidebar-collapsed .footnote{display:none!important}
+  .app.sidebar-collapsed aside nav{
+    overflow:hidden!important;padding-right:0!important;margin:0!important;
+    scrollbar-width:none!important
+  }
+  .app.sidebar-collapsed aside nav::-webkit-scrollbar{display:none!important}
+  .app.sidebar-collapsed aside nav button{
+    width:54px!important;height:50px!important;min-height:50px!important;
+    padding:0!important;margin:4px auto!important;
+    display:flex!important;align-items:center!important;justify-content:center!important;
+    font-size:0!important;overflow:hidden!important
+  }
+  .app.sidebar-collapsed .nav-icon{display:inline-flex!important;font-size:21px!important;line-height:1}
+  .app.sidebar-collapsed .nav-text{display:none!important}
+  .app.sidebar-collapsed .sidebar-toggle{margin:0 auto 12px!important}
+}
+.nav-icon{display:inline-flex;min-width:25px}
+.nav-text{display:inline}
+
+/* Sistema único de formulários */
+.v17-form,
+#metas .goal-form,
+#lembretes .goal-form{
+  display:grid!important;gap:14px!important
+}
+.v17-form-grid,
+#metas .goal-form .diary-row,
+#lembretes .goal-form .diary-row{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:12px!important;align-items:end!important
+}
+#metas .goal-form input,
+#metas .goal-form select,
+#metas .goal-form textarea,
+#lembretes .goal-form input,
+#lembretes .goal-form select,
+#lembretes .goal-form textarea{
+  width:100%!important;min-width:0!important;min-height:46px!important
+}
+#metas .goal-form textarea,
+#lembretes .goal-form textarea{min-height:100px!important}
+#metas .step-builder{
+  display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:10px!important
+}
+#metas .goal-form > .btn,
+#lembretes .goal-form > .btn{
+  min-height:46px!important;justify-self:start!important;padding-inline:22px!important
+}
+#lembretes .reminder-layout{grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr)!important}
+
+/* Busca global */
+.v17-search-wrap{position:relative;display:flex;align-items:center;gap:8px}
+.v17-search{
+  width:min(360px,34vw);min-height:42px;padding-left:40px!important
+}
+.v17-search-icon{position:absolute;left:13px;pointer-events:none;color:var(--muted)}
+.v17-search-results{
+  position:absolute;top:50px;right:0;width:min(520px,80vw);max-height:420px;overflow:auto;
+  background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:8px;
+  box-shadow:0 22px 55px rgba(0,0,0,.45);z-index:5000;display:none
+}
+.v17-search-results.show{display:block}
+.v17-search-item{padding:11px;border-radius:11px;cursor:pointer;border:1px solid transparent}
+.v17-search-item:hover{background:#132039;border-color:var(--line)}
+.v17-search-item small{display:block;color:var(--muted);margin-top:4px}
+
+/* Cards novos */
+.v17-status-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.v17-status-card{border:1px solid var(--line);border-radius:15px;padding:14px;background:#0e1629}
+.v17-status-card small{display:block;color:var(--muted);margin-bottom:7px}
+.v17-status-card strong{font-size:17px}
+.v17-pending-item,.v17-history-item,.v17-health-row{
+  border:1px solid var(--line);border-radius:14px;padding:13px;background:#0e1629;margin-bottom:9px
+}
+.v17-health-row{display:flex;justify-content:space-between;gap:15px;align-items:center}
+.v17-health-ok{color:#7be0b7}.v17-health-warn{color:#f4ca72}.v17-health-bad{color:#ff8a9a}
+.v17-empty{padding:20px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px}
+
+/* Modo foco */
+.v17-focus{
+  position:fixed;inset:0;z-index:10000;background:rgba(5,10,22,.96);
+  backdrop-filter:blur(12px);display:none;overflow:auto;padding:24px
+}
+.v17-focus.show{display:block}
+.v17-focus-shell{max-width:820px;margin:0 auto;padding-top:5vh}
+.v17-focus-head{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:18px}
+.v17-focus-card{border:1px solid var(--line);border-radius:20px;background:var(--panel);padding:20px;margin-bottom:13px}
+.v17-focus-card h3{margin-top:0}
+.v17-focus-now{font-size:28px;font-weight:900;margin:6px 0 10px}
+
+/* Perfil limpo */
+.v17-routine-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.v17-routine-item{border:1px solid var(--line);border-radius:14px;padding:13px;background:#0e1629}
+.v17-routine-item small{display:block;color:var(--muted);margin-bottom:5px}
+
+/* Tema claro */
+body.v15-light .v17-status-card,
+body.v15-light .v17-pending-item,
+body.v15-light .v17-history-item,
+body.v15-light .v17-health-row,
+body.v15-light .v17-routine-item{background:#f7f9fc}
+
+@media(max-width:900px){
+  .v17-search-wrap{display:none}
+  .v17-status-grid{grid-template-columns:repeat(2,1fr)}
+  #lembretes .reminder-layout{grid-template-columns:1fr!important}
+}
+@media(max-width:620px){
+  .v17-form-grid,
+  #metas .goal-form .diary-row,
+  #lembretes .goal-form .diary-row{grid-template-columns:1fr!important}
+  #metas .step-builder{grid-template-columns:1fr!important}
+  #metas .goal-form > .btn,#lembretes .goal-form > .btn{width:100%!important}
+  .v17-status-grid,.v17-routine-list{grid-template-columns:1fr}
+  .v17-focus{padding:12px}.v17-focus-shell{padding-top:2vh}
 }
 
 </style>
@@ -1169,6 +996,7 @@ body.v15-light .v16-review-item,body.v15-light .v16-smart-goal{background:#f7f9f
       <button class="active" data-page="inicio">🏠 Início</button>
       <button data-page="hoje">✨ Hoje</button>
       <button data-page="planejamento">🗓️ Semana</button>
+<button data-page="pendencias">📥 Pendências</button>
       <button data-page="metas">🎯 Metas</button>
 
       <div class="v15-nav-label">Saúde</div>
@@ -1193,6 +1021,8 @@ body.v15-light .v16-review-item,body.v15-light .v16-smart-goal{background:#f7f9f
       <button data-page="perfil">⚙️ Perfil & Rotina</button>
       <button data-page="nuvem">☁️ Nuvem</button>
       <button data-page="backup">💾 Backup</button>
+<button data-page="historico">🕘 Histórico</button>
+      <button data-page="saude-sistema">🩺 Saúde do Sistema</button>
     </nav>
     <div class="user-card">
       <strong id="sidebarUser">Higor</strong>
@@ -1205,7 +1035,17 @@ body.v15-light .v16-review-item,body.v15-light .v16-smart-goal{background:#f7f9f
   <main>
     <div class="topbar">
       <div class="title"><h2 id="pageTitle">Painel de hoje</h2><p id="greeting">Sua rotina, sem complicar.</p></div>
-      <div class="date-pill" id="today"></div>
+      
+      <div style="display:flex;gap:9px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
+        <div class="v17-search-wrap">
+          <span class="v17-search-icon">🔎</span>
+          <input class="v17-search" id="v17GlobalSearch" placeholder="Buscar no aplicativo..." autocomplete="off" oninput="v17Search(this.value)" onfocus="v17Search(this.value)">
+          <div class="v17-search-results" id="v17SearchResults"></div>
+        </div>
+        <button class="btn btn-ghost" onclick="v17OpenFocus()">🎯 Foco</button>
+        <div class="date-pill" id="today"></div>
+      </div>
+
     </div>
 
     
@@ -1745,6 +1585,41 @@ body.v15-light .v16-review-item,body.v15-light .v16-smart-goal{background:#f7f9f
     </section>
 
 
+
+    <section class="section" id="pendencias">
+      <div class="card">
+        <div class="section-title" style="margin-top:0">
+          <div><div class="v15-kicker">Central de Pendências</div><h3>📥 O que precisa de atenção</h3></div>
+          <button class="btn btn-ghost" onclick="v17RenderPending()">Atualizar</button>
+        </div>
+        <div class="v17-status-grid" id="v17PendingStats"></div>
+      </div>
+      <div class="section-title"><h3>Pendências encontradas</h3><span>Metas, tarefas, perfil e lembretes em um só lugar.</span></div>
+      <div id="v17PendingList"></div>
+    </section>
+
+    <section class="section" id="historico">
+      <div class="card">
+        <div class="section-title" style="margin-top:0">
+          <div><div class="v15-kicker">Histórico</div><h3>🕘 Alterações importantes</h3></div>
+          <button class="btn btn-ghost" onclick="v17ClearOldHistory()">Limpar antigos</button>
+        </div>
+        <p class="quote">Registra mudanças importantes de perfil, metas, lembretes e revisões. O histórico é limitado para não crescer sem controle.</p>
+        <div id="v17ChangeHistory"></div>
+      </div>
+    </section>
+
+    <section class="section" id="saude-sistema">
+      <div class="card">
+        <div class="section-title" style="margin-top:0">
+          <div><div class="v15-kicker">Diagnóstico</div><h3>🩺 Saúde do Sistema</h3></div>
+          <button class="btn btn-primary" onclick="v17RunHealthCheck()">Testar sistema</button>
+        </div>
+        <p class="quote">Aqui você consegue conferir rapidamente se navegador, armazenamento, nuvem, PWA e notificações estão funcionando.</p>
+        <div id="v17SystemHealth"></div>
+      </div>
+    </section>
+
     <section class="section" id="perfil">
       <div class="card" style="margin-bottom:14px">
         <div class="section-title">
@@ -1771,69 +1646,17 @@ body.v15-light .v16-review-item,body.v15-light .v16-smart-goal{background:#f7f9f
         </div>
       </div>
 
+
       <div class="card">
         <div class="section-title" style="margin-top:0">
-          <div><h3>⚙️ Minha Rotina</h3><span>Edite aqui as informações que o app usa para montar metas e sugestões.</span></div>
+          <div><div class="v15-kicker">Rotina atual</div><h3>🧭 Visão rápida</h3></div>
+          <button class="btn btn-primary" onclick="v15OpenWizard(true)">Editar questionário</button>
         </div>
-
-        <div class="profile-summary">
-          <div class="profile-box"><small>Jiu-jítsu</small><strong id="profileBjjSummary">-</strong></div>
-          <div class="profile-box"><small>Corrida/caminhada</small><strong id="profileRunSummary">-</strong></div>
-          <div class="profile-box"><small>Meta de água</small><strong id="profileWaterSummary">-</strong></div>
-          <div class="profile-box"><small>Trabalho</small><strong id="profileWorkSummary">-</strong></div>
-        </div>
-
-        <div class="section-title"><h3>Editar informações</h3></div>
-
-        <div class="profile-grid">
-          <div>
-            <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Nome</label>
-            <input id="profileName">
-          </div>
-          <div>
-            <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Meta diária de água (ml)</label>
-            <input id="profileWater" type="number" min="1000" step="250">
-          </div>
-          <div>
-            <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Jiu-jítsu por semana</label>
-            <input id="profileBjjCount" type="number" min="0" max="7">
-          </div>
-          <div>
-            <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Corrida/caminhada por semana</label>
-            <input id="profileRunCount" type="number" min="0" max="7">
-          </div>
-        </div>
-
-        <div style="margin-top:16px">
-          <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:8px">Dias de jiu-jítsu</label>
-          <div class="day-select" id="profileBjjDays"></div>
-        </div>
-
-        <div style="margin-top:16px">
-          <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:8px">Dias de corrida/caminhada</label>
-          <div class="day-select" id="profileRunDays"></div>
-        </div>
-
-        <div class="profile-grid" style="margin-top:16px">
-          <div>
-            <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Horário do jiu-jítsu</label>
-            <input id="profileBjjTime" type="time">
-          </div>
-          <div>
-            <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Duração média do jiu-jítsu (min)</label>
-            <input id="profileBjjDuration" type="number" min="15">
-          </div>
-          <div>
-            <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Início do trabalho</label>
-            <input id="profileWorkStart" type="time">
-          </div>
-          <div>
-            <label style="display:block;color:var(--muted);font-size:13px;margin-bottom:6px">Fim do trabalho</label>
-            <input id="profileWorkEnd" type="time">
-          </div>
-        </div>
-
-        <button class="btn btn-primary" style="margin-top:16px" onclick="saveProfile()">Salvar alterações</button>
+        <div class="v17-routine-list" id="v17RoutineSummary"></div>
+        <details style="margin-top:14px">
+          <summary style="cursor:pointer;font-weight:800">Configurações avançadas</summary>
+          <p class="quote">As configurações principais agora são alteradas pelo questionário inteligente. Esta área fica reservada para recursos técnicos futuros.</p>
+        </details>
       </div>
     </section>
 
@@ -3964,7 +3787,311 @@ function renderCalendar(){
 }
 
 
-/* ===== V16 Inteligência de Perfil ===== */
+/* ===== V17 Inteligência de Perfil ===== */
+/* ===== V17 Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
+state.weeklyReviews = state.weeklyReviews && typeof state.weeklyReviews==="object" ? state.weeklyReviews : {};
+state.adaptiveGoalSuggestions = Array.isArray(state.adaptiveGoalSuggestions) ? state.adaptiveGoalSuggestions : [];
+
+let v16SaveTimer=null;
+let v16SaveFallback=null;
+
+function v16ShowSaveStatus(mode="loading", detail="Aguarde um instante."){
+  const box=document.getElementById("v16SaveStatus");
+  const title=document.getElementById("v16SaveTitle");
+  const desc=document.getElementById("v16SaveDetail");
+  if(!box)return;
+  box.className="v16-save-status show"+(mode==="success"?" success":mode==="error"?" error":"");
+  if(title)title.textContent=mode==="loading"?"Salvando...":mode==="success"?"Salvo com sucesso":"Não foi possível salvar";
+  if(desc)desc.textContent=detail;
+  clearTimeout(v16SaveTimer);
+  if(mode!=="loading"){
+    v16SaveTimer=setTimeout(()=>box.classList.remove("show"),1800);
+  }
+}
+function v16BeginSave(){
+  clearTimeout(v16SaveFallback);
+  v16ShowSaveStatus("loading","Salvando suas alterações.");
+  v16SaveFallback=setTimeout(()=>{
+    const box=document.getElementById("v16SaveStatus");
+    if(box?.classList.contains("show") && !box.classList.contains("success") && !box.classList.contains("error")){
+      v16ShowSaveStatus("error","O salvamento demorou mais que o esperado. Tente novamente.");
+    }
+  },7000);
+}
+function v16FinishSave(ok=true,msg=""){
+  clearTimeout(v16SaveFallback);
+  v16ShowSaveStatus(ok?"success":"error",msg||(ok?"Alterações registradas.":"Tente novamente."));
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button");
+  if(!b)return;
+  const t=(b.textContent||"").trim().toLowerCase();
+  if(t.includes("salvar") || t.includes("gravar alterações")){
+    v16BeginSave();
+  }
+},true);
+
+function v16Monday(d=new Date()){
+  const x=new Date(d);x.setHours(12,0,0,0);
+  const day=x.getDay();x.setDate(x.getDate()-(day===0?6:day-1));
+  return x;
+}
+function v16DateKey(d){return new Date(d).toISOString().slice(0,10)}
+function v16AddDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
+function v16WeekKeys(start){
+  return Array.from({length:7},(_,i)=>v16DateKey(v16AddDays(start,i)));
+}
+function v16WeekId(start){return v16DateKey(start)}
+function v16Pct(n,d){return d?Math.round((n/d)*100):0}
+
+function v16AnalyzeWeek(startDate){
+  const start=v16Monday(startDate||new Date());
+  const keys=v16WeekKeys(start);
+  const p=state.profile||{};
+  const trainings=(state.trainings||[]).filter(t=>keys.includes(String(t.date||"").slice(0,10)));
+  const waterGoal=Number(p.waterGoal||2500);
+  const waterDays=keys.filter(k=>Number(state.water?.[k]||0)>=waterGoal).length;
+  const checkins=keys.filter(k=>state.dailyCheckins?.[k]).map(k=>state.dailyCheckins[k]);
+  const plans=(state.weeklyPlans||[]).filter(x=>keys.includes(String(x.date||"").slice(0,10)));
+  const plansDone=plans.filter(x=>x.done).length;
+  const events=(state.events||[]).filter(x=>keys.includes(String(x.date||"").slice(0,10)));
+  const eventsDone=events.filter(x=>x.done).length;
+  const diary=(state.diaryEntries||[]).filter(x=>keys.includes(String(x.date||"").slice(0,10)));
+  const tx=(state.finance?.transactions||[]).filter(x=>keys.includes(String(x.date||"").slice(0,10)));
+
+  const expectedActivities=(p.activities||[]).reduce((s,a)=>s+Number(a.frequency||0),0);
+  const activityScore=expectedActivities?Math.min(100,v16Pct(trainings.length,expectedActivities)):70;
+  const waterScore=v16Pct(waterDays,7);
+  const planningScore=plans.length?v16Pct(plansDone,plans.length):70;
+  const checkinScore=v16Pct(checkins.length,7);
+  const score=Math.round(activityScore*.35+waterScore*.25+planningScore*.25+checkinScore*.15);
+
+  const avg=(arr,key)=>{
+    const vals=arr.map(x=>Number(x?.[key]||0)).filter(Boolean);
+    return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;
+  };
+
+  return {
+    start,keys,score,trainings,waterDays,checkins,plans,plansDone,events,eventsDone,diary,tx,
+    expectedActivities,activityScore,waterScore,planningScore,checkinScore,
+    avgEnergy:avg(checkins,"energy"),avgSleep:avg(checkins,"sleep"),avgMood:avg(checkins,"mood")
+  };
+}
+
+function v16BuildWeeklyReview(startDate){
+  const a=v16AnalyzeWeek(startDate);
+  const strengths=[], adjustments=[];
+
+  if(a.expectedActivities && a.trainings.length>=a.expectedActivities){
+    strengths.push("Você atingiu a frequência de atividades físicas definida no perfil.");
+  }else if(a.expectedActivities){
+    adjustments.push(`Você registrou ${a.trainings.length} de ${a.expectedActivities} atividades previstas. Vale manter a meta ou reorganizar os dias.`);
+  }
+
+  if(a.waterDays>=5) strengths.push(`Sua meta de hidratação foi alcançada em ${a.waterDays} dias.`);
+  else adjustments.push(`A hidratação atingiu a meta em ${a.waterDays} de 7 dias. Um lembrete em um horário difícil pode ajudar.`);
+
+  if(a.plans.length && a.planningScore>=75) strengths.push(`Você concluiu ${a.planningScore}% do que colocou no planejamento.`);
+  else if(a.plans.length) adjustments.push(`Seu planejamento ficou em ${a.planningScore}% concluído. Considere planejar menos itens por dia.`);
+
+  if(a.checkins.length>=4) strengths.push(`Você fez ${a.checkins.length} check-ins. Isso melhora bastante a leitura da sua rotina.`);
+  else adjustments.push("Faça alguns check-ins durante a semana para o app entender melhor energia, sono e humor.");
+
+  if(a.avgEnergy && a.avgEnergy<3) adjustments.push("Sua energia média registrada ficou baixa. Priorize uma semana mais sustentável em vez de aumentar metas.");
+  if(a.avgSleep && a.avgSleep>=4) strengths.push("Seus check-ins indicaram uma percepção boa de sono nesta semana.");
+
+  if(!strengths.length) strengths.push("Você já tem dados suficientes para começar a ajustar a próxima semana sem aumentar a pressão.");
+  if(!adjustments.length) adjustments.push("Mantenha as metas atuais por mais uma semana antes de aumentar qualquer frequência.");
+
+  let headline="Semana em construção";
+  if(a.score>=85) headline="Semana muito consistente";
+  else if(a.score>=70) headline="Boa semana, com pequenos ajustes";
+  else if(a.score>=50) headline="Há uma base boa para organizar";
+  else headline="Vale simplificar a próxima semana";
+
+  const summary=`Foram ${a.trainings.length} atividades registradas, ${a.waterDays} dias com a meta de água e ${a.checkins.length} check-ins. O objetivo da revisão é ajustar a rotina, não punir dias que saíram do plano.`;
+
+  return {
+    id:v16WeekId(a.start),
+    generatedAt:new Date().toISOString(),
+    score:a.score,headline,summary,strengths,adjustments,
+    metrics:{
+      trainings:a.trainings.length,
+      expectedActivities:a.expectedActivities,
+      waterDays:a.waterDays,
+      planningScore:a.planningScore,
+      checkins:a.checkins.length
+    }
+  };
+}
+
+function v16GenerateWeeklyReview(persist=true){
+  const start=typeof smartWeekStart!=="undefined"?smartWeekStart:v16Monday(new Date());
+  const review=v16BuildWeeklyReview(start);
+  state.weeklyReviews[review.id]=review;
+  if(persist)save();
+  else v16RenderWeeklyReview();
+}
+function v16RenderWeeklyReview(){
+  const start=typeof smartWeekStart!=="undefined"?v16Monday(smartWeekStart):v16Monday(new Date());
+  const id=v16WeekId(start);
+  const r=state.weeklyReviews[id]||v16BuildWeeklyReview(start);
+  const set=(id,val)=>{const e=document.getElementById(id);if(e)e.textContent=val};
+  set("v16ReviewScore",r.score+"%");
+  set("v16ReviewHeadline",r.headline);
+  set("v16ReviewSummary",r.summary);
+
+  const s=document.getElementById("v16ReviewStrengths");
+  const a=document.getElementById("v16ReviewAdjustments");
+  if(s)s.innerHTML=r.strengths.map(x=>`<div class="v16-review-item">✅ ${escapeHtml(x)}</div>`).join("");
+  if(a)a.innerHTML=r.adjustments.map(x=>`<div class="v16-review-item">💡 ${escapeHtml(x)}</div>`).join("");
+}
+function v16SendReviewToGoals(){
+  const start=typeof smartWeekStart!=="undefined"?v16Monday(smartWeekStart):v16Monday(new Date());
+  const r=state.weeklyReviews[v16WeekId(start)]||v16BuildWeeklyReview(start);
+  const created=[];
+  r.adjustments.slice(0,3).forEach((txt,i)=>{
+    let title=txt;
+    if(/hidrata/i.test(txt)) title="Acompanhar minha hidratação em pelo menos 5 dias desta semana";
+    else if(/check-in/i.test(txt)) title="Fazer pelo menos 4 check-ins nesta semana";
+    else if(/planejamento/i.test(txt)) title="Planejar uma semana com menos tarefas e prioridades mais claras";
+    else if(/atividades|registrou/i.test(txt)) title="Organizar meus dias de atividade física para esta semana";
+    created.push({
+      id:"review-"+r.id+"-"+i,
+      category:"Organização",
+      title,
+      reason:"Sugestão gerada pela sua Revisão Semanal."
+    });
+  });
+  state.adaptiveGoalSuggestions=[
+    ...created,
+    ...(state.adaptiveGoalSuggestions||[]).filter(x=>!String(x.id).startsWith("review-"+r.id))
+  ];
+  save();
+  v15GoTo("metas");
+}
+
+function v16RecentKeys(days=14){
+  const arr=[];const now=new Date();
+  for(let i=days-1;i>=0;i--)arr.push(v16DateKey(v16AddDays(now,-i)));
+  return arr;
+}
+function v16GenerateAdaptiveGoals(persist=true){
+  const p=state.profile||{};
+  const keys=v16RecentKeys(14);
+  const trainings=(state.trainings||[]).filter(t=>keys.includes(String(t.date||"").slice(0,10)));
+  const checkins=keys.filter(k=>state.dailyCheckins?.[k]);
+  const waterDays=keys.filter(k=>Number(state.water?.[k]||0)>=Number(p.waterGoal||2500)).length;
+  const suggestions=[];
+
+  (p.activities||[]).forEach(a=>{
+    const name=String(a.name||"");
+    const actual=trainings.filter(t=>{
+      const typ=String(t.type||"").toLowerCase();
+      const nm=name.toLowerCase();
+      if(/jiu|jitsu|bjj/.test(nm)) return /jiu|jitsu|bjj/.test(typ);
+      if(/corr|caminh/.test(nm)) return /corr|caminh/.test(typ);
+      return typ.includes(nm) || nm.includes(typ);
+    }).length;
+    const expected=Math.max(1,Number(a.frequency||1)*2);
+    const ratio=actual/expected;
+
+    if(ratio<0.55){
+      suggestions.push({
+        id:"adapt-"+name+"-steady",category:"Saúde",
+        title:`Organizar ${Math.max(1,Number(a.frequency||1)-1)} sessão(ões) de ${name} nesta semana`,
+        reason:`Nas últimas duas semanas foram ${actual} registros para uma referência de ${expected}. A sugestão reduz um pouco a carga para recuperar consistência.`,
+        confidence:"Alta"
+      });
+    }else if(ratio>=0.9){
+      suggestions.push({
+        id:"adapt-"+name+"-keep",category:"Saúde",
+        title:`Manter ${Number(a.frequency||1)} sessão(ões) de ${name} nesta semana`,
+        reason:"Sua frequência recente está próxima do que você definiu. O melhor próximo passo é consolidar, não aumentar automaticamente.",
+        confidence:"Alta"
+      });
+    }else{
+      suggestions.push({
+        id:"adapt-"+name+"-organize",category:"Saúde",
+        title:`Manter ${Number(a.frequency||1)} sessão(ões) de ${name}, reorganizando os dias se necessário`,
+        reason:"Você está perto da frequência escolhida. Um ajuste de agenda pode ser mais útil que mudar a meta.",
+        confidence:"Média"
+      });
+    }
+  });
+
+  if(waterDays<7){
+    suggestions.push({
+      id:"adapt-water",category:"Saúde",
+      title:"Acompanhar a hidratação em pelo menos 5 dias desta semana",
+      reason:`Nas últimas duas semanas, a meta diária foi atingida em ${waterDays} de 14 dias. A proposta é buscar regularidade sem transformar todos os dias em obrigação.`,
+      confidence:"Média"
+    });
+  }
+
+  if(checkins.length<6){
+    suggestions.push({
+      id:"adapt-checkin",category:"Pessoal",
+      title:"Fazer 4 check-ins rápidos nesta semana",
+      reason:`Foram ${checkins.length} check-ins nos últimos 14 dias. Mais registros ajudam o app a entender melhor sua rotina.`,
+      confidence:"Alta"
+    });
+  }
+
+  if((p.goalAreas||[]).includes("Finanças")){
+    const tx=(state.finance?.transactions||[]).filter(t=>keys.includes(String(t.date||"").slice(0,10)));
+    if(tx.length<5)suggestions.push({
+      id:"adapt-finance",category:"Finanças",
+      title:"Registrar meus gastos ao longo de 7 dias",
+      reason:"Há poucos registros financeiros recentes. Primeiro precisamos enxergar o padrão antes de criar metas maiores.",
+      confidence:"Média"
+    });
+  }
+
+  state.adaptiveGoalSuggestions=suggestions.slice(0,8);
+  if(persist)save(); else v16RenderAdaptiveGoals();
+}
+function v16AcceptAdaptiveGoal(id){
+  const s=(state.adaptiveGoalSuggestions||[]).find(x=>x.id===id);if(!s)return;
+  const end=new Date();end.setDate(end.getDate()+7);
+  state.customGoals=Array.isArray(state.customGoals)?state.customGoals:[];
+  if(!state.customGoals.some(g=>g.smartSource===id)){
+    state.customGoals.push({
+      id:Date.now(),title:s.title,category:s.category||"Pessoal",priority:"Média",
+      start:dateKey(),deadline:end.toISOString().slice(0,10),description:s.reason||"",
+      status:"Ativa",steps:[],createdAt:new Date().toISOString(),smartSource:id
+    });
+  }
+  state.adaptiveGoalSuggestions=state.adaptiveGoalSuggestions.filter(x=>x.id!==id);
+  save();
+}
+function v16DismissAdaptiveGoal(id){
+  state.adaptiveGoalSuggestions=state.adaptiveGoalSuggestions.filter(x=>x.id!==id);save();
+}
+function v16RenderAdaptiveGoals(){
+  const box=document.getElementById("v16AdaptiveGoals");if(!box)return;
+  if(!state.adaptiveGoalSuggestions.length){
+    box.innerHTML='<div class="empty">Clique em “Analisar novamente” para gerar sugestões com base nos seus registros recentes.</div>';
+    return;
+  }
+  box.innerHTML=state.adaptiveGoalSuggestions.map(s=>`
+    <div class="v16-smart-goal">
+      <div class="v16-smart-goal-head">
+        <div><strong>${escapeHtml(s.title)}</strong><div class="quote">${escapeHtml(s.reason||"")}</div></div>
+        <span class="badge">${escapeHtml(s.category||"Meta")}</span>
+      </div>
+      <div class="v16-confidence">Confiança da sugestão: ${escapeHtml(s.confidence||"Média")}</div>
+      <div class="v16-smart-goal-actions">
+        <button class="btn btn-primary" onclick="v16AcceptAdaptiveGoal('${String(s.id).replaceAll("'","\\'")}')">Adicionar meta</button>
+        <button class="btn btn-ghost" onclick="v16DismissAdaptiveGoal('${String(s.id).replaceAll("'","\\'")}')">Ignorar</button>
+      </div>
+    </div>`).join("");
+}
+function v16RenderAll(){
+  v16RenderWeeklyReview();
+  v16RenderAdaptiveGoals();
+}
+
 state.profile = state.profile || {};
 state.profile.activities = Array.isArray(state.profile.activities) ? state.profile.activities : [];
 state.profile.goalAreas = state.profile.goalAreas || [];
@@ -4416,11 +4543,298 @@ if(!state.profile.profileSetupCompletedAt && !state.profile.configured){
   setTimeout(()=>v15OpenWizard(false),300);
 }
 
-function renderAll(){renderHeader();renderChecklist();renderWater();renderMeals();renderNightPlan();renderWeight();renderTrainings();renderGoals();renderCalendar();renderFinance();renderAchievements();renderReminders();v15RenderAll();v16RenderAll();}
+
+/* ===== V17 Evolução Geral ===== */
+state.changeHistory = Array.isArray(state.changeHistory) ? state.changeHistory : [];
+
+function v17TrackChange(type,description,meta={}){
+  state.changeHistory.unshift({
+    id:Date.now()+Math.random(),
+    at:new Date().toISOString(),
+    type,description,meta
+  });
+  state.changeHistory=state.changeHistory.slice(0,120);
+}
+
+function v17PrepareSidebar(){
+  document.querySelectorAll("#nav button[data-page]").forEach(b=>{
+    if(b.querySelector(".nav-icon"))return;
+    const text=(b.textContent||"").trim();
+    const parts=text.split(/\s+/);
+    const icon=parts.shift()||"•";
+    const label=parts.join(" ");
+    b.innerHTML=`<span class="nav-icon">${escapeHtml(icon)}</span><span class="nav-text">${escapeHtml(label)}</span>`;
+    b.title=label;
+  });
+}
+
+function v17RenderRoutineSummary(){
+  const box=document.getElementById("v17RoutineSummary");if(!box)return;
+  const p=state.profile||{};
+  const acts=(p.activities||[]);
+  const rows=[];
+  rows.push({k:"Objetivo principal",v:p.mainObjective||"Ainda não definido"});
+  rows.push({k:"Água",v:p.waterGoal?`${Math.round(p.waterGoal/100)/10} L/dia`:"Não definida"});
+  rows.push({k:"Trabalho/estudo",v:(p.workStart&&p.workEnd)?`${p.workStart} às ${p.workEnd}`:"Não informado"});
+  rows.push({k:"Sono",v:(p.sleepTime&&p.wakeTime)?`${p.sleepTime} → ${p.wakeTime}`:"Não informado"});
+  acts.forEach(a=>rows.push({k:a.name||"Atividade",v:`${a.frequency||0}x/semana • ${a.time||"--:--"} • ${a.duration||60} min`}));
+  box.innerHTML=rows.map(r=>`<div class="v17-routine-item"><small>${escapeHtml(r.k)}</small><strong>${escapeHtml(r.v)}</strong></div>`).join("");
+}
+
+function v17PendingData(){
+  const today=dateKey();
+  const pending=[];
+  const goals=(state.customGoals||[]).filter(g=>g.status==="Ativa");
+  goals.forEach(g=>{
+    if(g.deadline && g.deadline<today) pending.push({page:"metas",type:"Meta atrasada",title:g.title,detail:`Prazo: ${g.deadline}`});
+  });
+
+  (state.weeklyPlans||[]).forEach(t=>{
+    if(!t.done && t.date && t.date<=today) pending.push({page:"planejamento",type:"Tarefa pendente",title:t.title||t.task||"Tarefa",detail:t.date===today?"Para hoje":`Desde ${t.date}`});
+  });
+
+  (state.reminders||[]).forEach(r=>{
+    if(r.enabled && r.repeat==="once" && r.date && r.date<today) pending.push({page:"lembretes",type:"Lembrete antigo",title:r.title,detail:`Data: ${r.date}`});
+  });
+
+  const p=state.profile||{};
+  if(!p.profileSetupCompletedAt || !(p.activities||[]).length){
+    pending.push({page:"perfil",type:"Perfil",title:"Complete ou revise seu questionário",detail:"O perfil melhora metas e recomendações."});
+  }
+
+  return pending;
+}
+function v17RenderPending(){
+  const pending=v17PendingData();
+  const stats=document.getElementById("v17PendingStats");
+  const list=document.getElementById("v17PendingList");
+  if(stats){
+    const overdue=pending.filter(x=>x.type==="Meta atrasada").length;
+    const tasks=pending.filter(x=>x.type==="Tarefa pendente").length;
+    const reminders=pending.filter(x=>x.type==="Lembrete antigo").length;
+    stats.innerHTML=[
+      ["Total",pending.length],
+      ["Metas atrasadas",overdue],
+      ["Tarefas",tasks],
+      ["Lembretes",reminders]
+    ].map(([a,b])=>`<div class="v17-status-card"><small>${a}</small><strong>${b}</strong></div>`).join("");
+  }
+  if(list){
+    list.innerHTML=pending.length?pending.map((x,i)=>`
+      <div class="v17-pending-item">
+        <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start">
+          <div><span class="badge">${escapeHtml(x.type)}</span><h3 style="margin:8px 0 4px">${escapeHtml(x.title)}</h3><div class="quote">${escapeHtml(x.detail||"")}</div></div>
+          <button class="btn btn-ghost" onclick="v15GoTo('${x.page}')">Abrir</button>
+        </div>
+      </div>`).join(""):`<div class="v17-empty">✨ Nenhuma pendência importante encontrada.</div>`;
+  }
+}
+
+function v17RenderHistory(){
+  const box=document.getElementById("v17ChangeHistory");if(!box)return;
+  const rows=(state.changeHistory||[]).slice(0,60);
+  box.innerHTML=rows.length?rows.map(h=>`
+    <div class="v17-history-item">
+      <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start">
+        <div><strong>${escapeHtml(h.description||"Alteração")}</strong><div class="quote">${escapeHtml(h.type||"Sistema")}</div></div>
+        <small class="quote">${new Date(h.at).toLocaleString("pt-BR")}</small>
+      </div>
+    </div>`).join(""):`<div class="v17-empty">O histórico começa a ser preenchido a partir desta versão.</div>`;
+}
+function v17ClearOldHistory(){
+  state.changeHistory=(state.changeHistory||[]).slice(0,25);
+  save();
+}
+
+function v17Search(query){
+  const box=document.getElementById("v17SearchResults");if(!box)return;
+  const q=String(query||"").trim().toLowerCase();
+  if(q.length<2){box.classList.remove("show");box.innerHTML="";return}
+  const results=[];
+  const add=(page,type,title,detail="")=>{
+    if(String(title||"").toLowerCase().includes(q)||String(detail||"").toLowerCase().includes(q)){
+      results.push({page,type,title,detail});
+    }
+  };
+  (state.customGoals||[]).forEach(x=>add("metas","Meta",x.title,x.description));
+  (state.reminders||[]).forEach(x=>add("lembretes","Lembrete",x.title,x.notes));
+  (state.events||[]).forEach(x=>add("calendario","Evento",x.title,x.notes||x.category));
+  (state.weeklyPlans||[]).forEach(x=>add("planejamento","Planejamento",x.title||x.task,x.notes));
+  (state.diaryEntries||[]).forEach(x=>add("diario","Diário",x.title||x.date,x.text||x.notes));
+  (state.finance?.transactions||[]).forEach(x=>add("financas","Finanças",x.description||x.category,`${x.value||x.amount||""}`));
+  (state.profile?.activities||[]).forEach(x=>add("perfil","Atividade",x.name,`${x.frequency||0}x por semana`));
+
+  box.innerHTML=results.slice(0,12).map((r,i)=>`
+    <div class="v17-search-item" onclick="v17OpenSearchResult('${r.page}')">
+      <strong>${escapeHtml(r.title||"Resultado")}</strong>
+      <small>${escapeHtml(r.type)}${r.detail?` • ${escapeHtml(String(r.detail).slice(0,90))}`:""}</small>
+    </div>`).join("") || '<div class="v17-empty">Nenhum resultado encontrado.</div>';
+  box.classList.add("show");
+}
+function v17OpenSearchResult(page){
+  document.getElementById("v17SearchResults")?.classList.remove("show");
+  const input=document.getElementById("v17GlobalSearch");if(input)input.value="";
+  v15GoTo(page);
+}
+document.addEventListener("click",e=>{
+  if(!e.target.closest(".v17-search-wrap"))document.getElementById("v17SearchResults")?.classList.remove("show");
+});
+
+function v17FocusItems(){
+  const today=dateKey();
+  const dow=new Date().getDay();
+  const items=[];
+  (state.reminders||[]).filter(r=>r.enabled&&(r.date===today||r.repeat==="daily"||(r.repeat==="weekly"&&(r.weekdays||[]).includes(dow)))).forEach(r=>{
+    items.push({time:r.time||"99:99",icon:"🔔",title:r.title,sub:"Lembrete"});
+  });
+  (state.profile?.activities||[]).filter(a=>(a.days||[]).includes(dow)).forEach(a=>{
+    items.push({time:a.time||"99:99",icon:"🏃",title:a.name,sub:`${a.duration||60} min`});
+  });
+  (state.weeklyPlans||[]).filter(x=>!x.done&&x.date===today).forEach(x=>{
+    items.push({time:x.time||"99:99",icon:"✅",title:x.title||x.task||"Tarefa",sub:"Planejamento"});
+  });
+  return items.sort((a,b)=>a.time.localeCompare(b.time));
+}
+function v17OpenFocus(){
+  const overlay=document.getElementById("v17FocusOverlay");
+  const content=document.getElementById("v17FocusContent");
+  if(!overlay||!content)return;
+  const items=v17FocusItems();
+  const goals=(state.customGoals||[]).filter(g=>g.status==="Ativa").sort((a,b)=>(a.deadline||"9999").localeCompare(b.deadline||"9999")).slice(0,3);
+  const next=items[0];
+  content.innerHTML=`
+    <div class="v17-focus-card">
+      <div class="v15-kicker">Próximo</div>
+      <div class="v17-focus-now">${next?`${escapeHtml(next.icon)} ${escapeHtml(next.time==="99:99"?"Hoje":next.time)} • ${escapeHtml(next.title)}`:"Nada urgente agora"}</div>
+      <div class="quote">${next?escapeHtml(next.sub):"Use este espaço para escolher uma prioridade."}</div>
+    </div>
+    <div class="v17-focus-card">
+      <h3>Hoje</h3>
+      ${items.length?items.slice(0,5).map(i=>`<div class="v17-pending-item"><strong>${escapeHtml(i.icon)} ${escapeHtml(i.time==="99:99"?"Hoje":i.time)} • ${escapeHtml(i.title)}</strong><div class="quote">${escapeHtml(i.sub)}</div></div>`).join(""):'<div class="v17-empty">Nenhum item programado para hoje.</div>'}
+    </div>
+    <div class="v17-focus-card">
+      <h3>Metas mais próximas</h3>
+      ${goals.length?goals.map(g=>`<div class="v17-pending-item"><strong>${escapeHtml(g.title)}</strong><div class="quote">Prazo: ${escapeHtml(g.deadline||"sem prazo")}</div></div>`).join(""):'<div class="v17-empty">Nenhuma meta ativa.</div>'}
+    </div>`;
+  overlay.classList.add("show");
+}
+function v17CloseFocus(){document.getElementById("v17FocusOverlay")?.classList.remove("show")}
+
+async function v17RunHealthCheck(){
+  const box=document.getElementById("v17SystemHealth");if(!box)return;
+  box.innerHTML='<div class="v17-health-row"><strong>Executando diagnóstico...</strong><span>⏳</span></div>';
+  const checks=[];
+  const add=(name,status,detail,cls)=>checks.push({name,status,detail,cls});
+
+  add("Versão","V17","Evolução Geral","v17-health-ok");
+
+  try{
+    localStorage.setItem("__v17_test","1");localStorage.removeItem("__v17_test");
+    add("Armazenamento local","Funcionando",`${Math.round((JSON.stringify(state).length/1024)*10)/10} KB usados pelo estado principal`,"v17-health-ok");
+  }catch(e){add("Armazenamento local","Erro","O navegador bloqueou o armazenamento.","v17-health-bad")}
+
+  add("Service Worker",navigator.serviceWorker?"Disponível":"Indisponível",navigator.serviceWorker?"PWA pode usar cache e notificações.":"Este navegador não expôs Service Worker.",navigator.serviceWorker?"v17-health-ok":"v17-health-bad");
+
+  let swReg=null;
+  try{swReg=navigator.serviceWorker?await navigator.serviceWorker.getRegistration():null}catch(e){}
+  add("PWA",swReg?"Registrado":"Não registrado",swReg?"Service Worker ativo/instalado.":"Abra pelo endereço HTTPS e recarregue.",swReg?"v17-health-ok":"v17-health-warn");
+
+  const notif=("Notification" in window)?Notification.permission:"unsupported";
+  add("Notificações",notif==="granted"?"Permitidas":notif==="denied"?"Bloqueadas":notif==="default"?"Aguardando permissão":"Não suportadas",
+      notif==="granted"?"O dispositivo permite notificações.":"Confira a área Lembretes.",notif==="granted"?"v17-health-ok":"v17-health-warn");
+
+  let push=false;
+  try{
+    if(swReg&&swReg.pushManager)push=!!(await swReg.pushManager.getSubscription());
+  }catch(e){}
+  add("Web Push",push?"Ativado":"Não ativado",push?"Este dispositivo possui uma assinatura Push.":"Ative em Lembretes para receber em segundo plano.",push?"v17-health-ok":"v17-health-warn");
+
+  const logged=typeof cloudUser!=="undefined" && !!cloudUser;
+  add("Conta / Nuvem",logged?"Conectada":"Sem sessão",logged?`Usuário autenticado no Supabase.`:"Faça login na área Nuvem.",logged?"v17-health-ok":"v17-health-warn");
+
+  box.innerHTML=checks.map(c=>`<div class="v17-health-row"><div><strong>${escapeHtml(c.name)}</strong><div class="quote">${escapeHtml(c.detail)}</div></div><strong class="${c.cls}">${escapeHtml(c.status)}</strong></div>`).join("");
+}
+
+function v17RenderSystemHealthPreview(){
+  const box=document.getElementById("v17SystemHealth");if(!box)return;
+  box.innerHTML='<div class="v17-empty">Clique em “Testar sistema” para executar o diagnóstico.</div>';
+}
+
+function v17RenderAll(){
+  v17RenderRoutineSummary();
+  v17RenderPending();
+  v17RenderHistory();
+  if(!document.getElementById("v17SystemHealth")?.children.length)v17RenderSystemHealthPreview();
+}
+
+/* Registros de mudanças importantes */
+const v17OriginalQuestionnaire = v15SaveQuestionnaire;
+v15SaveQuestionnaire = function(){
+  const before=JSON.stringify(state.profile||{});
+  const result=v17OriginalQuestionnaire.apply(this,arguments);
+  const after=JSON.stringify(state.profile||{});
+  if(before!==after){
+    v17TrackChange("Perfil","Perfil e rotina atualizados");
+    try{localStorage.setItem("saudeV1",JSON.stringify(state))}catch(e){}
+    v17RenderHistory();
+  }
+  return result;
+};
+
+const v17OriginalSaveCustomGoal = saveCustomGoal;
+saveCustomGoal = function(){
+  const before=(state.customGoals||[]).length;
+  const result=v17OriginalSaveCustomGoal.apply(this,arguments);
+  if((state.customGoals||[]).length>before){
+    const g=state.customGoals[state.customGoals.length-1];
+    v17TrackChange("Meta",`Nova meta criada: ${g?.title||"Meta"}`);
+    try{localStorage.setItem("saudeV1",JSON.stringify(state))}catch(e){}
+  }
+  return result;
+};
+
+const v17OriginalSaveReminder = saveReminder;
+saveReminder = function(){
+  const before=(state.reminders||[]).length;
+  const result=v17OriginalSaveReminder.apply(this,arguments);
+  if((state.reminders||[]).length>before){
+    const r=state.reminders[state.reminders.length-1];
+    v17TrackChange("Lembrete",`Novo lembrete criado: ${r?.title||"Lembrete"}`);
+    try{localStorage.setItem("saudeV1",JSON.stringify(state))}catch(e){}
+  }
+  return result;
+};
+
+const v17OriginalAcceptAdaptiveGoal = v16AcceptAdaptiveGoal;
+v16AcceptAdaptiveGoal = function(id){
+  const s=(state.adaptiveGoalSuggestions||[]).find(x=>x.id===id);
+  const result=v17OriginalAcceptAdaptiveGoal.apply(this,arguments);
+  if(s){
+    v17TrackChange("Meta inteligente",`Sugestão aceita: ${s.title}`);
+    try{localStorage.setItem("saudeV1",JSON.stringify(state))}catch(e){}
+  }
+  return result;
+};
+
+const v17OriginalWeeklyReview = v16GenerateWeeklyReview;
+v16GenerateWeeklyReview = function(persist=true){
+  const result=v17OriginalWeeklyReview.apply(this,arguments);
+  if(persist){
+    v17TrackChange("Revisão semanal","Nova revisão semanal gerada");
+    try{localStorage.setItem("saudeV1",JSON.stringify(state))}catch(e){}
+  }
+  return result;
+};
+
+v17PrepareSidebar();
+
+
+function renderAll(){renderHeader();renderChecklist();renderWater();renderMeals();renderNightPlan();renderWeight();renderTrainings();renderGoals();renderCalendar();renderFinance();renderAchievements();renderReminders();v15RenderAll();v16RenderAll();v17RenderAll();}
+v17PrepareSidebar();
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active")); b.classList.add("active");
   document.querySelectorAll(".section").forEach(x=>x.classList.remove("active")); document.getElementById(b.dataset.page).classList.add("active");
-  document.getElementById("pageTitle").textContent=b.textContent.trim();
+  document.getElementById("pageTitle").textContent=(b.querySelector(".nav-text")?.textContent||b.textContent).trim();
 });
 if(document.getElementById("sidebarUser")) document.getElementById("sidebarUser").textContent=state.profile?.name||"Usuário";
 document.getElementById("loginPass").addEventListener("keydown",e=>{if(e.key==="Enter")doCloudAuth();});
@@ -4442,6 +4856,20 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
 </script>
 
 
+
+
+<div class="v17-focus" id="v17FocusOverlay">
+  <div class="v17-focus-shell">
+    <div class="v17-focus-head">
+      <div>
+        <div class="v15-kicker">Modo Foco</div>
+        <h2 style="margin:4px 0">Só o que importa agora</h2>
+      </div>
+      <button class="btn btn-ghost" onclick="v17CloseFocus()">Fechar</button>
+    </div>
+    <div id="v17FocusContent"></div>
+  </div>
+</div>
 
 <button class="v15-fab" id="v15Fab" onclick="v15ToggleQuick()" aria-label="Adicionar rápido">+</button>
 <div class="v15-quick" id="v15QuickMenu">
