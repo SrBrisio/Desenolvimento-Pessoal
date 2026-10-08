@@ -260,3 +260,21 @@ Inclui:
 - indicador de sincronização
 - base para comparação de última alteração local versus nuvem
 - manutenção de todos os recursos anteriores
+
+## V19 Fase 1 — Navegação Inteligente
+
+Primeira etapa da V19, focada em reorganizar a experiência antes das automações.
+
+### Arquitetura
+- Hoje
+- Planejar
+- Evoluir
+- Vida
+- Histórico
+- Mais
+
+No iPhone, a barra inferior mostra apenas Hoje, Planejar, Evoluir, Vida e Mais.
+No desktop, a sidebar mostra as 6 áreas principais.
+
+A tela Hoje passa a destacar 3 prioridades e indicadores rápidos.
+Os módulos anteriores continuam existindo, mas ficam organizados dentro dos hubs.

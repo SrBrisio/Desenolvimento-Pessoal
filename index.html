@@ -607,7 +607,7 @@
 
 
 
-/* ===== V18 • Perfil inteligente + Hoje ===== */
+/* ===== V19 Fase 1 • Perfil inteligente + Hoje ===== */
 :root{
   --radius-v15:18px;
 }
@@ -676,7 +676,7 @@ body.v15-light .v15-checkin-scale button{background:#f7f9fc;color:#172033}
 }
 
 
-/* ===== V18 • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
+/* ===== V19 Fase 1 • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
 .v16-save-status{
   position:fixed;top:18px;right:18px;z-index:9999;
   min-width:190px;max-width:340px;
@@ -716,7 +716,7 @@ body.v15-light .v16-review-item,body.v15-light .v16-smart-goal{background:#f7f9f
 }
 
 
-/* ===== V18 • Evolução geral de UX ===== */
+/* ===== V19 Fase 1 • Evolução geral de UX ===== */
 :root{--sidebar-collapsed:78px}
 
 /* Sidebar realmente recolhida */
@@ -846,7 +846,7 @@ body.v15-light .v17-routine-item{background:#f7f9fc}
 }
 
 
-/* ===== V18 • Refino, Insights e Sincronização Inteligente ===== */
+/* ===== V19 Fase 1 • Refino, Insights e Sincronização Inteligente ===== */
 :root{
   --tap:46px;
 }
@@ -909,6 +909,27 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 #lembretes .goal-form > label:first-child{grid-column:1/-1}
 #lembretes .goal-form > label:has(textarea){grid-column:1/-1!important}
 #lembretes .goal-form > .btn{grid-column:1/-1!important;justify-self:end!important}
+
+
+/* ===== V19 Fase 1 • Navegação Inteligente ===== */
+.v19-hub-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.v19-hub-card{border:1px solid var(--line);border-radius:18px;padding:18px;background:var(--panel);cursor:pointer;transition:.18s ease}
+.v19-hub-card:hover{transform:translateY(-2px);border-color:var(--accent)}
+.v19-hub-card h3{margin:8px 0 6px}.v19-hub-card p{margin:0;color:var(--muted);line-height:1.45}
+.v19-hub-icon{font-size:28px}.v19-section-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:900}
+.v19-today-stack{display:grid;gap:14px}.v19-today-primary{border:1px solid var(--line);border-radius:20px;padding:18px;background:linear-gradient(180deg,rgba(60,180,140,.10),rgba(14,22,41,.1))}
+.v19-today-primary h2{margin:5px 0 6px}.v19-priority-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.v19-priority-card{border:1px solid var(--line);border-radius:14px;padding:13px;background:#0e1629}
+.v19-priority-card small{display:block;color:var(--muted);margin-bottom:6px}body.v15-light .v19-priority-card{background:#f7f9fc}
+.v19-mini-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.v19-mini-stat{border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+.v19-mini-stat small{display:block;color:var(--muted);margin-bottom:4px}.v19-mini-stat strong{font-size:20px}
+.v19-mobile-only{display:none}
+@media(min-width:721px){#nav{display:flex!important;flex-direction:column!important}#nav button[data-page]{display:flex!important}}
+@media(max-width:720px){
+  #nav button[data-page]{display:none!important}
+  #nav button[data-page="hoje"],#nav button[data-page="planejar"],#nav button[data-page="evoluir"],#nav button[data-page="vida"],#nav button[data-page="mais"]{display:flex!important}
+  .v19-mobile-only{display:block}.v19-hub-grid{grid-template-columns:1fr}.v19-priority-grid{grid-template-columns:1fr}.v19-mini-stats{grid-template-columns:repeat(2,1fr)}
+}
 
 </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1057,41 +1078,12 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
       <div><h1>Meu Desenvolvimento</h1><small>Level Up • Desenvolvimento Pessoal</small></div>
     </div>
     <nav id="nav">
-      <div class="v15-nav-label">Principal</div>
-      <button class="active" data-page="inicio">🏠 Início</button>
       <button data-page="hoje">✨ Hoje</button>
-      <button data-page="planejamento">🗓️ Semana</button>
-<button data-page="pendencias">📥 Pendências</button>
-      <button data-page="caixa-entrada">📨 Caixa de Entrada</button>
-      <button data-page="metas">🎯 Metas</button>
-
-      <div class="v15-nav-label">Saúde</div>
-      <button data-page="rotina">✅ Rotina</button>
-      <button data-page="treinos">🥋 Treinos</button>
-      <button data-page="agua">💧 Água</button>
-      <button data-page="alimentacao">🍽️ Alimentação</button>
-      <button data-page="mercado">🛒 Mercado</button>
-      <button data-page="progresso">📈 Progresso</button>
-
-      <div class="v15-nav-label">Organização</div>
-      <button data-page="calendario">📅 Calendário</button>
-      <button data-page="lembretes">🔔 Lembretes</button>
-      <button data-page="diario">📖 Diário & Agenda</button>
-
-      <div class="v15-nav-label">Vida</div>
-      <button data-page="financas">💰 Finanças</button>
-      <button data-page="conquistas">🏆 Conquistas</button>
-      <button data-page="painel-semanal">🧠 Painel Semanal</button>
-      <button data-page="insights">💡 Insights</button>
-      <button data-page="revisao-mensal">📊 Revisão Mensal</button>
-
-      <div class="v15-nav-label">Configurações</div>
-      <button data-page="perfil">⚙️ Perfil & Rotina</button>
-      <button data-page="nuvem">☁️ Nuvem</button>
-      <button data-page="backup">💾 Backup</button>
-<button data-page="historico">🕘 Histórico</button>
-      <button data-page="saude-sistema">🩺 Saúde do Sistema</button>
-      <button data-page="atualizacoes">🆕 Atualizações</button>
+      <button data-page="planejar">🗓️ Planejar</button>
+      <button data-page="evoluir">🌱 Evoluir</button>
+      <button data-page="vida">🧩 Vida</button>
+      <button data-page="historico-hub">🕘 Histórico</button>
+      <button data-page="mais">⚙️ Mais</button>
     </nav>
     <div class="user-card">
       <strong id="sidebarUser">Higor</strong>
@@ -1118,7 +1110,20 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
     </div>
 
     
-    <section class="section" id="hoje">
+    <section class="section active" id="hoje">
+      <div class="v19-today-stack">
+        <div class="v19-today-primary">
+          <div class="v19-section-kicker">Seu centro do dia</div>
+          <h2 id="v19TodayGreeting">Hoje</h2>
+          <p class="quote" id="v19TodaySummary">Veja o que merece sua atenção agora.</p>
+        </div>
+        <div>
+          <div class="section-title"><h3>🎯 Suas 3 prioridades</h3><span>O restante pode esperar.</span></div>
+          <div class="v19-priority-grid" id="v19PriorityGrid"></div>
+        </div>
+        <div class="v19-mini-stats" id="v19MiniStats"></div>
+      </div>
+
       <div class="v15-today-grid">
         <div>
           <div class="card">
@@ -1154,7 +1159,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
       </div>
     </section>
 
-<section class="section active" id="inicio">
+<section class="section" id="inicio">
       <div class="grid grid-4">
         <div class="card metric"><div><small>Água hoje</small><strong id="waterMetric">0,0 L</strong><div class="sub">Meta personalizada</div></div><div class="icon">💧</div></div>
         <div class="card metric"><div><small>Checklist</small><strong id="checkMetric">0%</strong><div class="sub">Rotina do dia</div></div><div class="icon">✅</div></div>
@@ -1734,9 +1739,67 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
       <div class="card">
         <div class="section-title" style="margin-top:0">
           <div><div class="v15-kicker">Versão do aplicativo</div><h3>🆕 O que mudou</h3></div>
-          <span class="badge">V18</span>
+          <span class="badge">V19 Fase 1</span>
         </div>
         <div id="v18Updates"></div>
+      </div>
+    </section>
+
+
+    <section class="section" id="planejar">
+      <div class="section-title"><div><div class="v19-section-kicker">Central de organização</div><h2>🗓️ Planejar</h2></div></div>
+      <div class="v19-hub-grid">
+        <div class="v19-hub-card" onclick="v15GoTo('planejamento')"><div class="v19-hub-icon">📆</div><h3>Semana</h3><p>Organize tarefas, horários e prioridades.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('calendario')"><div class="v19-hub-icon">🗓️</div><h3>Calendário</h3><p>Veja compromissos e eventos.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('lembretes')"><div class="v19-hub-icon">🔔</div><h3>Lembretes</h3><p>Crie alertas e acompanhe notificações.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('caixa-entrada')"><div class="v19-hub-icon">📨</div><h3>Caixa de Entrada</h3><p>Capture ideias e organize depois.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('pendencias')"><div class="v19-hub-icon">📥</div><h3>Pendências</h3><p>Veja o que está aguardando atenção.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="evoluir">
+      <div class="section-title"><div><div class="v19-section-kicker">Progresso e desenvolvimento</div><h2>🌱 Evoluir</h2></div></div>
+      <div class="v19-hub-grid">
+        <div class="v19-hub-card" onclick="v15GoTo('metas')"><div class="v19-hub-icon">🎯</div><h3>Metas</h3><p>Metas pessoais, inteligentes e adaptativas.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('painel-semanal')"><div class="v19-hub-icon">🧠</div><h3>Revisões</h3><p>Revisão semanal e leitura do desempenho.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('revisao-mensal')"><div class="v19-hub-icon">📊</div><h3>Revisão Mensal</h3><p>Compare meses e acompanhe sua evolução.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('insights')"><div class="v19-hub-icon">💡</div><h3>Insights</h3><p>Observações geradas a partir dos registros.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('conquistas')"><div class="v19-hub-icon">🏆</div><h3>Conquistas</h3><p>Marcos, pontos e consistência.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="vida">
+      <div class="section-title"><div><div class="v19-section-kicker">Vida prática</div><h2>🧩 Vida</h2></div></div>
+      <div class="v19-hub-grid">
+        <div class="v19-hub-card" onclick="v15GoTo('progresso')"><div class="v19-hub-icon">❤️</div><h3>Saúde</h3><p>Peso, check-ins e evolução.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('treinos')"><div class="v19-hub-icon">🥋</div><h3>Treinos</h3><p>Atividades físicas e histórico.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('alimentacao')"><div class="v19-hub-icon">🍽️</div><h3>Alimentação</h3><p>Preferências e organização alimentar.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('mercado')"><div class="v19-hub-icon">🛒</div><h3>Mercado</h3><p>Lista de compras e planejamento.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('agua')"><div class="v19-hub-icon">💧</div><h3>Água</h3><p>Acompanhe sua hidratação.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('financas')"><div class="v19-hub-icon">💰</div><h3>Finanças</h3><p>Receitas, despesas e metas.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="historico-hub">
+      <div class="section-title"><div><div class="v19-section-kicker">Memória do seu progresso</div><h2>🕘 Histórico</h2></div></div>
+      <div class="v19-hub-grid">
+        <div class="v19-hub-card" onclick="v15GoTo('diario')"><div class="v19-hub-icon">📖</div><h3>Diário</h3><p>Registros, reflexões e acontecimentos.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('historico')"><div class="v19-hub-icon">🕒</div><h3>Alterações</h3><p>Mudanças importantes feitas no app.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('progresso')"><div class="v19-hub-icon">📈</div><h3>Progresso</h3><p>Acompanhe sua evolução no tempo.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="mais">
+      <div class="section-title"><div><div class="v19-section-kicker">Configurações e sistema</div><h2>⚙️ Mais</h2></div></div>
+      <div class="v19-hub-grid">
+        <div class="v19-hub-card" onclick="v15GoTo('perfil')"><div class="v19-hub-icon">👤</div><h3>Perfil & Rotina</h3><p>Questionário, rotina e preferências.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('nuvem')"><div class="v19-hub-icon">☁️</div><h3>Nuvem</h3><p>Conta e sincronização.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('backup')"><div class="v19-hub-icon">💾</div><h3>Dados & Backup</h3><p>Exportação, importação e segurança.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('saude-sistema')"><div class="v19-hub-icon">🩺</div><h3>Saúde do Sistema</h3><p>Diagnóstico de PWA, nuvem e notificações.</p></div>
+        <div class="v19-hub-card" onclick="v15GoTo('atualizacoes')"><div class="v19-hub-icon">🆕</div><h3>Atualizações</h3><p>Versão atual e novidades.</p></div>
+      </div>
+      <div class="v19-mobile-only" style="margin-top:14px">
+        <button class="btn btn-ghost" style="width:100%" onclick="v15GoTo('historico-hub')">🕘 Abrir Histórico</button>
       </div>
     </section>
 
@@ -3907,8 +3970,8 @@ function renderCalendar(){
 }
 
 
-/* ===== V18 Inteligência de Perfil ===== */
-/* ===== V18 Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
+/* ===== V19 Fase 1 Inteligência de Perfil ===== */
+/* ===== V19 Fase 1 Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
 state.weeklyReviews = state.weeklyReviews && typeof state.weeklyReviews==="object" ? state.weeklyReviews : {};
 state.adaptiveGoalSuggestions = Array.isArray(state.adaptiveGoalSuggestions) ? state.adaptiveGoalSuggestions : [];
 
@@ -4664,7 +4727,7 @@ if(!state.profile.profileSetupCompletedAt && !state.profile.configured){
 }
 
 
-/* ===== V18 Evolução Geral ===== */
+/* ===== V19 Fase 1 Evolução Geral ===== */
 state.changeHistory = Array.isArray(state.changeHistory) ? state.changeHistory : [];
 
 function v17TrackChange(type,description,meta={}){
@@ -4846,7 +4909,7 @@ async function v17RunHealthCheck(){
   const checks=[];
   const add=(name,status,detail,cls)=>checks.push({name,status,detail,cls});
 
-  add("Versão","V18","Evolução Geral","v17-health-ok");
+  add("Versão","V19 Fase 1","Evolução Geral","v17-health-ok");
 
   try{
     localStorage.setItem("__v17_test","1");localStorage.removeItem("__v17_test");
@@ -4950,7 +5013,7 @@ v17PrepareSidebar();
 
 
 
-/* ===== V18 Refino, Insights e Sincronização Inteligente ===== */
+/* ===== V19 Fase 1 Refino, Insights e Sincronização Inteligente ===== */
 state.inbox = Array.isArray(state.inbox)?state.inbox:[];
 state.insights = Array.isArray(state.insights)?state.insights:[];
 state.syncMeta = state.syncMeta && typeof state.syncMeta==="object" ? state.syncMeta : {lastLocalChange:null,lastCloudSync:null};
@@ -5128,8 +5191,8 @@ function v18RenderMonthlyReview(){
 function v18RenderUpdates(){
   const box=document.getElementById("v18Updates");if(!box)return;
   const items=[
-    ["V18","Refino de layout, login melhorado, iPhone, sincronização inteligente, Insights, Revisão Mensal e Caixa de Entrada."],
-    ["V18","Pendências, histórico, busca global, modo foco e saúde do sistema."],
+    ["V19 Fase 1","Refino de layout, login melhorado, iPhone, sincronização inteligente, Insights, Revisão Mensal e Caixa de Entrada."],
+    ["V19 Fase 1","Pendências, histórico, busca global, modo foco e saúde do sistema."],
     ["V16","Revisão semanal, metas adaptativas e feedback visual ao salvar."],
     ["V15","Questionário inteligente, Modo Hoje e perfil evolutivo."]
   ];
@@ -5180,7 +5243,82 @@ setTimeout(v18InitAuthPrefs,50);
 if(!state.insights.length)setTimeout(()=>v18GenerateInsights(false),100);
 
 
-function renderAll(){renderHeader();renderChecklist();renderWater();renderMeals();renderNightPlan();renderWeight();renderTrainings();renderGoals();renderCalendar();renderFinance();renderAchievements();renderReminders();v15RenderAll();v16RenderAll();v17RenderAll();v18RenderAll();}
+
+/* ===== V19 Fase 1 • Navegação Inteligente ===== */
+function v19RenderTodayShell(){
+  const greet=document.getElementById("v19TodayGreeting");
+  const summary=document.getElementById("v19TodaySummary");
+  const grid=document.getElementById("v19PriorityGrid");
+  const stats=document.getElementById("v19MiniStats");
+  if(!grid)return;
+
+  const p=state.profile||{};
+  const name=p.name||"";
+  const hour=new Date().getHours();
+  const saud=hour<12?"Bom dia":hour<18?"Boa tarde":"Boa noite";
+  if(greet)greet.textContent=`${saud}${name?", "+name:""}`;
+
+  const pending=(typeof v17PendingData==="function")?v17PendingData():[];
+  const activeGoals=(state.customGoals||[]).filter(g=>g.status==="Ativa");
+  const today=dateKey();
+  const todayPlans=(state.weeklyPlans||[]).filter(x=>!x.done&&x.date===today);
+  const todayReminders=(state.reminders||[]).filter(r=>r.enabled && (r.date===today || r.repeat==="daily"));
+
+  const priorities=[];
+  if(activeGoals.length){
+    const sorted=[...activeGoals].sort((a,b)=>(a.deadline||"9999").localeCompare(b.deadline||"9999"));
+    priorities.push({kind:"Essencial",title:sorted[0].title||"Meta ativa",sub:sorted[0].deadline?`Prazo: ${sorted[0].deadline}`:"Meta em andamento"});
+  }
+  if(todayPlans.length){
+    priorities.push({kind:"Rápida",title:todayPlans[0].title||todayPlans[0].task||"Tarefa de hoje",sub:"Planejamento"});
+  }
+  const acts=(p.activities||[]).filter(a=>(a.days||[]).includes(new Date().getDay()));
+  if(acts.length){
+    priorities.push({kind:"Cuidado",title:acts[0].name||"Atividade",sub:`${acts[0].time||"Hoje"} • ${acts[0].duration||60} min`});
+  }else if(todayReminders.length){
+    priorities.push({kind:"Cuidado",title:todayReminders[0].title||"Lembrete",sub:todayReminders[0].time||"Hoje"});
+  }
+
+  while(priorities.length<3){
+    const n=priorities.length;
+    priorities.push({
+      kind:n===0?"Essencial":n===1?"Rápida":"Cuidado",
+      title:n===0?"Escolha uma prioridade importante":n===1?"Conclua uma tarefa pequena":"Reserve um tempo para você",
+      sub:"Sugestão para hoje"
+    });
+  }
+
+  grid.innerHTML=priorities.slice(0,3).map(x=>`
+    <div class="v19-priority-card">
+      <small>${escapeHtml(x.kind)}</small>
+      <strong>${escapeHtml(x.title)}</strong>
+      <div class="quote">${escapeHtml(x.sub||"")}</div>
+    </div>`).join("");
+
+  if(summary){
+    summary.textContent=pending.length
+      ? `Você tem ${pending.length} pendência${pending.length===1?"":"s"} pedindo atenção.`
+      : "Sua rotina está sem pendências importantes neste momento.";
+  }
+
+  const waterGoal=Number(p.waterGoal||2500);
+  const water=Number(state.water?.[today]||0);
+  const waterPct=Math.min(100,Math.round(water/waterGoal*100));
+  const checkin=state.dailyCheckins?.[today]?"Feito":"Pendente";
+  const goalCount=activeGoals.length;
+  const planDone=(state.weeklyPlans||[]).filter(x=>x.date===today&&x.done).length;
+
+  if(stats)stats.innerHTML=[
+    ["Água",waterPct+"%"],
+    ["Check-in",checkin],
+    ["Metas ativas",goalCount],
+    ["Tarefas feitas",planDone]
+  ].map(([a,b])=>`<div class="v19-mini-stat"><small>${a}</small><strong>${b}</strong></div>`).join("");
+}
+function v19RenderAll(){v19RenderTodayShell();}
+
+
+function renderAll(){renderHeader();renderChecklist();renderWater();renderMeals();renderNightPlan();renderWeight();renderTrainings();renderGoals();renderCalendar();renderFinance();renderAchievements();renderReminders();v15RenderAll();v16RenderAll();v17RenderAll();v18RenderAll();v19RenderAll();}
 v17PrepareSidebar();
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active")); b.classList.add("active");
