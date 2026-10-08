@@ -278,3 +278,13 @@ No desktop, a sidebar mostra as 6 áreas principais.
 
 A tela Hoje passa a destacar 3 prioridades e indicadores rápidos.
 Os módulos anteriores continuam existindo, mas ficam organizados dentro dos hubs.
+
+## V19 Fase 1.1 — Navegação Corrigida
+
+Correção da Fase 1:
+- todos os cards dos hubs agora abrem seus módulos
+- navegação interna não depende mais de um botão visível na sidebar
+- Planejar, Evoluir, Vida, Histórico e Mais funcionam como portais reais
+- o título da página acompanha o módulo aberto
+- cards dos hubs ganharam foco por teclado e indicador visual
+- Hoje continua sendo a tela principal
