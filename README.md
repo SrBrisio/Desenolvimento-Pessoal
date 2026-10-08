@@ -288,3 +288,18 @@ Correção da Fase 1:
 - o título da página acompanha o módulo aberto
 - cards dos hubs ganharam foco por teclado e indicador visual
 - Hoje continua sendo a tela principal
+
+## V19 Fase 2 — Automação Pessoal
+
+Inclui:
+- Mensagem Inteligente do Dia
+- biblioteca própria com 150 mensagens originais
+- seleção por contexto
+- bloqueio de repetição por 30 dias
+- Modo de Prioridade com 3 prioridades automáticas
+- Estado da Semana: tranquila, equilibrada ou sobrecarregada
+- Previsão de Semana Difícil
+- Plano B automático para tarefas e lembretes não concluídos
+- reorganização sugerida para próximo dia disponível
+
+A Fase 2 usa os dados já existentes no aplicativo, sem criar novas abas desnecessárias.

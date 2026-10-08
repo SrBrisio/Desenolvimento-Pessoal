@@ -607,7 +607,7 @@
 
 
 
-/* ===== V19 Fase 1.1 • Perfil inteligente + Hoje ===== */
+/* ===== V19 Fase 2 • Perfil inteligente + Hoje ===== */
 :root{
   --radius-v15:18px;
 }
@@ -676,7 +676,7 @@ body.v15-light .v15-checkin-scale button{background:#f7f9fc;color:#172033}
 }
 
 
-/* ===== V19 Fase 1.1 • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
+/* ===== V19 Fase 2 • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
 .v16-save-status{
   position:fixed;top:18px;right:18px;z-index:9999;
   min-width:190px;max-width:340px;
@@ -716,7 +716,7 @@ body.v15-light .v16-review-item,body.v15-light .v16-smart-goal{background:#f7f9f
 }
 
 
-/* ===== V19 Fase 1.1 • Evolução geral de UX ===== */
+/* ===== V19 Fase 2 • Evolução geral de UX ===== */
 :root{--sidebar-collapsed:78px}
 
 /* Sidebar realmente recolhida */
@@ -846,7 +846,7 @@ body.v15-light .v17-routine-item{background:#f7f9fc}
 }
 
 
-/* ===== V19 Fase 1.1 • Refino, Insights e Sincronização Inteligente ===== */
+/* ===== V19 Fase 2 • Refino, Insights e Sincronização Inteligente ===== */
 :root{
   --tap:46px;
 }
@@ -911,7 +911,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 #lembretes .goal-form > .btn{grid-column:1/-1!important;justify-self:end!important}
 
 
-/* ===== V19 Fase 1.1 • Navegação Inteligente ===== */
+/* ===== V19 Fase 2 • Navegação Inteligente ===== */
 .v19-hub-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .v19-hub-card{border:1px solid var(--line);border-radius:18px;padding:18px;background:var(--panel);cursor:pointer;transition:.18s ease}
 .v19-hub-card:hover{transform:translateY(-2px);border-color:var(--accent)}
@@ -932,7 +932,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 }
 
 
-/* V19 Fase 1.1.1 */
+/* V19 Fase 2.1 */
 .v19-hub-card{position:relative}
 .v19-hub-card::after{
   content:"›";
@@ -946,6 +946,41 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 .v19-hub-card:focus-visible{
   outline:2px solid var(--accent);
   outline-offset:2px;
+}
+
+
+/* ===== V19 Fase 2 • Automação Pessoal ===== */
+.v19-message-card{
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:18px;
+  background:linear-gradient(180deg,rgba(90,120,255,.10),rgba(14,22,41,.08));
+}
+.v19-message-card blockquote{
+  margin:10px 0 8px;
+  font-size:20px;
+  line-height:1.5;
+  font-weight:800;
+}
+.v19-context-line{font-size:12px;color:var(--muted)}
+.v19-week-state{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  border:1px solid var(--line);border-radius:16px;padding:14px;background:var(--panel)
+}
+.v19-week-state strong{font-size:18px}
+.v19-state-pill{padding:7px 10px;border-radius:999px;border:1px solid var(--line);font-size:12px;font-weight:800}
+.v19-state-calm{color:#7bd8b4}.v19-state-balanced{color:#d7c26b}.v19-state-heavy{color:#ff8b9a}
+.v19-forecast-card{
+  border:1px solid var(--line);border-radius:16px;padding:14px;background:#0e1629
+}
+body.v15-light .v19-forecast-card{background:#f7f9fc}
+.v19-planb-item{border:1px solid var(--line);border-radius:14px;padding:13px;background:#0e1629;margin-bottom:9px}
+body.v15-light .v19-planb-item{background:#f7f9fc}
+.v19-planb-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.v19-auto-badge{display:inline-flex;padding:4px 8px;border-radius:999px;border:1px solid var(--line);font-size:11px;color:var(--muted)}
+@media(max-width:720px){
+  .v19-message-card blockquote{font-size:18px}
+  .v19-week-state{align-items:flex-start;flex-direction:column}
 }
 
 </style>
@@ -1129,6 +1164,37 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
     
     <section class="section active" id="hoje">
       <div class="v19-today-stack">
+        <div class="v19-message-card">
+          <div class="v19-section-kicker">Mensagem Inteligente do Dia</div>
+          <blockquote id="v19DailyMessage">Carregando reflexão...</blockquote>
+          <div class="v19-context-line" id="v19DailyMessageContext">Baseado no seu contexto atual</div>
+        </div>
+
+        <div class="v19-week-state">
+          <div>
+            <div class="v19-section-kicker">Estado da Semana</div>
+            <strong id="v19WeekStateTitle">Analisando sua semana...</strong>
+            <div class="quote" id="v19WeekStateSummary"></div>
+          </div>
+          <span class="v19-state-pill" id="v19WeekStatePill">...</span>
+        </div>
+
+        <div class="v19-forecast-card" id="v19ForecastCard">
+          <div class="section-title" style="margin-top:0">
+            <div><div class="v19-section-kicker">Previsão de carga</div><h3>🔭 Próxima semana</h3></div>
+            <span class="v19-auto-badge">Automático</span>
+          </div>
+          <div id="v19ForecastContent"></div>
+        </div>
+
+        <div class="card">
+          <div class="section-title" style="margin-top:0">
+            <div><div class="v19-section-kicker">Plano B automático</div><h3>🔄 Reorganizar o que não aconteceu</h3></div>
+            <span class="badge" id="v19PlanBCount">0</span>
+          </div>
+          <div id="v19PlanBList"></div>
+        </div>
+
         <div class="v19-today-primary">
           <div class="v19-section-kicker">Seu centro do dia</div>
           <h2 id="v19TodayGreeting">Hoje</h2>
@@ -1756,7 +1822,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
       <div class="card">
         <div class="section-title" style="margin-top:0">
           <div><div class="v15-kicker">Versão do aplicativo</div><h3>🆕 O que mudou</h3></div>
-          <span class="badge">V19 Fase 1.1</span>
+          <span class="badge">V19 Fase 2</span>
         </div>
         <div id="v18Updates"></div>
       </div>
@@ -3987,8 +4053,8 @@ function renderCalendar(){
 }
 
 
-/* ===== V19 Fase 1.1 Inteligência de Perfil ===== */
-/* ===== V19 Fase 1.1 Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
+/* ===== V19 Fase 2 Inteligência de Perfil ===== */
+/* ===== V19 Fase 2 Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
 state.weeklyReviews = state.weeklyReviews && typeof state.weeklyReviews==="object" ? state.weeklyReviews : {};
 state.adaptiveGoalSuggestions = Array.isArray(state.adaptiveGoalSuggestions) ? state.adaptiveGoalSuggestions : [];
 
@@ -4744,7 +4810,7 @@ if(!state.profile.profileSetupCompletedAt && !state.profile.configured){
 }
 
 
-/* ===== V19 Fase 1.1 Evolução Geral ===== */
+/* ===== V19 Fase 2 Evolução Geral ===== */
 state.changeHistory = Array.isArray(state.changeHistory) ? state.changeHistory : [];
 
 function v17TrackChange(type,description,meta={}){
@@ -4926,7 +4992,7 @@ async function v17RunHealthCheck(){
   const checks=[];
   const add=(name,status,detail,cls)=>checks.push({name,status,detail,cls});
 
-  add("Versão","V19 Fase 1.1","Evolução Geral","v17-health-ok");
+  add("Versão","V19 Fase 2","Evolução Geral","v17-health-ok");
 
   try{
     localStorage.setItem("__v17_test","1");localStorage.removeItem("__v17_test");
@@ -5030,7 +5096,7 @@ v17PrepareSidebar();
 
 
 
-/* ===== V19 Fase 1.1 Refino, Insights e Sincronização Inteligente ===== */
+/* ===== V19 Fase 2 Refino, Insights e Sincronização Inteligente ===== */
 state.inbox = Array.isArray(state.inbox)?state.inbox:[];
 state.insights = Array.isArray(state.insights)?state.insights:[];
 state.syncMeta = state.syncMeta && typeof state.syncMeta==="object" ? state.syncMeta : {lastLocalChange:null,lastCloudSync:null};
@@ -5208,8 +5274,8 @@ function v18RenderMonthlyReview(){
 function v18RenderUpdates(){
   const box=document.getElementById("v18Updates");if(!box)return;
   const items=[
-    ["V19 Fase 1.1","Refino de layout, login melhorado, iPhone, sincronização inteligente, Insights, Revisão Mensal e Caixa de Entrada."],
-    ["V19 Fase 1.1","Pendências, histórico, busca global, modo foco e saúde do sistema."],
+    ["V19 Fase 2","Refino de layout, login melhorado, iPhone, sincronização inteligente, Insights, Revisão Mensal e Caixa de Entrada."],
+    ["V19 Fase 2","Pendências, histórico, busca global, modo foco e saúde do sistema."],
     ["V16","Revisão semanal, metas adaptativas e feedback visual ao salvar."],
     ["V15","Questionário inteligente, Modo Hoje e perfil evolutivo."]
   ];
@@ -5261,7 +5327,7 @@ if(!state.insights.length)setTimeout(()=>v18GenerateInsights(false),100);
 
 
 
-/* ===== V19 Fase 1.1 • Navegação Inteligente ===== */
+/* ===== V19 Fase 2 • Navegação Inteligente ===== */
 
 function v19OpenModule(page){
   // Fecha resultados/menus flutuantes que possam estar abertos.
@@ -5419,7 +5485,291 @@ function v19RenderTodayShell(){
 function v19RenderAll(){v19RenderTodayShell();}
 
 
-function renderAll(){renderHeader();renderChecklist();renderWater();renderMeals();renderNightPlan();renderWeight();renderTrainings();renderGoals();renderCalendar();renderFinance();renderAchievements();renderReminders();v15RenderAll();v16RenderAll();v17RenderAll();v18RenderAll();v19RenderAll();}
+const V19_DAILY_MESSAGES = [{"id": "foco-01", "category": "foco", "text": "Escolha uma coisa importante e dê a ela a melhor parte da sua atenção."}, {"id": "foco-02", "category": "foco", "text": "Foco não é fazer tudo; é saber o que merece vir primeiro."}, {"id": "foco-03", "category": "foco", "text": "Se o dia estiver barulhento, reduza a lista até sobrar o essencial."}, {"id": "foco-04", "category": "foco", "text": "Um bloco de atenção inteira vale mais do que horas divididas."}, {"id": "foco-05", "category": "foco", "text": "Antes de abrir outra tarefa, termine a que já está na sua frente."}, {"id": "foco-06", "category": "foco", "text": "Seu próximo passo não precisa ser grande, só precisa ser claro."}, {"id": "foco-07", "category": "foco", "text": "Quando tudo parece urgente, quase nada está realmente priorizado."}, {"id": "foco-08", "category": "foco", "text": "Faça menos coisas ao mesmo tempo e mais coisas por inteiro."}, {"id": "foco-09", "category": "foco", "text": "Direção costuma importar mais do que velocidade."}, {"id": "foco-10", "category": "foco", "text": "Comece pela tarefa que vai aliviar o restante do dia."}, {"id": "foco-11", "category": "foco", "text": "Proteja alguns minutos sem distração e veja o que muda."}, {"id": "foco-12", "category": "foco", "text": "Uma prioridade bem escolhida organiza o resto."}, {"id": "foco-13", "category": "foco", "text": "Não negocie sua atenção com cada notificação que aparecer."}, {"id": "foco-14", "category": "foco", "text": "O que merece foco hoje talvez não mereça foco amanhã."}, {"id": "foco-15", "category": "foco", "text": "Concluir uma coisa importante é melhor do que tocar dez pela metade."}, {"id": "foco-16", "category": "foco", "text": "Decida o primeiro passo antes de buscar motivação."}, {"id": "foco-17", "category": "foco", "text": "Foco também é dizer 'depois' para coisas que podem esperar."}, {"id": "foco-18", "category": "foco", "text": "Seu tempo ganha força quando você decide para onde ele vai."}, {"id": "foco-19", "category": "foco", "text": "Se estiver travado, reduza a tarefa até ela caber em dez minutos."}, {"id": "foco-20", "category": "foco", "text": "Hoje não precisa ser produtivo em tudo, só no que importa."}, {"id": "foco-21", "category": "foco", "text": "Uma agenda cheia não é prova de progresso."}, {"id": "foco-22", "category": "foco", "text": "Faça primeiro o que deixará sua cabeça mais leve."}, {"id": "foco-23", "category": "foco", "text": "Concentre energia onde a consequência é maior."}, {"id": "foco-24", "category": "foco", "text": "Troque pressa por clareza por alguns minutos."}, {"id": "foco-25", "category": "foco", "text": "Uma escolha consciente agora pode poupar várias decisões depois."}, {"id": "recomeco-01", "category": "recomeco", "text": "Recomeçar não apaga o caminho; apenas muda o próximo passo."}, {"id": "recomeco-02", "category": "recomeco", "text": "Um dia fora do plano não precisa virar uma semana fora dele."}, {"id": "recomeco-03", "category": "recomeco", "text": "Se algo não funcionou, ajuste a estratégia antes de julgar o objetivo."}, {"id": "recomeco-04", "category": "recomeco", "text": "Você pode voltar ao básico quantas vezes precisar."}, {"id": "recomeco-05", "category": "recomeco", "text": "Reorganizar é uma forma de continuar."}, {"id": "recomeco-06", "category": "recomeco", "text": "Nem todo atraso precisa virar desistência."}, {"id": "recomeco-07", "category": "recomeco", "text": "Comece de onde você está, com o tempo que realmente tem."}, {"id": "recomeco-08", "category": "recomeco", "text": "Uma rotina pode ser retomada sem punição e sem pressa."}, {"id": "recomeco-09", "category": "recomeco", "text": "Se ontem ficou incompleto, hoje pode começar menor."}, {"id": "recomeco-10", "category": "recomeco", "text": "Recomeços funcionam melhor quando cabem na vida real."}, {"id": "recomeco-11", "category": "recomeco", "text": "Não espere a segunda-feira para corrigir uma quarta-feira."}, {"id": "recomeco-12", "category": "recomeco", "text": "Voltar ao ritmo conta mais do que manter uma aparência de perfeição."}, {"id": "recomeco-13", "category": "recomeco", "text": "Troque culpa por uma próxima ação simples."}, {"id": "recomeco-14", "category": "recomeco", "text": "Um plano quebrado pode virar um plano melhor."}, {"id": "recomeco-15", "category": "recomeco", "text": "Você não precisa recuperar tudo hoje; só precisa retomar o movimento."}, {"id": "recomeco-16", "category": "recomeco", "text": "Se a semana saiu do eixo, escolha uma âncora e volte por ela."}, {"id": "recomeco-17", "category": "recomeco", "text": "Reduza a meta até ela voltar a ser possível."}, {"id": "recomeco-18", "category": "recomeco", "text": "Há dias de avanço e dias de reorganização; ambos fazem parte."}, {"id": "recomeco-19", "category": "recomeco", "text": "O melhor recomeço costuma ser discreto."}, {"id": "recomeco-20", "category": "recomeco", "text": "Corrigir a rota cedo é mais útil do que insistir na direção errada."}, {"id": "autoconhecimento-01", "category": "autoconhecimento", "text": "Observe o que costuma acontecer antes dos seus dias mais produtivos."}, {"id": "autoconhecimento-02", "category": "autoconhecimento", "text": "Seu cansaço também é informação sobre sua rotina."}, {"id": "autoconhecimento-03", "category": "autoconhecimento", "text": "Nem toda resistência significa preguiça; às vezes significa excesso."}, {"id": "autoconhecimento-04", "category": "autoconhecimento", "text": "Perceba quais compromissos drenam mais energia do que parecem."}, {"id": "autoconhecimento-05", "category": "autoconhecimento", "text": "Seu padrão de escolhas ensina mais sobre você do que uma promessa isolada."}, {"id": "autoconhecimento-06", "category": "autoconhecimento", "text": "Pergunte menos 'por que eu falhei?' e mais 'o que tornou isso difícil?'."}, {"id": "autoconhecimento-07", "category": "autoconhecimento", "text": "Há hábitos que combinam com você e outros que só parecem bons no papel."}, {"id": "autoconhecimento-08", "category": "autoconhecimento", "text": "Note em quais horários sua atenção funciona melhor."}, {"id": "autoconhecimento-09", "category": "autoconhecimento", "text": "Se uma meta vive sendo adiada, talvez ela precise mudar de forma."}, {"id": "autoconhecimento-10", "category": "autoconhecimento", "text": "O que você evita repetidamente merece curiosidade, não julgamento."}, {"id": "autoconhecimento-11", "category": "autoconhecimento", "text": "Seu ritmo real é mais útil do que o ritmo idealizado."}, {"id": "autoconhecimento-12", "category": "autoconhecimento", "text": "Observe o que melhora sua energia sem exigir esforço enorme."}, {"id": "autoconhecimento-13", "category": "autoconhecimento", "text": "Repare no tipo de tarefa que você termina com facilidade."}, {"id": "autoconhecimento-14", "category": "autoconhecimento", "text": "Seu planejamento também deve respeitar como você funciona."}, {"id": "autoconhecimento-15", "category": "autoconhecimento", "text": "O que você repete sem perceber também constrói sua rotina."}, {"id": "autoconhecimento-16", "category": "autoconhecimento", "text": "Aprender seus limites ajuda a escolher metas mais inteligentes."}, {"id": "autoconhecimento-17", "category": "autoconhecimento", "text": "Algumas dificuldades são sinais para ajustar o ambiente, não a força de vontade."}, {"id": "autoconhecimento-18", "category": "autoconhecimento", "text": "Compare você com seu próprio histórico, não com uma versão imaginária perfeita."}, {"id": "autoconhecimento-19", "category": "autoconhecimento", "text": "Se uma escolha funciona bem várias vezes, transforme-a em padrão."}, {"id": "autoconhecimento-20", "category": "autoconhecimento", "text": "Autoconhecimento começa quando você observa sem tentar se defender de tudo."}, {"id": "constancia-01", "category": "constancia", "text": "Consistência pequena ainda é consistência."}, {"id": "constancia-02", "category": "constancia", "text": "Repetir o básico por tempo suficiente costuma vencer grandes arrancadas."}, {"id": "constancia-03", "category": "constancia", "text": "Uma semana razoável repetida vale mais do que um dia perfeito isolado."}, {"id": "constancia-04", "category": "constancia", "text": "Continuar no ritmo possível é uma estratégia."}, {"id": "constancia-05", "category": "constancia", "text": "Há progresso escondido em tarefas comuns feitas de novo."}, {"id": "constancia-06", "category": "constancia", "text": "Não aumente a dificuldade só porque algo começou a funcionar."}, {"id": "constancia-07", "category": "constancia", "text": "Primeiro consolide, depois acelere."}, {"id": "constancia-08", "category": "constancia", "text": "Manter uma rotina simples também é evolução."}, {"id": "constancia-09", "category": "constancia", "text": "Um hábito se fortalece quando deixa de depender de empolgação."}, {"id": "constancia-10", "category": "constancia", "text": "Voltar rapidamente depois de um deslize protege sua consistência."}, {"id": "constancia-11", "category": "constancia", "text": "Constância não exige uniformidade; exige retorno."}, {"id": "constancia-12", "category": "constancia", "text": "Seu melhor ritmo é aquele que você consegue repetir."}, {"id": "constancia-13", "category": "constancia", "text": "Pequenos registros ajudam a perceber progresso que a memória esquece."}, {"id": "constancia-14", "category": "constancia", "text": "Não transforme uma sequência boa em obrigação impossível."}, {"id": "constancia-15", "category": "constancia", "text": "Uma escolha útil repetida pode mudar uma semana inteira."}, {"id": "constancia-16", "category": "constancia", "text": "Consistência é mais sobre frequência do que intensidade."}, {"id": "constancia-17", "category": "constancia", "text": "Hoje pode ser apenas mais uma boa repetição."}, {"id": "constancia-18", "category": "constancia", "text": "O básico bem mantido deixa espaço para crescer depois."}, {"id": "constancia-19", "category": "constancia", "text": "Se está funcionando, resista à vontade de complicar."}, {"id": "constancia-20", "category": "constancia", "text": "Progresso sustentável costuma parecer menos dramático por dentro."}, {"id": "organizacao-01", "category": "organizacao", "text": "Organize o próximo passo antes de organizar o mês inteiro."}, {"id": "organizacao-02", "category": "organizacao", "text": "Uma lista menor costuma produzir mais movimento."}, {"id": "organizacao-03", "category": "organizacao", "text": "Se tudo está misturado, separe por hoje, depois e talvez."}, {"id": "organizacao-04", "category": "organizacao", "text": "Planejar é decidir antecipadamente o que não merece sua energia."}, {"id": "organizacao-05", "category": "organizacao", "text": "Uma agenda boa deixa espaço para imprevistos."}, {"id": "organizacao-06", "category": "organizacao", "text": "Não preencha cada intervalo; deixe alguma margem."}, {"id": "organizacao-07", "category": "organizacao", "text": "Prioridade sem horário vira intenção."}, {"id": "organizacao-08", "category": "organizacao", "text": "Organização útil reduz decisões repetidas."}, {"id": "organizacao-09", "category": "organizacao", "text": "Se uma tarefa cabe em poucos minutos, escolha um momento claro para ela."}, {"id": "organizacao-10", "category": "organizacao", "text": "Revise o que está acumulando antes de adicionar mais."}, {"id": "organizacao-11", "category": "organizacao", "text": "Arquivar também é organizar."}, {"id": "organizacao-12", "category": "organizacao", "text": "Nem toda ideia precisa virar compromisso."}, {"id": "organizacao-13", "category": "organizacao", "text": "Uma semana mais leve pode ser mais eficiente."}, {"id": "organizacao-14", "category": "organizacao", "text": "Coloque no calendário o que realmente precisa acontecer."}, {"id": "organizacao-15", "category": "organizacao", "text": "Quando o plano não cabe, reduza o plano."}, {"id": "organizacao-16", "category": "organizacao", "text": "Use listas para liberar a cabeça, não para pressioná-la."}, {"id": "organizacao-17", "category": "organizacao", "text": "Uma rotina visível é mais fácil de ajustar."}, {"id": "organizacao-18", "category": "organizacao", "text": "Separar o urgente do importante muda o dia."}, {"id": "organizacao-19", "category": "organizacao", "text": "Planeje com base no tempo disponível, não no desejo de caber tudo."}, {"id": "organizacao-20", "category": "organizacao", "text": "Deixe claro o que pode esperar sem culpa."}, {"id": "descanso-01", "category": "descanso", "text": "Descanso também protege a qualidade das próximas decisões."}, {"id": "descanso-02", "category": "descanso", "text": "Se sua energia caiu, reduzir a carga pode ser a escolha mais inteligente."}, {"id": "descanso-03", "category": "descanso", "text": "Nem todo dia precisa render no mesmo nível."}, {"id": "descanso-04", "category": "descanso", "text": "Recuperar energia também faz parte do plano."}, {"id": "descanso-05", "category": "descanso", "text": "Uma pausa curta pode evitar uma tarde inteira de desgaste."}, {"id": "descanso-06", "category": "descanso", "text": "Seu corpo não lê sua lista de tarefas; ele responde ao ritmo real."}, {"id": "descanso-07", "category": "descanso", "text": "Quando o cansaço cresce, simplifique antes de abandonar."}, {"id": "descanso-08", "category": "descanso", "text": "Há momentos em que dormir melhor é a tarefa mais produtiva."}, {"id": "descanso-09", "category": "descanso", "text": "Descansar não precisa ser recompensa por exaustão."}, {"id": "descanso-10", "category": "descanso", "text": "Respeitar um dia mais lento ajuda a preservar a semana."}, {"id": "descanso-11", "category": "descanso", "text": "Uma rotina sustentável inclui espaço para respirar."}, {"id": "descanso-12", "category": "descanso", "text": "Se você está no limite, a meta certa pode ser reduzir o excesso."}, {"id": "descanso-13", "category": "descanso", "text": "Não transforme recuperação em atraso."}, {"id": "descanso-14", "category": "descanso", "text": "Uma noite melhor pode resolver problemas que esforço extra não resolve."}, {"id": "descanso-15", "category": "descanso", "text": "Descanso inteligente mantém o projeto de longo prazo vivo."}, {"id": "metas-01", "category": "metas", "text": "Uma meta clara precisa de um próximo passo visível."}, {"id": "metas-02", "category": "metas", "text": "Se a meta parece distante, trabalhe na etapa, não no horizonte."}, {"id": "metas-03", "category": "metas", "text": "Prazos ajudam quando orientam; atrapalham quando só pressionam."}, {"id": "metas-04", "category": "metas", "text": "Metas melhores combinam ambição com disponibilidade."}, {"id": "metas-05", "category": "metas", "text": "Uma meta que nunca cabe na semana precisa ser redesenhada."}, {"id": "metas-06", "category": "metas", "text": "Defina o mínimo que ainda conta como avanço."}, {"id": "metas-07", "category": "metas", "text": "Dividir uma meta reduz a distância entre intenção e ação."}, {"id": "metas-08", "category": "metas", "text": "Se algo está atrasado, descubra se falta tempo, clareza ou prioridade."}, {"id": "metas-09", "category": "metas", "text": "Não adicione uma meta nova sem olhar as que já estão abertas."}, {"id": "metas-10", "category": "metas", "text": "Uma boa meta permite ajuste sem perder o propósito."}, {"id": "metas-11", "category": "metas", "text": "Progresso também pode ser encerrar uma meta que perdeu sentido."}, {"id": "metas-12", "category": "metas", "text": "Escolha etapas que possam ser marcadas como concluídas."}, {"id": "metas-13", "category": "metas", "text": "Metas competem por tempo; trate isso como parte do planejamento."}, {"id": "metas-14", "category": "metas", "text": "O prazo deve ajudar você a decidir, não apenas lembrar que está atrasado."}, {"id": "metas-15", "category": "metas", "text": "Revisar uma meta é uma forma de cuidar dela."}, {"id": "motivacao-01", "category": "motivacao", "text": "Você não precisa sentir vontade para começar pequeno."}, {"id": "motivacao-02", "category": "motivacao", "text": "Um passo simples ainda muda sua posição."}, {"id": "motivacao-03", "category": "motivacao", "text": "Hoje pode ser um bom dia para facilitar a própria vida."}, {"id": "motivacao-04", "category": "motivacao", "text": "Você já pode melhorar o dia sem resolver tudo."}, {"id": "motivacao-05", "category": "motivacao", "text": "Algumas vitórias parecem apenas tarefas concluídas."}, {"id": "motivacao-06", "category": "motivacao", "text": "Faça algo que sua versão de amanhã agradeceria."}, {"id": "motivacao-07", "category": "motivacao", "text": "Seu dia não precisa impressionar ninguém para valer a pena."}, {"id": "motivacao-08", "category": "motivacao", "text": "Quando faltar impulso, escolha algo fácil de iniciar."}, {"id": "motivacao-09", "category": "motivacao", "text": "Uma pequena decisão pode mudar o tom das próximas horas."}, {"id": "motivacao-10", "category": "motivacao", "text": "Há dias em que avançar significa apenas não abandonar."}, {"id": "motivacao-11", "category": "motivacao", "text": "Comece antes de ter certeza de que está pronto."}, {"id": "motivacao-12", "category": "motivacao", "text": "Seu progresso não precisa fazer barulho."}, {"id": "motivacao-13", "category": "motivacao", "text": "Faça o possível caber antes de tentar o ideal."}, {"id": "motivacao-14", "category": "motivacao", "text": "Um pouco de direção já é melhor do que muita cobrança."}, {"id": "motivacao-15", "category": "motivacao", "text": "Você pode terminar o dia melhor do que começou."}];
+
+state.dailyMessageHistory = Array.isArray(state.dailyMessageHistory) ? state.dailyMessageHistory : [];
+state.planBHistory = Array.isArray(state.planBHistory) ? state.planBHistory : [];
+
+function v19ContextSnapshot(){
+  const today=dateKey();
+  const p=state.profile||{};
+  const check=state.dailyCheckins?.[today]||null;
+  const pending=(typeof v17PendingData==="function")?v17PendingData():[];
+  const activeGoals=(state.customGoals||[]).filter(g=>g.status==="Ativa");
+  const overdueGoals=activeGoals.filter(g=>g.deadline && g.deadline<today);
+  const todayPlans=(state.weeklyPlans||[]).filter(x=>x.date===today);
+  const incompleteToday=todayPlans.filter(x=>!x.done);
+  const trainings14=(state.trainings||[]).filter(t=>v16RecentKeys(14).includes(String(t.date||"").slice(0,10)));
+  const water14=v16RecentKeys(14).filter(k=>Number(state.water?.[k]||0)>=Number(p.waterGoal||2500)).length;
+
+  return {
+    today,p,check,pending,activeGoals,overdueGoals,todayPlans,incompleteToday,trainings14,water14
+  };
+}
+
+function v19ChooseMessageCategory(ctx){
+  if(ctx.check && Number(ctx.check.energy||0)>0 && Number(ctx.check.energy||0)<=2) return "descanso";
+  if(ctx.overdueGoals.length>=2) return "recomeco";
+  if(ctx.pending.length>=5) return "organizacao";
+  if(ctx.activeGoals.length>=4) return "metas";
+  if(ctx.trainings14.length>=5 || ctx.water14>=9) return "constancia";
+  if(ctx.incompleteToday.length>=3) return "foco";
+
+  const order=["autoconhecimento","motivacao","foco","constancia","organizacao","metas"];
+  const idx=new Date().getDate()%order.length;
+  return order[idx];
+}
+
+function v19GetDailyMessage(){
+  const ctx=v19ContextSnapshot();
+  const category=v19ChooseMessageCategory(ctx);
+  const today=ctx.today;
+  const usedRecent=new Set(
+    (state.dailyMessageHistory||[])
+      .filter(x=>{
+        const d=(Date.now()-new Date(x.date+"T12:00:00").getTime())/86400000;
+        return d>=0 && d<30;
+      })
+      .map(x=>x.id)
+  );
+
+  let candidates=V19_DAILY_MESSAGES.filter(x=>x.category===category && !usedRecent.has(x.id));
+  if(!candidates.length)candidates=V19_DAILY_MESSAGES.filter(x=>!usedRecent.has(x.id));
+  if(!candidates.length)candidates=V19_DAILY_MESSAGES;
+
+  // Deterministic daily selection
+  const seed=[...today].reduce((s,c)=>s+c.charCodeAt(0),0)+category.length*31;
+  const msg=candidates[seed % candidates.length];
+
+  const already=(state.dailyMessageHistory||[]).find(x=>x.date===today);
+  if(!already){
+    state.dailyMessageHistory.push({date:today,id:msg.id,category:msg.category});
+    state.dailyMessageHistory=state.dailyMessageHistory.slice(-120);
+    try{localStorage.setItem("saudeV1",JSON.stringify(state))}catch(e){}
+  }else{
+    const saved=V19_DAILY_MESSAGES.find(x=>x.id===already.id);
+    if(saved)return {msg:saved,category:already.category,ctx};
+  }
+  return {msg,category,ctx};
+}
+
+function v19MessageContextLabel(category,ctx){
+  const labels={
+    descanso:"Baseado no seu nível recente de energia",
+    recomeco:"Baseado em metas e pendências acumuladas",
+    organizacao:"Baseado na carga atual da sua semana",
+    metas:"Baseado nas metas que estão em andamento",
+    constancia:"Baseado na sua consistência recente",
+    foco:"Baseado nas prioridades do dia",
+    autoconhecimento:"Reflexão para observar sua rotina",
+    motivacao:"Mensagem leve para começar o dia"
+  };
+  return labels[category]||"Baseado no seu contexto atual";
+}
+
+function v19RenderDailyMessage(){
+  const quote=document.getElementById("v19DailyMessage");
+  const ctxLine=document.getElementById("v19DailyMessageContext");
+  if(!quote)return;
+  const {msg,category,ctx}=v19GetDailyMessage();
+  quote.textContent=`“${msg.text}”`;
+  if(ctxLine)ctxLine.textContent=v19MessageContextLabel(category,ctx);
+}
+
+function v19CurrentWeekLoad(offset=0){
+  const start=v16Monday(v16AddDays(new Date(),offset*7));
+  const keys=v16WeekKeys(start);
+  const plans=(state.weeklyPlans||[]).filter(x=>keys.includes(String(x.date||"").slice(0,10)));
+  const activeGoals=(state.customGoals||[]).filter(g=>g.status==="Ativa");
+  const reminders=(state.reminders||[]).filter(r=>{
+    if(!r.enabled)return false;
+    if(r.repeat==="daily"||r.repeat==="weekly")return true;
+    return r.date && keys.includes(r.date);
+  });
+  const activities=(state.profile?.activities||[]).reduce((s,a)=>s+Number(a.frequency||0),0);
+  const events=(state.events||[]).filter(x=>keys.includes(String(x.date||"").slice(0,10)));
+  const score=plans.length + Math.min(activeGoals.length,6)*1.5 + reminders.length*.5 + activities + events.length*1.2;
+  return {start,keys,plans,activeGoals,reminders,activities,events,score};
+}
+
+function v19GetWeekState(){
+  const w=v19CurrentWeekLoad(0);
+  let stateName="Tranquila",cls="v19-state-calm";
+  if(w.score>=11 && w.score<20){stateName="Equilibrada";cls="v19-state-balanced"}
+  if(w.score>=20){stateName="Sobrecarregada";cls="v19-state-heavy"}
+  return {...w,stateName,cls};
+}
+
+function v19RenderWeekState(){
+  const title=document.getElementById("v19WeekStateTitle");
+  const summary=document.getElementById("v19WeekStateSummary");
+  const pill=document.getElementById("v19WeekStatePill");
+  if(!title||!pill)return;
+  const w=v19GetWeekState();
+  title.textContent=`Semana ${w.stateName.toLowerCase()}`;
+  pill.textContent=w.stateName;
+  pill.className=`v19-state-pill ${w.cls}`;
+  if(summary){
+    if(w.stateName==="Sobrecarregada")summary.textContent="Há bastante coisa competindo pelo seu tempo. Vale reduzir ou reorganizar antes de adicionar novas metas.";
+    else if(w.stateName==="Equilibrada")summary.textContent="Sua carga parece administrável, mas ainda vale preservar alguma margem para imprevistos.";
+    else summary.textContent="A semana está com uma carga leve. Você tem espaço para executar sem pressionar demais a agenda.";
+  }
+}
+
+function v19ForecastNextWeek(){
+  const w=v19CurrentWeekLoad(1);
+  let level="leve";
+  if(w.score>=11 && w.score<20)level="moderada";
+  if(w.score>=20)level="alta";
+  return {...w,level};
+}
+
+function v19RenderForecast(){
+  const box=document.getElementById("v19ForecastContent");if(!box)return;
+  const w=v19ForecastNextWeek();
+  const totalItems=w.plans.length+w.events.length+w.activities+w.activeGoals.length;
+  let advice="A próxima semana parece tranquila. Preserve algum espaço livre.";
+  if(w.level==="moderada")advice="A próxima semana tem uma carga moderada. Evite adicionar compromissos sem revisar os atuais.";
+  if(w.level==="alta")advice="A próxima semana está carregada. Considere adiar tarefas de baixa prioridade ou reduzir metas temporariamente.";
+  box.innerHTML=`
+    <strong>Carga ${w.level}</strong>
+    <div class="quote" style="margin-top:5px">${totalItems} itens/compromissos considerados na análise.</div>
+    <p>${escapeHtml(advice)}</p>
+    ${w.level==="alta"?'<button class="btn btn-primary" onclick="v19OpenModule(\'planejar\')">Reorganizar semana</button>':""}
+  `;
+}
+
+function v19PriorityScore(item){
+  let score=0;
+  const today=dateKey();
+  if(item.deadline){
+    const d=(new Date(item.deadline+"T12:00:00")-new Date(today+"T12:00:00"))/86400000;
+    if(d<0)score+=100;
+    else if(d===0)score+=80;
+    else if(d<=2)score+=50;
+  }
+  if(String(item.priority||"").toLowerCase().includes("alta"))score+=30;
+  if(item.date===today)score+=40;
+  if(item.quick)score+=10;
+  return score;
+}
+
+function v19SmartPriorities(){
+  const today=dateKey();
+  const candidates=[];
+
+  (state.customGoals||[]).filter(g=>g.status==="Ativa").forEach(g=>{
+    candidates.push({kind:"Essencial",title:g.title||"Meta",sub:g.deadline?`Prazo: ${g.deadline}`:"Meta ativa",deadline:g.deadline,priority:g.priority,page:"metas"});
+  });
+
+  (state.weeklyPlans||[]).filter(x=>!x.done).forEach(x=>{
+    candidates.push({kind:"Rápida",title:x.title||x.task||"Tarefa",sub:x.date===today?"Para hoje":x.date||"Planejamento",date:x.date,priority:x.priority,quick:true,page:"planejamento"});
+  });
+
+  const acts=(state.profile?.activities||[]).filter(a=>(a.days||[]).includes(new Date().getDay()));
+  acts.forEach(a=>candidates.push({kind:"Cuidado",title:a.name||"Atividade",sub:`${a.time||"Hoje"} • ${a.duration||60} min`,date:today,page:"treinos"}));
+
+  candidates.sort((a,b)=>v19PriorityScore(b)-v19PriorityScore(a));
+
+  const essential=candidates.find(x=>x.kind==="Essencial")||candidates[0];
+  const quick=candidates.find(x=>x.kind==="Rápida"&&x!==essential)||candidates.find(x=>x!==essential);
+  const care=candidates.find(x=>x.kind==="Cuidado"&&x!==essential&&x!==quick);
+
+  return [
+    essential||{kind:"Essencial",title:"Escolha uma prioridade importante",sub:"Defina o principal avanço do dia",page:"planejar"},
+    quick||{kind:"Rápida",title:"Conclua uma tarefa pequena",sub:"Reduza uma pendência",page:"pendencias"},
+    care||{kind:"Cuidado",title:"Reserve um tempo para você",sub:"Pausa, treino ou organização",page:"hoje"}
+  ];
+}
+
+function v19RenderSmartPriorities(){
+  const grid=document.getElementById("v19PriorityGrid");if(!grid)return;
+  const ps=v19SmartPriorities();
+  grid.innerHTML=ps.map(x=>`
+    <div class="v19-priority-card" role="button" tabindex="0" onclick="v19OpenModule('${x.page}')" onkeydown="if(event.key==='Enter'){v19OpenModule('${x.page}')}">
+      <small>${escapeHtml(x.kind)}</small>
+      <strong>${escapeHtml(x.title)}</strong>
+      <div class="quote">${escapeHtml(x.sub||"")}</div>
+    </div>`).join("");
+}
+
+function v19FindMissedItems(){
+  const today=dateKey();
+  const missed=[];
+
+  (state.weeklyPlans||[]).filter(x=>!x.done && x.date && x.date<today).forEach(x=>{
+    missed.push({id:`plan-${x.id}`,source:"plan",sourceId:x.id,title:x.title||x.task||"Tarefa",originalDate:x.date,page:"planejamento"});
+  });
+
+  (state.reminders||[]).filter(r=>r.enabled && r.repeat==="once" && r.date && r.date<today).forEach(r=>{
+    missed.push({id:`rem-${r.id}`,source:"reminder",sourceId:r.id,title:r.title||"Lembrete",originalDate:r.date,page:"lembretes"});
+  });
+
+  return missed.filter(x=>!(state.planBHistory||[]).some(h=>h.itemId===x.id&&h.action==="ignored")).slice(0,8);
+}
+
+function v19NextAvailableDate(){
+  const p=state.profile||{};
+  const availability=p.availability||[];
+  const now=new Date();
+  const preferWeekend=availability.includes("Fim de semana");
+  for(let i=1;i<=7;i++){
+    const d=v16AddDays(now,i);
+    const dow=d.getDay();
+    if(preferWeekend && (dow===0||dow===6))return v16DateKey(d);
+    if(!preferWeekend && dow!==0)return v16DateKey(d);
+  }
+  return v16DateKey(v16AddDays(now,1));
+}
+
+function v19RescheduleItem(itemId){
+  const item=v19FindMissedItems().find(x=>x.id===itemId);if(!item)return;
+  const newDate=v19NextAvailableDate();
+
+  if(item.source==="plan"){
+    const obj=(state.weeklyPlans||[]).find(x=>x.id===item.sourceId);
+    if(obj)obj.date=newDate;
+  }else if(item.source==="reminder"){
+    const obj=(state.reminders||[]).find(x=>x.id===item.sourceId);
+    if(obj)obj.date=newDate;
+  }
+
+  state.planBHistory.push({at:new Date().toISOString(),itemId,action:"rescheduled",newDate});
+  save();
+}
+function v19IgnorePlanB(itemId){
+  state.planBHistory.push({at:new Date().toISOString(),itemId,action:"ignored"});
+  save();
+}
+
+function v19RenderPlanB(){
+  const box=document.getElementById("v19PlanBList");
+  const count=document.getElementById("v19PlanBCount");
+  if(!box)return;
+  const rows=v19FindMissedItems();
+  if(count)count.textContent=String(rows.length);
+  box.innerHTML=rows.length?rows.map(x=>`
+    <div class="v19-planb-item">
+      <strong>${escapeHtml(x.title)}</strong>
+      <div class="quote">Não concluído desde ${escapeHtml(x.originalDate)}</div>
+      <div class="v19-planb-actions">
+        <button class="btn btn-primary" onclick="v19RescheduleItem('${x.id}')">Mover para próximo dia disponível</button>
+        <button class="btn btn-ghost" onclick="v19OpenModule('${x.page}')">Escolher manualmente</button>
+        <button class="btn btn-ghost" onclick="v19IgnorePlanB('${x.id}')">Ignorar</button>
+      </div>
+    </div>`).join(""):'<div class="v17-empty">Nada precisando de Plano B agora.</div>';
+}
+
+function v19Phase2RenderAll(){
+  v19RenderDailyMessage();
+  v19RenderWeekState();
+  v19RenderForecast();
+  v19RenderSmartPriorities();
+  v19RenderPlanB();
+}
+
+
+function renderAll(){renderHeader();renderChecklist();renderWater();renderMeals();renderNightPlan();renderWeight();renderTrainings();renderGoals();renderCalendar();renderFinance();renderAchievements();renderReminders();v15RenderAll();v16RenderAll();v17RenderAll();v18RenderAll();v19RenderAll();v19Phase2RenderAll();}
 v17PrepareSidebar();
 document.querySelectorAll("#nav button[data-page]").forEach(b=>{
   b.onclick=()=>v19OpenModule(b.dataset.page);
