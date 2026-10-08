@@ -321,3 +321,12 @@ Inclui:
 - verificação básica de consistência dos dados
 
 Esta fase foi pensada para permitir uso prolongado sem depender de atualizações frequentes.
+
+## V19 Fase 3.1 — Navegação Funcional
+
+Correção:
+- cards dos hubs usam `data-module`
+- cliques são ligados via `addEventListener`
+- removido o problema dos escapes `\'` em atributos inline
+- suporte a mouse, toque, Enter e espaço
+- recursos das Fases 1, 2 e 3 preservados
