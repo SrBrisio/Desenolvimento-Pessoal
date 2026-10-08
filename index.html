@@ -607,7 +607,7 @@
 
 
 
-/* ===== V19 Final • Perfil inteligente + Hoje ===== */
+/* ===== V19 Final 1.1 • Perfil inteligente + Hoje ===== */
 :root{
   --radius-v15:18px;
 }
@@ -676,7 +676,7 @@ body.v15-light .v15-checkin-scale button{background:#f7f9fc;color:#172033}
 }
 
 
-/* ===== V19 Final • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
+/* ===== V19 Final 1.1 • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
 .v16-save-status{
   position:fixed;top:18px;right:18px;z-index:9999;
   min-width:190px;max-width:340px;
@@ -716,7 +716,7 @@ body.v15-light .v16-review-item,body.v15-light .v16-smart-goal{background:#f7f9f
 }
 
 
-/* ===== V19 Final • Evolução geral de UX ===== */
+/* ===== V19 Final 1.1 • Evolução geral de UX ===== */
 :root{--sidebar-collapsed:78px}
 
 /* Sidebar realmente recolhida */
@@ -846,7 +846,7 @@ body.v15-light .v17-routine-item{background:#f7f9fc}
 }
 
 
-/* ===== V19 Final • Refino, Insights e Sincronização Inteligente ===== */
+/* ===== V19 Final 1.1 • Refino, Insights e Sincronização Inteligente ===== */
 :root{
   --tap:46px;
 }
@@ -911,7 +911,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 #lembretes .goal-form > .btn{grid-column:1/-1!important;justify-self:end!important}
 
 
-/* ===== V19 Final • Navegação Inteligente ===== */
+/* ===== V19 Final 1.1 • Navegação Inteligente ===== */
 .v19-hub-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .v19-hub-card{border:1px solid var(--line);border-radius:18px;padding:18px;background:var(--panel);cursor:pointer;transition:.18s ease}
 .v19-hub-card:hover{transform:translateY(-2px);border-color:var(--accent)}
@@ -932,7 +932,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 }
 
 
-/* V19 Final.1 */
+/* V19 Final 1.1.1 */
 .v19-hub-card{position:relative}
 .v19-hub-card::after{
   content:"›";
@@ -949,7 +949,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 }
 
 
-/* ===== V19 Final • Automação Pessoal ===== */
+/* ===== V19 Final 1.1 • Automação Pessoal ===== */
 .v19-message-card{
   border:1px solid var(--line);
   border-radius:20px;
@@ -984,7 +984,7 @@ body.v15-light .v19-planb-item{background:#f7f9fc}
 }
 
 
-/* ===== V19 Final • Uso de Longo Prazo ===== */
+/* ===== V19 Final 1.1 • Uso de Longo Prazo ===== */
 .v19-long-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .v19-long-card{border:1px solid var(--line);border-radius:16px;padding:14px;background:var(--panel)}
 .v19-long-card h3{margin:0 0 6px}
@@ -1879,7 +1879,7 @@ body.v15-light .v19-install-check{background:#f7f9fc}
           <div><div class="v19-section-kicker">Estado do aplicativo</div><h3>✅ V19 Estável</h3></div>
         </div>
         <div class="v19-final-status">
-          <div class="box"><small>Versão</small><strong>V19 Final</strong></div>
+          <div class="box"><small>Versão</small><strong>V19 Final 1.1</strong></div>
           <div class="box"><small>Conexão</small><strong id="v19FinalConnection">...</strong></div>
           <div class="box"><small>Última sincronização</small><strong id="v19FinalSync">...</strong></div>
           <div class="box"><small>Último backup</small><strong id="v19FinalBackup">...</strong></div>
@@ -1889,7 +1889,7 @@ body.v15-light .v19-install-check{background:#f7f9fc}
       <div class="card">
         <div class="section-title" style="margin-top:0">
           <div><div class="v15-kicker">Versão do aplicativo</div><h3>🆕 O que mudou</h3></div>
-          <span class="badge">V19 Final</span>
+          <span class="badge">V19 Final 1.1</span>
         </div>
         <div id="v18Updates"></div>
       </div>
@@ -1955,9 +1955,6 @@ body.v15-light .v19-install-check{background:#f7f9fc}
         <div class="v19-hub-card"     data-module="backup" role="button" tabindex="0"><div class="v19-hub-icon">💾</div><h3>Dados & Backup</h3><p>Exportação, importação e segurança.</p></div>
         <div class="v19-hub-card"     data-module="saude-sistema" role="button" tabindex="0"><div class="v19-hub-icon">🩺</div><h3>Saúde do Sistema</h3><p>Diagnóstico de PWA, nuvem e notificações.</p></div>
         <div class="v19-hub-card"     data-module="atualizacoes" role="button" tabindex="0"><div class="v19-hub-icon">🆕</div><h3>Atualizações</h3><p>Versão atual e novidades.</p></div>
-      </div>
-      <div class="v19-mobile-only" style="margin-top:14px">
-        <button class="btn btn-ghost" style="width:100%" onclick="v19OpenModule('historico-hub')">🕘 Abrir Histórico</button>
       
         <div class="v19-hub-card" data-module="arquivo" role="button" tabindex="0">
           <div class="v19-hub-icon">🗄️</div>
@@ -1973,7 +1970,14 @@ body.v15-light .v19-install-check{background:#f7f9fc}
           <div class="v19-hub-icon">✈️</div>
           <h3>Rotina Temporária</h3>
           <p>Modo viagem, férias e modelos de semana.</p>
-        </div></div>
+        </div>
+      </div>
+      <div class="v19-mobile-only" style="margin-top:14px">
+        <button class="btn btn-ghost" style="width:100%" onclick="v19OpenModule('historico-hub')">🕘 Abrir Histórico</button>
+      
+        
+        
+        </div>
     
       <div class="card" style="margin-top:14px">
         <div class="section-title" style="margin-top:0">
@@ -4252,8 +4256,8 @@ function renderCalendar(){
 }
 
 
-/* ===== V19 Final Inteligência de Perfil ===== */
-/* ===== V19 Final Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
+/* ===== V19 Final 1.1 Inteligência de Perfil ===== */
+/* ===== V19 Final 1.1 Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
 state.weeklyReviews = state.weeklyReviews && typeof state.weeklyReviews==="object" ? state.weeklyReviews : {};
 state.adaptiveGoalSuggestions = Array.isArray(state.adaptiveGoalSuggestions) ? state.adaptiveGoalSuggestions : [];
 
@@ -5009,7 +5013,7 @@ if(!state.profile.profileSetupCompletedAt && !state.profile.configured){
 }
 
 
-/* ===== V19 Final Evolução Geral ===== */
+/* ===== V19 Final 1.1 Evolução Geral ===== */
 state.changeHistory = Array.isArray(state.changeHistory) ? state.changeHistory : [];
 
 function v17TrackChange(type,description,meta={}){
@@ -5191,7 +5195,7 @@ async function v17RunHealthCheck(){
   const checks=[];
   const add=(name,status,detail,cls)=>checks.push({name,status,detail,cls});
 
-  add("Versão","V19 Final","Evolução Geral","v17-health-ok");
+  add("Versão","V19 Final 1.1","Evolução Geral","v17-health-ok");
 
   try{
     localStorage.setItem("__v17_test","1");localStorage.removeItem("__v17_test");
@@ -5295,7 +5299,7 @@ v17PrepareSidebar();
 
 
 
-/* ===== V19 Final Refino, Insights e Sincronização Inteligente ===== */
+/* ===== V19 Final 1.1 Refino, Insights e Sincronização Inteligente ===== */
 state.inbox = Array.isArray(state.inbox)?state.inbox:[];
 state.insights = Array.isArray(state.insights)?state.insights:[];
 state.syncMeta = state.syncMeta && typeof state.syncMeta==="object" ? state.syncMeta : {lastLocalChange:null,lastCloudSync:null};
@@ -5473,8 +5477,8 @@ function v18RenderMonthlyReview(){
 function v18RenderUpdates(){
   const box=document.getElementById("v18Updates");if(!box)return;
   const items=[
-    ["V19 Final","Refino de layout, login melhorado, iPhone, sincronização inteligente, Insights, Revisão Mensal e Caixa de Entrada."],
-    ["V19 Final","Pendências, histórico, busca global, modo foco e saúde do sistema."],
+    ["V19 Final 1.1","Refino de layout, login melhorado, iPhone, sincronização inteligente, Insights, Revisão Mensal e Caixa de Entrada."],
+    ["V19 Final 1.1","Pendências, histórico, busca global, modo foco e saúde do sistema."],
     ["V16","Revisão semanal, metas adaptativas e feedback visual ao salvar."],
     ["V15","Questionário inteligente, Modo Hoje e perfil evolutivo."]
   ];
@@ -5526,7 +5530,7 @@ if(!state.insights.length)setTimeout(()=>v18GenerateInsights(false),100);
 
 
 
-/* ===== V19 Final • Navegação Inteligente ===== */
+/* ===== V19 Final 1.1 • Navegação Inteligente ===== */
 
 
 function v19BindHubNavigation(){
@@ -5990,7 +5994,7 @@ function v19Phase2RenderAll(){
 
 
 
-/* ===== V19 Final • Uso de Longo Prazo ===== */
+/* ===== V19 Final 1.1 • Uso de Longo Prazo ===== */
 state.archive = Array.isArray(state.archive)?state.archive:[];
 state.autoBackups = Array.isArray(state.autoBackups)?state.autoBackups:[];
 state.errorLog = Array.isArray(state.errorLog)?state.errorLog:[];
@@ -6228,7 +6232,7 @@ function v19RunDiagnostic(){
     notifications:("Notification" in window)?Notification.permission:"unsupported",
     pendingSync:state.pendingSync.length,
     errors:state.errorLog.length,
-    version:"V19 Final"
+    version:"V19 Final 1.1"
   };
   state.maintenanceMeta.lastDiagnostic=result;
   try{localStorage.setItem("saudeV1",JSON.stringify(state))}catch(e){}
@@ -6292,7 +6296,7 @@ function v19Phase3RenderAll(){
 
 /* ===== V19 FINAL • Acabamento ===== */
 state.finalMeta = state.finalMeta && typeof state.finalMeta==="object" ? state.finalMeta : {};
-state.finalMeta.version = "V19 Final";
+state.finalMeta.version = "V19 Final 1.1";
 
 const V19_HUB_PARENT = {
   planejamento:"planejar",calendario:"planejar",lembretes:"planejar","caixa-entrada":"planejar",pendencias:"planejar",

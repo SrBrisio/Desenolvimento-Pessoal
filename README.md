@@ -345,3 +345,9 @@ Acabamento final:
 - status V19 Estável
 
 A V19 Final foi pensada como versão de uso prolongado.
+
+## V19 Final 1.1 — Correção visual do hub Mais
+
+- Arquivo, Manutenção e Rotina Temporária agora aparecem no grid principal de Mais
+- funcionam no desktop e no mobile
+- cache do service worker atualizado
