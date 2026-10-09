@@ -607,7 +607,7 @@
 
 
 
-/* ===== V19 Final 1.1 • Perfil inteligente + Hoje ===== */
+/* ===== V19 Final 1.4 • Perfil inteligente + Hoje ===== */
 :root{
   --radius-v15:18px;
 }
@@ -676,7 +676,7 @@ body.v15-light .v15-checkin-scale button{background:#f7f9fc;color:#172033}
 }
 
 
-/* ===== V19 Final 1.1 • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
+/* ===== V19 Final 1.4 • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
 .v16-save-status{
   position:fixed;top:18px;right:18px;z-index:9999;
   min-width:190px;max-width:340px;
@@ -716,7 +716,7 @@ body.v15-light .v16-review-item,body.v15-light .v16-smart-goal{background:#f7f9f
 }
 
 
-/* ===== V19 Final 1.1 • Evolução geral de UX ===== */
+/* ===== V19 Final 1.4 • Evolução geral de UX ===== */
 :root{--sidebar-collapsed:78px}
 
 /* Sidebar realmente recolhida */
@@ -846,7 +846,7 @@ body.v15-light .v17-routine-item{background:#f7f9fc}
 }
 
 
-/* ===== V19 Final 1.1 • Refino, Insights e Sincronização Inteligente ===== */
+/* ===== V19 Final 1.4 • Refino, Insights e Sincronização Inteligente ===== */
 :root{
   --tap:46px;
 }
@@ -911,7 +911,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 #lembretes .goal-form > .btn{grid-column:1/-1!important;justify-self:end!important}
 
 
-/* ===== V19 Final 1.1 • Navegação Inteligente ===== */
+/* ===== V19 Final 1.4 • Navegação Inteligente ===== */
 .v19-hub-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .v19-hub-card{border:1px solid var(--line);border-radius:18px;padding:18px;background:var(--panel);cursor:pointer;transition:.18s ease}
 .v19-hub-card:hover{transform:translateY(-2px);border-color:var(--accent)}
@@ -932,7 +932,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 }
 
 
-/* V19 Final 1.1.1 */
+/* V19 Final 1.4.1 */
 .v19-hub-card{position:relative}
 .v19-hub-card::after{
   content:"›";
@@ -949,7 +949,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 }
 
 
-/* ===== V19 Final 1.1 • Automação Pessoal ===== */
+/* ===== V19 Final 1.4 • Automação Pessoal ===== */
 .v19-message-card{
   border:1px solid var(--line);
   border-radius:20px;
@@ -984,7 +984,7 @@ body.v15-light .v19-planb-item{background:#f7f9fc}
 }
 
 
-/* ===== V19 Final 1.1 • Uso de Longo Prazo ===== */
+/* ===== V19 Final 1.4 • Uso de Longo Prazo ===== */
 .v19-long-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .v19-long-card{border:1px solid var(--line);border-radius:16px;padding:14px;background:var(--panel)}
 .v19-long-card h3{margin:0 0 6px}
@@ -1037,6 +1037,34 @@ body.v15-light .v19-install-check{background:#f7f9fc}
   .v19-tour-card{padding:18px}
   .v19-backhub{width:100%;justify-content:center}
 }
+
+
+/* ===== V19 Final 1.4 • Alimentação Inteligente ===== */
+.food-choice-group{margin:14px 0}
+.food-choice-group h4{margin:0 0 8px;font-size:14px}
+.food-choice-grid{display:flex;flex-wrap:wrap;gap:8px}
+.food-choice{
+  border:1px solid var(--line);background:var(--panel);color:var(--text);
+  border-radius:999px;padding:9px 12px;cursor:pointer;font-weight:700;font-size:13px
+}
+.food-choice.active{border-color:var(--accent);box-shadow:0 0 0 2px rgba(90,120,255,.15) inset}
+.food-choice.avoid{opacity:.58;text-decoration:line-through}
+.food-plan-note{border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:12px;background:rgba(90,120,255,.06)}
+@media(max-width:720px){.food-choice{padding:10px 12px}}
+
+
+/* ===== V19 Final 1.4 • Estabilidade & Dados ===== */
+.v19-data-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.v19-data-stat{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--panel)}
+.v19-data-stat small{display:block;color:var(--muted);margin-bottom:5px}
+.v19-danger-zone{border:1px solid rgba(255,90,110,.45);border-radius:16px;padding:14px;background:rgba(255,90,110,.05);margin-top:14px}
+.v19-trash-item{border:1px solid var(--line);border-radius:14px;padding:13px;background:#0e1629;margin-bottom:9px}
+body.v15-light .v19-trash-item{background:#f7f9fc}
+.v19-search-type{display:inline-flex;font-size:10px;padding:3px 7px;border:1px solid var(--line);border-radius:999px;margin-right:6px;color:var(--muted)}
+.v19-search-item{cursor:pointer}
+.v19-search-item:hover{background:rgba(90,120,255,.08)}
+.v19-save-ok{font-weight:800}
+@media(max-width:720px){.v19-data-grid{grid-template-columns:repeat(2,1fr)}}
 
 </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1141,15 +1169,76 @@ body.v15-light .v19-install-check{background:#f7f9fc}
 
     <div class="v15-step" data-v15-step="4">
       <h3>Alimentação e preferências</h3>
+      <p class="quote">Marque os alimentos que você gosta. O app usa essas escolhas para adaptar o cardápio-base semanal.</p>
+
+      <div class="food-choice-group">
+        <h4>🍗 Proteínas</h4>
+        <div class="food-choice-grid" id="v19FoodProteins">
+          <button type="button" class="food-choice" data-value="frango">Frango</button>
+          <button type="button" class="food-choice" data-value="ovos">Ovos</button>
+          <button type="button" class="food-choice" data-value="carne bovina">Carne bovina</button>
+          <button type="button" class="food-choice" data-value="carne moída">Carne moída</button>
+          <button type="button" class="food-choice" data-value="peixe">Peixe</button>
+          <button type="button" class="food-choice" data-value="queijo">Queijo</button>
+          <button type="button" class="food-choice" data-value="feijão">Feijão</button>
+        </div>
+      </div>
+
+      <div class="food-choice-group">
+        <h4>🍚 Carboidratos e bases</h4>
+        <div class="food-choice-grid" id="v19FoodCarbs">
+          <button type="button" class="food-choice" data-value="arroz">Arroz</button>
+          <button type="button" class="food-choice" data-value="cuscuz">Cuscuz</button>
+          <button type="button" class="food-choice" data-value="tapioca">Tapioca</button>
+          <button type="button" class="food-choice" data-value="pão">Pão</button>
+          <button type="button" class="food-choice" data-value="batata">Batata</button>
+          <button type="button" class="food-choice" data-value="batata-doce">Batata-doce</button>
+          <button type="button" class="food-choice" data-value="macarrão">Macarrão</button>
+        </div>
+      </div>
+
+      <div class="food-choice-group">
+        <h4>🍊 Frutas</h4>
+        <div class="food-choice-grid" id="v19FoodFruits">
+          <button type="button" class="food-choice" data-value="banana">Banana</button>
+          <button type="button" class="food-choice" data-value="laranja">Laranja</button>
+          <button type="button" class="food-choice" data-value="uva">Uva</button>
+          <button type="button" class="food-choice" data-value="abacaxi">Abacaxi</button>
+          <button type="button" class="food-choice" data-value="acerola">Acerola</button>
+          <button type="button" class="food-choice" data-value="mamão">Mamão</button>
+        </div>
+      </div>
+
+      <div class="food-choice-group">
+        <h4>🥗 Vegetais e acompanhamentos</h4>
+        <div class="food-choice-grid" id="v19FoodVegetables">
+          <button type="button" class="food-choice" data-value="tomate">Tomate</button>
+          <button type="button" class="food-choice" data-value="cebola">Cebola</button>
+          <button type="button" class="food-choice" data-value="cenoura">Cenoura</button>
+          <button type="button" class="food-choice" data-value="alface">Alface</button>
+          <button type="button" class="food-choice" data-value="couve">Couve</button>
+          <button type="button" class="food-choice" data-value="pepino">Pepino</button>
+        </div>
+      </div>
+
+      <div class="food-choice-group">
+        <h4>🚫 Alimentos que prefere não usar</h4>
+        <div class="food-choice-grid" id="v19FoodAvoid">
+          <button type="button" class="food-choice" data-value="frango">Frango</button>
+          <button type="button" class="food-choice" data-value="ovos">Ovos</button>
+          <button type="button" class="food-choice" data-value="carne bovina">Carne bovina</button>
+          <button type="button" class="food-choice" data-value="peixe">Peixe</button>
+          <button type="button" class="food-choice" data-value="arroz">Arroz</button>
+          <button type="button" class="food-choice" data-value="cuscuz">Cuscuz</button>
+          <button type="button" class="food-choice" data-value="tapioca">Tapioca</button>
+          <button type="button" class="food-choice" data-value="pão">Pão</button>
+          <button type="button" class="food-choice" data-value="macarrão">Macarrão</button>
+          <button type="button" class="food-choice" data-value="leite">Leite</button>
+          <button type="button" class="food-choice" data-value="queijo">Queijo</button>
+        </div>
+      </div>
+
       <div class="profile-grid">
-        <div style="grid-column:1/-1">
-          <label>Comidas que você gosta</label>
-          <textarea id="setupFoodsLike" rows="3" placeholder="Ex.: frango, arroz, feijão, ovos, cuscuz, banana..."></textarea>
-        </div>
-        <div style="grid-column:1/-1">
-          <label>Comidas que prefere evitar</label>
-          <textarea id="setupFoodsAvoid" rows="2" placeholder="Opcional"></textarea>
-        </div>
         <div>
           <label>Como prefere organizar as refeições?</label>
           <select id="setupMealStyle">
@@ -1164,9 +1253,10 @@ body.v15-light .v19-install-check{background:#f7f9fc}
           <input id="setupMealsCount" type="number" min="2" max="6" value="3">
         </div>
       </div>
-      <div class="v15-plan-box" style="margin-top:16px">
-        <strong>Depois de salvar</strong>
-        <p class="quote" style="margin-bottom:0">O app vai montar sugestões de metas, rotina semanal e um plano inicial. Você poderá aceitar, editar ou ignorar cada sugestão.</p>
+
+      <div class="food-plan-note">
+        <strong>Como o plano será montado</strong>
+        <p class="quote" style="margin-bottom:0">O cardápio predefinido atual continua como base, mas o app troca proteínas, carboidratos, frutas e acompanhamentos conforme suas escolhas. A proposta é organização alimentar geral, não uma dieta clínica.</p>
       </div>
     </div>
 
@@ -1879,17 +1969,17 @@ body.v15-light .v19-install-check{background:#f7f9fc}
           <div><div class="v19-section-kicker">Estado do aplicativo</div><h3>✅ V19 Estável</h3></div>
         </div>
         <div class="v19-final-status">
-          <div class="box"><small>Versão</small><strong>V19 Final 1.1</strong></div>
+          <div class="box"><small>Versão</small><strong>V19 Final 1.4</strong></div>
           <div class="box"><small>Conexão</small><strong id="v19FinalConnection">...</strong></div>
           <div class="box"><small>Última sincronização</small><strong id="v19FinalSync">...</strong></div>
-          <div class="box"><small>Último backup</small><strong id="v19FinalBackup">...</strong></div>
+          <div class="box"><small>Backup</small><strong>Manual</strong></div>
         </div>
       </div>
 
       <div class="card">
         <div class="section-title" style="margin-top:0">
           <div><div class="v15-kicker">Versão do aplicativo</div><h3>🆕 O que mudou</h3></div>
-          <span class="badge">V19 Final 1.1</span>
+          <span class="badge">V19 Final 1.4</span>
         </div>
         <div id="v18Updates"></div>
       </div>
@@ -1964,14 +2054,21 @@ body.v15-light .v19-install-check{background:#f7f9fc}
         <div class="v19-hub-card" data-module="manutencao" role="button" tabindex="0">
           <div class="v19-hub-icon">🛠️</div>
           <h3>Manutenção</h3>
-          <p>Backup automático, offline, diagnóstico e revisão do sistema.</p>
+          <p>Backup manual, offline, diagnóstico e revisão do sistema.</p>
         </div>
         <div class="v19-hub-card" data-module="rotina-temporaria" role="button" tabindex="0">
           <div class="v19-hub-icon">✈️</div>
           <h3>Rotina Temporária</h3>
           <p>Modo viagem, férias e modelos de semana.</p>
         </div>
-      </div>
+      
+        <div class="v19-hub-card" data-module="central-dados" role="button" tabindex="0">
+          <div class="v19-hub-icon">🧰</div><h3>Central de Dados</h3><p>Resumo, exportação e reset seguro do usuário.</p>
+        </div>
+        <div class="v19-hub-card" data-module="lixeira" role="button" tabindex="0">
+          <div class="v19-hub-icon">🗑️</div><h3>Lixeira</h3><p>Recupere itens excluídos antes da remoção definitiva.</p>
+        </div>
+</div>
       <div class="v19-mobile-only" style="margin-top:14px">
         <button class="btn btn-ghost" style="width:100%" onclick="v19OpenModule('historico-hub')">🕘 Abrir Histórico</button>
       
@@ -2003,8 +2100,8 @@ body.v15-light .v19-install-check{background:#f7f9fc}
     <section class="section" id="manutencao">
       <div class="v19-update-airbag" style="margin-bottom:14px">
         <strong>🛡️ Proteção antes de futuras atualizações</strong>
-        <p class="quote">Crie um backup de segurança antes de substituir arquivos por uma nova versão.</p>
-        <button class="btn btn-primary" onclick="v19PrepareUpdateBackup()">Criar backup para atualização</button>
+        <p class="quote">Antes de substituir arquivos por uma nova versão, baixe um backup manual dos seus dados.</p>
+        <button class="btn btn-primary" onclick="exportBackup()">Baixar backup antes de atualizar</button>
       </div>
 
       <div class="card">
@@ -2015,11 +2112,11 @@ body.v15-light .v19-install-check{background:#f7f9fc}
 
         <div class="v19-long-grid">
           <div class="v19-long-card">
-            <h3>💾 Backup automático</h3>
-            <div class="v19-status-row"><span>Último backup</span><strong id="v19LastBackup">Nunca</strong></div>
+            <h3>💾 Backup manual</h3>
+            <div class="quote">O app não cria mais cópias completas automaticamente. Faça um backup quando quiser ou antes de mudanças importantes.</div>
             <div class="v19-actions">
-              <button class="btn btn-primary" onclick="v19CreateAutoBackup(true)">Criar backup agora</button>
-              <button class="btn btn-ghost" onclick="v19RestoreLastBackup()">Restaurar último backup</button>
+              <button class="btn btn-primary" onclick="exportBackup()">Baixar backup</button>
+              <button class="btn btn-ghost" onclick="v19OpenModule('backup')">Restaurar arquivo</button>
             </div>
           </div>
 
@@ -2086,6 +2183,43 @@ body.v15-light .v19-install-check{background:#f7f9fc}
           <button class="btn btn-ghost" onclick="v19SaveWeekTemplate()">Salvar semana atual como modelo</button>
         </div>
         <div id="v19WeekTemplates"></div>
+      </div>
+    </section>
+
+
+    <section class="section" id="central-dados">
+      <div class="card">
+        <div class="section-title" style="margin-top:0">
+          <div><div class="v19-section-kicker">Seus dados</div><h2>🧰 Central de Dados</h2></div>
+          <button class="btn btn-ghost" onclick="v19RenderDataCenter()">Atualizar</button>
+        </div>
+        <p class="quote">Veja o que está salvo antes de exportar, limpar ou resetar sua conta.</p>
+        <div class="v19-data-grid" id="v19DataStats"></div>
+        <div class="v19-actions" style="margin-top:14px">
+          <button class="btn btn-primary" onclick="exportBackup()">Baixar backup manual</button>
+          <button class="btn btn-ghost" onclick="v19OpenModule('backup')">Importar / restaurar backup</button>
+          <button class="btn btn-ghost" onclick="v19ForceSync()">Sincronizar agora</button>
+        </div>
+
+        <div class="v19-danger-zone">
+          <h3 style="margin-top:0">⚠️ Começar do zero</h3>
+          <p class="quote">O reset local limpa apenas este navegador. O reset completo também substitui os dados salvos na nuvem por um estado inicial vazio. Sua conta de login continua existindo.</p>
+          <div class="v19-actions">
+            <button class="btn btn-ghost" onclick="v19ResetLocalUser()">Resetar somente este dispositivo</button>
+            <button class="btn btn-danger" onclick="v19ResetCloudUser()">Resetar dispositivo + nuvem</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="lixeira">
+      <div class="card">
+        <div class="section-title" style="margin-top:0">
+          <div><div class="v19-section-kicker">Proteção contra exclusão</div><h2>🗑️ Lixeira temporária</h2></div>
+          <span class="badge" id="v19TrashCount">0</span>
+        </div>
+        <p class="quote">Itens excluídos ficam aqui por até 30 dias. Depois disso podem ser removidos automaticamente.</p>
+        <div id="v19TrashList"></div>
       </div>
     </section>
 
@@ -2392,7 +2526,7 @@ body.v15-light .v19-install-check{background:#f7f9fc}
       <div class="grid grid-2">
         <div class="card">
           <h3 style="margin-top:0">💾 Fazer backup</h3>
-          <p class="quote">Exporte seus dados para um arquivo JSON. Você pode guardar esse arquivo em um pendrive, nuvem ou outro computador.</p>
+          <p class="quote">Crie uma cópia manual dos seus dados em JSON. Use antes de resetar, atualizar o app ou trocar de dispositivo.</p>
           <div class="backup-actions">
             <button class="btn btn-primary" onclick="exportBackup()">Baixar backup</button>
           </div>
@@ -2466,28 +2600,64 @@ if(!state.weeklyPlans) state.weeklyPlans = [];
 if(!state.customGoals) state.customGoals = [];
 if(!state.achievementsUnlocked) state.achievementsUnlocked = {};
 if(!state.reminders) state.reminders = [];
+if(!state.trash) state.trash = [];
+if(state.autoBackups) state.autoBackups=[];
 if(!state.finance) state.finance = {transactions:[], debts:[], goals:[]};
 let calendarCursor = new Date();
 
+function v19StorageState(){
+  // Remove estruturas antigas de backup automático antes de persistir.
+  if(state.autoBackups) state.autoBackups=[];
+  state.finalMeta=state.finalMeta||{};
+  state.finalMeta.lastLocalSave=new Date().toISOString();
+  return state;
+}
 function save(){
   try{
-    localStorage.setItem("saudeV1",JSON.stringify(state));
+    const payload=JSON.stringify(v19StorageState());
+    localStorage.setItem("saudeV1",payload);
+
     try{
       renderDaySelector("setupBjjDays",setupBjjDays,"toggleSetupBjjDay");
       renderDaySelector("setupRunDays",setupRunDays,"toggleSetupRunDay");
     }catch(e){console.warn("Seletores de rotina:",e);}
+
     if(!state.profile?.configured && !state.profile?.profileSetupCompletedAt){
       document.getElementById("setupOverlay")?.classList.remove("hidden");
     }
+
     renderAll();
-    if(typeof scheduleCloudSync==="function"){
+
+    if(typeof scheduleCloudSync==="function" && navigator.onLine){
       try{scheduleCloudSync();}catch(e){console.warn("Cloud sync:",e);}
+    }else if(!navigator.onLine && typeof v19QueuePendingSync==="function"){
+      try{v19QueuePendingSync();}catch(e){}
     }
-    if(typeof v16FinishSave==="function")v16FinishSave(true,"Alterações registradas.");
+
+    if(typeof v16FinishSave==="function")v16FinishSave(true,"✓ Salvo com sucesso");
     return true;
   }catch(err){
     console.error("Erro ao salvar:",err);
-    if(typeof v16FinishSave==="function")v16FinishSave(false,"Ocorreu um erro. Seus dados anteriores foram mantidos.");
+    const quota = err && (err.name==="QuotaExceededError" || err.name==="NS_ERROR_DOM_QUOTA_REACHED" || err.code===22 || err.code===1014);
+    if(quota){
+      try{
+        // Limpa somente resíduos de versões antigas e tenta salvar novamente.
+        localStorage.removeItem("v19LastBackup");
+        state.autoBackups=[];
+        localStorage.setItem("saudeV1",JSON.stringify(v19StorageState()));
+        if(typeof v16FinishSave==="function")v16FinishSave(true,"✓ Salvo com sucesso. Armazenamento antigo foi otimizado.");
+        renderAll();
+        if(typeof scheduleCloudSync==="function" && navigator.onLine){try{scheduleCloudSync();}catch(e){}}
+        return true;
+      }catch(cleanErr){
+        console.error("Falha ao liberar armazenamento:",cleanErr);
+        if(typeof v19LogError==="function")v19LogError("Salvamento",cleanErr);
+        if(typeof v16FinishSave==="function")v16FinishSave(false,"Não foi possível salvar: armazenamento local sem espaço.");
+        return false;
+      }
+    }
+    if(typeof v19LogError==="function")v19LogError("Salvamento",err);
+    if(typeof v16FinishSave==="function")v16FinishSave(false,"Não foi possível salvar este registro. Veja Mais → Manutenção → Diagnóstico.");
     return false;
   }
 }
@@ -2570,18 +2740,61 @@ function renderWater(){
 }
 function addWater(n){state.water[dateKey()]=(state.water[dateKey()]||0)+n;save();}
 function resetWater(){state.water[dateKey()]=0;save();}
+function v19FoodPool(kind,fallback){
+  const fp=state.profile?.foodPreferences||{};
+  const avoid=new Set(fp.avoid||[]);
+  const selected=(fp[kind]||[]).filter(x=>!avoid.has(x));
+  return selected.length?selected:fallback.filter(x=>!avoid.has(x));
+}
+function v19Pick(arr,seed){
+  if(!arr.length)return "";
+  return arr[Math.abs(seed)%arr.length];
+}
+function v19MealPlanForDay(day){
+  const proteins=v19FoodPool("proteins",["frango","ovos","carne bovina","carne moída","peixe"]);
+  const carbs=v19FoodPool("carbs",["arroz","cuscuz","tapioca","pão","batata","batata-doce","macarrão"]);
+  const fruits=v19FoodPool("fruits",["banana","laranja","uva","abacaxi","mamão"]);
+  const vegetables=v19FoodPool("vegetables",["tomate","cebola","cenoura","alface","couve"]);
+  const style=state.profile?.mealStyle||"Prático";
+
+  const proteinA=v19Pick(proteins,day);
+  const proteinB=v19Pick(proteins,day+2);
+  const carbA=v19Pick(carbs,day+1);
+  const carbB=v19Pick(carbs,day+4);
+  const fruit=v19Pick(fruits,day+2);
+  const veg1=v19Pick(vegetables,day);
+  const veg2=v19Pick(vegetables,day+3);
+
+  const prep = style==="Marmitas" ? "boa opção para marmita"
+             : style==="Cozinhar" ? "preparar no dia"
+             : style==="Misto" ? "adaptar entre preparo e praticidade"
+             : "opção prática";
+
+  const breakfastProtein=proteins.includes("ovos")?"ovos":proteinA;
+  const breakfastCarb=["cuscuz","tapioca","pão"].find(x=>carbs.includes(x))||carbA;
+
+  return [
+    ["07:30","Café da manhã",`${breakfastCarb}${breakfastProtein?" + "+breakfastProtein:""}${fruit?" + "+fruit:""}`],
+    ["12:15","Almoço",`${carbA}${proteinA?" + "+proteinA:""}${veg1?" + "+veg1:""}${veg2&&veg2!==veg1?" e "+veg2:""} • ${prep}`],
+    ["16:00","Lanche",`${fruit}${breakfastCarb?" + uma opção simples com "+breakfastCarb:""}`],
+    ["20:00","Jantar",`${carbB}${proteinB?" + "+proteinB:""}${veg2?" + "+veg2:""}`]
+  ];
+}
 function renderMeals(){
   const d=new Date().getDay();
   const preview=document.getElementById("mealPreview"); preview.innerHTML="";
-  meals[d].slice(0,4).forEach(m=>{
+  const todayMeals=v19MealPlanForDay(d);
+  todayMeals.slice(0,4).forEach(m=>{
     const el=document.createElement("div"); el.className="meal";
-    el.innerHTML=`<div class="time">${m[0]}</div><div><strong>${m[1]}</strong><p>${m[2]}</p></div><span class="pill">Planejado</span>`;
+    el.innerHTML=`<div class="time">${m[0]}</div><div><strong>${m[1]}</strong><p>${escapeHtml(m[2])}</p></div><span class="pill">Personalizado</span>`;
     preview.appendChild(el);
   });
   const weekly=document.getElementById("weeklyMeals"); weekly.innerHTML="";
   [1,2,3,4,5,6,0].forEach(day=>{
     const card=document.createElement("div"); card.className="card";
-    card.innerHTML=`<h3 style="margin-top:0">${dayNames[day]}</h3>`+meals[day].map(m=>`<div style="margin-bottom:12px"><strong>${m[1]}</strong><div style="color:var(--muted);font-size:13px;margin-top:4px">${m[2]}</div></div>`).join("");
+    const plan=v19MealPlanForDay(day);
+    card.innerHTML=`<h3 style="margin-top:0">${dayNames[day]}</h3>`+
+      plan.map(m=>`<div style="margin-bottom:12px"><strong>${m[1]}</strong><div style="color:var(--muted);font-size:13px;margin-top:4px">${escapeHtml(m[2])}</div></div>`).join("");
     weekly.appendChild(card);
   });
 }
@@ -4256,8 +4469,8 @@ function renderCalendar(){
 }
 
 
-/* ===== V19 Final 1.1 Inteligência de Perfil ===== */
-/* ===== V19 Final 1.1 Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
+/* ===== V19 Final 1.4 Inteligência de Perfil ===== */
+/* ===== V19 Final 1.4 Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
 state.weeklyReviews = state.weeklyReviews && typeof state.weeklyReviews==="object" ? state.weeklyReviews : {};
 state.adaptiveGoalSuggestions = Array.isArray(state.adaptiveGoalSuggestions) ? state.adaptiveGoalSuggestions : [];
 
@@ -4568,6 +4781,17 @@ state.profile.availability = state.profile.availability || [];
 state.profile.foodsLike = state.profile.foodsLike || "";
 state.profile.foodsAvoid = state.profile.foodsAvoid || "";
 state.profile.mealStyle = state.profile.mealStyle || "Prático";
+
+state.profile.foodPreferences = state.profile.foodPreferences && typeof state.profile.foodPreferences==="object"
+  ? state.profile.foodPreferences
+  : {
+      proteins:["frango","ovos","carne bovina"],
+      carbs:["arroz","cuscuz","tapioca"],
+      fruits:["banana","laranja","uva"],
+      vegetables:["tomate","cebola"],
+      avoid:[]
+    };
+
 state.profile.mealsCount = state.profile.mealsCount || 3;
 state.profile.profileSetupCompletedAt = state.profile.profileSetupCompletedAt || (state.profile.configured ? new Date().toISOString() : null);
 state.profileHistory = Array.isArray(state.profileHistory) ? state.profileHistory : [];
@@ -4619,7 +4843,33 @@ function v15Selected(containerId){
   const box=document.getElementById(containerId); if(!box)return [];
   return [...box.querySelectorAll("[data-value].active")].map(b=>b.dataset.value);
 }
+
+function v19BindFoodChoices(){
+  ["v19FoodProteins","v19FoodCarbs","v19FoodFruits","v19FoodVegetables","v19FoodAvoid"].forEach(id=>{
+    const box=document.getElementById(id); if(!box)return;
+    box.querySelectorAll("[data-value]").forEach(btn=>{
+      btn.onclick=()=>{
+        btn.classList.toggle("active");
+        if(id==="v19FoodAvoid")btn.classList.toggle("avoid",btn.classList.contains("active"));
+      };
+    });
+  });
+}
+function v19SelectedFood(id){
+  const box=document.getElementById(id); if(!box)return [];
+  return [...box.querySelectorAll("[data-value].active")].map(b=>b.dataset.value);
+}
+function v19ApplyFoodSelection(id,values=[]){
+  const box=document.getElementById(id); if(!box)return;
+  box.querySelectorAll("[data-value]").forEach(btn=>{
+    const on=(values||[]).includes(btn.dataset.value);
+    btn.classList.toggle("active",on);
+    if(id==="v19FoodAvoid")btn.classList.toggle("avoid",on);
+  });
+}
+
 function v15BindChoices(){
+  v19BindFoodChoices();
   ["v15GoalAreas","v15Availability"].forEach(id=>{
     const box=document.getElementById(id); if(!box)return;
     box.querySelectorAll("[data-value]").forEach(b=>b.onclick=()=>b.classList.toggle("active"));
@@ -4697,8 +4947,12 @@ function v15OpenWizard(edit=false){
   set("setupWorkEnd",p.workEnd||"18:00");
   set("setupSleep",p.sleepTime||"23:00");
   set("setupWake",p.wakeTime||"06:30");
-  set("setupFoodsLike",p.foodsLike||"");
-  set("setupFoodsAvoid",p.foodsAvoid||"");
+  const fp=p.foodPreferences||{};
+  v19ApplyFoodSelection("v19FoodProteins",fp.proteins||[]);
+  v19ApplyFoodSelection("v19FoodCarbs",fp.carbs||[]);
+  v19ApplyFoodSelection("v19FoodFruits",fp.fruits||[]);
+  v19ApplyFoodSelection("v19FoodVegetables",fp.vegetables||[]);
+  v19ApplyFoodSelection("v19FoodAvoid",fp.avoid||[]);
   set("setupMealStyle",p.mealStyle||"Prático");
   set("setupMealsCount",p.mealsCount||3);
 
@@ -4768,8 +5022,21 @@ function v15SaveQuestionnaire(){
     p.sleepTime=String(val("setupSleep"))||"23:00";
     p.wakeTime=String(val("setupWake"))||"06:30";
     p.availability=v15Selected("v15Availability");
-    p.foodsLike=String(val("setupFoodsLike")).trim();
-    p.foodsAvoid=String(val("setupFoodsAvoid")).trim();
+    p.foodPreferences={
+      proteins:v19SelectedFood("v19FoodProteins"),
+      carbs:v19SelectedFood("v19FoodCarbs"),
+      fruits:v19SelectedFood("v19FoodFruits"),
+      vegetables:v19SelectedFood("v19FoodVegetables"),
+      avoid:v19SelectedFood("v19FoodAvoid")
+    };
+    // Campos antigos continuam preenchidos para manter compatibilidade com telas legadas.
+    p.foodsLike=[
+      ...p.foodPreferences.proteins,
+      ...p.foodPreferences.carbs,
+      ...p.foodPreferences.fruits,
+      ...p.foodPreferences.vegetables
+    ].join(", ");
+    p.foodsAvoid=p.foodPreferences.avoid.join(", ");
     p.mealStyle=String(val("setupMealStyle"))||"Prático";
     p.mealsCount=num("setupMealsCount")||3;
 
@@ -5013,7 +5280,7 @@ if(!state.profile.profileSetupCompletedAt && !state.profile.configured){
 }
 
 
-/* ===== V19 Final 1.1 Evolução Geral ===== */
+/* ===== V19 Final 1.4 Evolução Geral ===== */
 state.changeHistory = Array.isArray(state.changeHistory) ? state.changeHistory : [];
 
 function v17TrackChange(type,description,meta={}){
@@ -5115,36 +5382,101 @@ function v17ClearOldHistory(){
   save();
 }
 
+function v19SearchIndex(){
+  const rows=[];
+  const add=(page,type,title,detail="",keywords="")=>rows.push({page,type,title:String(title||"Resultado"),detail:String(detail||""),keywords:String(keywords||"")});
+
+  const modules=[
+    ["hoje","Módulo","Hoje","Prioridades, mensagem do dia e resumo"],
+    ["planejar","Módulo","Planejar","Semana, calendário e pendências"],
+    ["planejamento","Módulo","Planejamento semanal","Tarefas e semana"],
+    ["calendario","Módulo","Calendário","Eventos e compromissos"],
+    ["lembretes","Módulo","Lembretes","Avisos e horários"],
+    ["caixa-entrada","Módulo","Caixa de Entrada","Capturas rápidas"],
+    ["pendencias","Módulo","Pendências","Itens atrasados e abertos"],
+    ["evoluir","Módulo","Evoluir","Metas, revisões e insights"],
+    ["metas","Módulo","Metas","Objetivos e etapas"],
+    ["painel-semanal","Módulo","Revisão Semanal","Resumo da semana"],
+    ["revisao-mensal","Módulo","Revisão Mensal","Resumo do mês"],
+    ["insights","Módulo","Insights","Análises e padrões"],
+    ["conquistas","Módulo","Conquistas","Marcos alcançados"],
+    ["vida","Módulo","Vida","Saúde, alimentação e finanças"],
+    ["progresso","Módulo","Progresso","Evolução pessoal"],
+    ["treinos","Módulo","Treinos","Atividades físicas"],
+    ["alimentacao","Módulo","Alimentação","Cardápio e preferências"],
+    ["mercado","Módulo","Mercado","Lista de compras"],
+    ["agua","Módulo","Água","Registros de hidratação"],
+    ["financas","Módulo","Finanças","Entradas, despesas, dívidas e metas"],
+    ["historico-hub","Módulo","Histórico","Diário, progresso e alterações"],
+    ["diario","Módulo","Diário & Agenda","Registros pessoais"],
+    ["historico","Módulo","Histórico de Alterações","Mudanças do app"],
+    ["mais","Módulo","Mais","Configurações e sistema"],
+    ["perfil","Módulo","Perfil & Rotina","Questionário e preferências"],
+    ["nuvem","Módulo","Nuvem","Conta e sincronização"],
+    ["backup","Módulo","Dados & Backup","Exportar e restaurar"],
+    ["arquivo","Módulo","Arquivo","Itens arquivados"],
+    ["lixeira","Módulo","Lixeira","Itens excluídos temporariamente"],
+    ["central-dados","Módulo","Central de Dados","Resumo, exportação e reset"],
+    ["manutencao","Módulo","Manutenção","Diagnóstico, offline e ferramentas"],
+    ["rotina-temporaria","Módulo","Rotina Temporária","Viagem e modelos de semana"],
+    ["saude-sistema","Módulo","Saúde do Sistema","Diagnóstico técnico"],
+    ["atualizacoes","Módulo","Atualizações","Versão e novidades"]
+  ];
+  modules.forEach(x=>add(...x));
+
+  (state.customGoals||[]).forEach(x=>add("metas","Meta",x.title,x.description,`${x.category||""} ${x.priority||""} ${x.deadline||""}`));
+  (state.reminders||[]).forEach(x=>add("lembretes","Lembrete",x.title,x.notes,`${x.category||""} ${x.time||""} ${x.date||""}`));
+  (state.events||[]).forEach(x=>add("calendario","Evento",x.title,x.notes||x.category,`${x.date||""} ${x.time||""}`));
+  (state.weeklyPlans||[]).forEach(x=>add("planejamento","Tarefa",x.title||x.task,x.notes,`${x.date||""} ${x.priority||""}`));
+  (state.diaryEntries||[]).forEach(x=>add("diario","Diário",x.title||x.date,[x.text,x.learning,x.improve].filter(Boolean).join(" "),x.date||""));
+  (state.finance?.transactions||[]).forEach(x=>add("financas","Movimentação",x.description||x.category,`${x.amount||x.value||""}`,`${x.type||""} ${x.date||""}`));
+  (state.finance?.debts||[]).forEach(x=>add("financas","Dívida",x.name,`${x.amount||""}`,x.due||""));
+  (state.finance?.goals||[]).forEach(x=>add("financas","Meta financeira",x.name,`${x.current||0} / ${x.target||0}`));
+  (state.profile?.activities||[]).forEach(x=>add("perfil","Atividade",x.name,`${x.frequency||0}x por semana`,`${x.time||""} ${x.duration||""}`));
+  (state.trainings||[]).forEach(x=>add("treinos","Treino",x.type||x.name||"Treino",x.notes||"",x.date||""));
+  (state.archive||[]).forEach(x=>add("arquivo","Arquivado",x.title||"Item arquivado",x.type||"",x.archivedAt||""));
+  (state.trash||[]).forEach(x=>add("lixeira","Lixeira",x.title||"Item excluído",x.type||"",x.deletedAt||""));
+
+  const fp=state.profile?.foodPreferences||{};
+  [...(fp.proteins||[]),...(fp.carbs||[]),...(fp.fruits||[]),...(fp.vegetables||[])].forEach(x=>add("alimentacao","Alimento",x,"Preferência alimentar"));
+
+  return rows;
+}
 function v17Search(query){
   const box=document.getElementById("v17SearchResults");if(!box)return;
   const q=String(query||"").trim().toLowerCase();
-  if(q.length<2){box.classList.remove("show");box.innerHTML="";return}
-  const results=[];
-  const add=(page,type,title,detail="")=>{
-    if(String(title||"").toLowerCase().includes(q)||String(detail||"").toLowerCase().includes(q)){
-      results.push({page,type,title,detail});
-    }
-  };
-  (state.customGoals||[]).forEach(x=>add("metas","Meta",x.title,x.description));
-  (state.reminders||[]).forEach(x=>add("lembretes","Lembrete",x.title,x.notes));
-  (state.events||[]).forEach(x=>add("calendario","Evento",x.title,x.notes||x.category));
-  (state.weeklyPlans||[]).forEach(x=>add("planejamento","Planejamento",x.title||x.task,x.notes));
-  (state.diaryEntries||[]).forEach(x=>add("diario","Diário",x.title||x.date,x.text||x.notes));
-  (state.finance?.transactions||[]).forEach(x=>add("financas","Finanças",x.description||x.category,`${x.value||x.amount||""}`));
-  (state.profile?.activities||[]).forEach(x=>add("perfil","Atividade",x.name,`${x.frequency||0}x por semana`));
+  const all=v19SearchIndex();
 
-  box.innerHTML=results.slice(0,12).map((r,i)=>`
-    <div class="v17-search-item" onclick="v17OpenSearchResult('${r.page}')">
+  let results;
+  if(!q){
+    results=all.filter(x=>x.type==="Módulo");
+  }else{
+    const terms=q.split(/\s+/).filter(Boolean);
+    results=all.filter(r=>{
+      const hay=`${r.title} ${r.detail} ${r.type} ${r.keywords}`.toLowerCase();
+      return terms.every(t=>hay.includes(t));
+    });
+  }
+
+  results=results.slice(0,60);
+  box.innerHTML=results.map(r=>`
+    <div class="v17-search-item v19-search-item" onclick="v17OpenSearchResult('${r.page}')">
       <strong>${escapeHtml(r.title||"Resultado")}</strong>
-      <small>${escapeHtml(r.type)}${r.detail?` • ${escapeHtml(String(r.detail).slice(0,90))}`:""}</small>
+      <small><span class="v19-search-type">${escapeHtml(r.type)}</span>${r.detail?escapeHtml(String(r.detail).slice(0,110)):""}</small>
     </div>`).join("") || '<div class="v17-empty">Nenhum resultado encontrado.</div>';
   box.classList.add("show");
 }
 function v17OpenSearchResult(page){
   document.getElementById("v17SearchResults")?.classList.remove("show");
   const input=document.getElementById("v17GlobalSearch");if(input)input.value="";
-  v15GoTo(page);
+  v19OpenModule(page);
 }
+const v19GlobalSearchInput=document.getElementById("v17GlobalSearch");
+if(v19GlobalSearchInput){
+  v19GlobalSearchInput.addEventListener("focus",()=>v17Search(v19GlobalSearchInput.value));
+  v19GlobalSearchInput.addEventListener("input",()=>v17Search(v19GlobalSearchInput.value));
+}
+
 document.addEventListener("click",e=>{
   if(!e.target.closest(".v17-search-wrap"))document.getElementById("v17SearchResults")?.classList.remove("show");
 });
@@ -5195,7 +5527,7 @@ async function v17RunHealthCheck(){
   const checks=[];
   const add=(name,status,detail,cls)=>checks.push({name,status,detail,cls});
 
-  add("Versão","V19 Final 1.1","Evolução Geral","v17-health-ok");
+  add("Versão","V19 Final 1.4","Evolução Geral","v17-health-ok");
 
   try{
     localStorage.setItem("__v17_test","1");localStorage.removeItem("__v17_test");
@@ -5299,7 +5631,7 @@ v17PrepareSidebar();
 
 
 
-/* ===== V19 Final 1.1 Refino, Insights e Sincronização Inteligente ===== */
+/* ===== V19 Final 1.4 Refino, Insights e Sincronização Inteligente ===== */
 state.inbox = Array.isArray(state.inbox)?state.inbox:[];
 state.insights = Array.isArray(state.insights)?state.insights:[];
 state.syncMeta = state.syncMeta && typeof state.syncMeta==="object" ? state.syncMeta : {lastLocalChange:null,lastCloudSync:null};
@@ -5477,8 +5809,8 @@ function v18RenderMonthlyReview(){
 function v18RenderUpdates(){
   const box=document.getElementById("v18Updates");if(!box)return;
   const items=[
-    ["V19 Final 1.1","Refino de layout, login melhorado, iPhone, sincronização inteligente, Insights, Revisão Mensal e Caixa de Entrada."],
-    ["V19 Final 1.1","Pendências, histórico, busca global, modo foco e saúde do sistema."],
+    ["V19 Final 1.4","Refino de layout, login melhorado, iPhone, sincronização inteligente, Insights, Revisão Mensal e Caixa de Entrada."],
+    ["V19 Final 1.4","Pendências, histórico, busca global, modo foco e saúde do sistema."],
     ["V16","Revisão semanal, metas adaptativas e feedback visual ao salvar."],
     ["V15","Questionário inteligente, Modo Hoje e perfil evolutivo."]
   ];
@@ -5530,7 +5862,7 @@ if(!state.insights.length)setTimeout(()=>v18GenerateInsights(false),100);
 
 
 
-/* ===== V19 Final 1.1 • Navegação Inteligente ===== */
+/* ===== V19 Final 1.4 • Navegação Inteligente ===== */
 
 
 function v19BindHubNavigation(){
@@ -5608,7 +5940,7 @@ function v19OpenModule(page){
     nuvem:"Nuvem",
     backup:"Dados & Backup",
     "saude-sistema":"Saúde do Sistema",
-    atualizacoes:"Atualizações", arquivo:"Arquivo", manutencao:"Manutenção", "rotina-temporaria":"Rotina Temporária", arquivo:"Arquivo", manutencao:"Manutenção", "rotina-temporaria":"Rotina Temporária",
+    atualizacoes:"Atualizações", arquivo:"Arquivo", lixeira:"Lixeira", "central-dados":"Central de Dados", manutencao:"Manutenção", "rotina-temporaria":"Rotina Temporária", arquivo:"Arquivo", manutencao:"Manutenção", "rotina-temporaria":"Rotina Temporária",
     inicio:"Início",
     rotina:"Rotina"
   };
@@ -5994,9 +6326,18 @@ function v19Phase2RenderAll(){
 
 
 
-/* ===== V19 Final 1.1 • Uso de Longo Prazo ===== */
+/* ===== V19 Final 1.4 • Uso de Longo Prazo ===== */
 state.archive = Array.isArray(state.archive)?state.archive:[];
+
 state.autoBackups = Array.isArray(state.autoBackups)?state.autoBackups:[];
+// Migração V19 Final 1.4: remove snapshots completos que versões anteriores
+// guardavam dentro do próprio state e que podiam estourar o limite do localStorage.
+state.autoBackups = state.autoBackups.map(b=>({
+  id:b?.id||Date.now(),
+  at:b?.at||new Date().toISOString(),
+  size:Number(b?.size||0)
+})).slice(0,5);
+
 state.errorLog = Array.isArray(state.errorLog)?state.errorLog:[];
 state.weekTemplates = Array.isArray(state.weekTemplates)?state.weekTemplates:[];
 state.temporaryRoutine = state.temporaryRoutine && typeof state.temporaryRoutine==="object" ? state.temporaryRoutine : null;
@@ -6012,13 +6353,19 @@ function v19LogError(area,error){
 
 function v19CreateAutoBackup(showFeedback=false){
   try{
-    const snapshot=JSON.stringify(state);
+    // O snapshot completo fica em uma chave separada.
+    // Dentro do state guardamos somente metadados para evitar crescimento recursivo.
+    const safeState={...state,autoBackups:(state.autoBackups||[]).map(b=>({id:b.id,at:b.at,size:b.size}))};
+    const snapshot=JSON.stringify(safeState);
     const backup={id:Date.now(),at:new Date().toISOString(),data:snapshot,size:snapshot.length};
-    state.autoBackups.unshift(backup);
+
+    state.autoBackups.unshift({id:backup.id,at:backup.at,size:backup.size});
     state.autoBackups=state.autoBackups.slice(0,5);
     state.maintenanceMeta.lastBackup=backup.at;
-    localStorage.setItem("v19LastBackup",JSON.stringify(backup));
+
+    /* backup automático desativado */
     localStorage.setItem("saudeV1",JSON.stringify(state));
+
     if(showFeedback && typeof v16FinishSave==="function")v16FinishSave(true,"Backup criado.");
     v19RenderLongTerm();
     return true;
@@ -6232,7 +6579,7 @@ function v19RunDiagnostic(){
     notifications:("Notification" in window)?Notification.permission:"unsupported",
     pendingSync:state.pendingSync.length,
     errors:state.errorLog.length,
-    version:"V19 Final 1.1"
+    version:"V19 Final 1.4"
   };
   state.maintenanceMeta.lastDiagnostic=result;
   try{localStorage.setItem("saudeV1",JSON.stringify(state))}catch(e){}
@@ -6285,25 +6632,34 @@ function v19RenderLongTerm(){
   v19RenderWeekTemplates();
 }
 
-v19MaybeAutoBackup();
+
+try{
+  localStorage.setItem("saudeV1",JSON.stringify(state));
+}catch(e){
+  console.warn("Migração de armazenamento pendente:",e);
+}
+
+// Backup automático removido na V19 Final 1.4.
 v19FlushPendingSync();
 
 function v19Phase3RenderAll(){
   v19RenderLongTerm();
+  v19RenderTrash();
+  v19RenderDataCenter();
 }
 
 
 
 /* ===== V19 FINAL • Acabamento ===== */
 state.finalMeta = state.finalMeta && typeof state.finalMeta==="object" ? state.finalMeta : {};
-state.finalMeta.version = "V19 Final 1.1";
+state.finalMeta.version = "V19 Final 1.4";
 
 const V19_HUB_PARENT = {
   planejamento:"planejar",calendario:"planejar",lembretes:"planejar","caixa-entrada":"planejar",pendencias:"planejar",
   metas:"evoluir","painel-semanal":"evoluir","revisao-mensal":"evoluir",insights:"evoluir",conquistas:"evoluir",
   progresso:"vida",treinos:"vida",alimentacao:"vida",mercado:"vida",agua:"vida",financas:"vida",
   diario:"historico-hub",historico:"historico-hub",
-  perfil:"mais",nuvem:"mais",backup:"mais","saude-sistema":"mais",atualizacoes:"mais",arquivo:"mais",manutencao:"mais","rotina-temporaria":"mais"
+  perfil:"mais",nuvem:"mais",backup:"mais","saude-sistema":"mais",atualizacoes:"mais",arquivo:"mais",lixeira:"mais","central-dados":"mais",manutencao:"mais","rotina-temporaria":"mais"
 };
 
 function v19CurrentSection(){
@@ -6339,7 +6695,7 @@ const V19_TOUR_STEPS = [
   {icon:"🗓️",title:"Planejar",text:"Semana, calendário, lembretes, Caixa de Entrada e pendências ficam organizados em um só lugar."},
   {icon:"🌱",title:"Evoluir",text:"Metas, revisões, insights, conquistas e detecção de abandono acompanham seu progresso."},
   {icon:"🧩",title:"Vida",text:"Saúde, treinos, alimentação, mercado, água e finanças ficam agrupados sem lotar o menu."},
-  {icon:"⚙️",title:"Mais",text:"Perfil, nuvem, backup, arquivo, manutenção, rotina temporária e diagnóstico ficam aqui."}
+  {icon:"⚙️",title:"Mais",text:"Perfil, nuvem, backup manual, arquivo, lixeira, central de dados, manutenção e rotina temporária ficam aqui."}
 ];
 let v19TourIndex=0;
 
@@ -6407,6 +6763,183 @@ function v19FinalRenderAll(){
 }
 
 setTimeout(()=>v19StartTour(false),450);
+
+
+
+/* ===== V19 Final 1.4 • Lixeira, Dados e Reset ===== */
+state.trash=Array.isArray(state.trash)?state.trash:[];
+
+function v19TrashPurgeExpired(){
+  const limit=30*24*60*60*1000;
+  const now=Date.now();
+  state.trash=(state.trash||[]).filter(x=>{
+    const t=new Date(x.deletedAt||0).getTime();
+    return !t || now-t<limit;
+  });
+}
+function v19MoveToTrash(type,item,title){
+  if(!item)return;
+  state.trash.unshift({
+    trashId:Date.now()+Math.random(),
+    type,
+    title:title||item.title||item.name||item.description||"Item",
+    item:JSON.parse(JSON.stringify(item)),
+    deletedAt:new Date().toISOString()
+  });
+  state.trash=state.trash.slice(0,250);
+}
+function v19RestoreTrash(id){
+  const row=(state.trash||[]).find(x=>String(x.trashId)===String(id));if(!row)return;
+  const i=row.item;
+  if(row.type==="finance-transaction"){state.finance.transactions.push(i);}
+  else if(row.type==="finance-debt"){state.finance.debts.push(i);}
+  else if(row.type==="finance-goal"){state.finance.goals.push(i);}
+  else if(row.type==="diary"){state.diaryEntries.push(i);}
+  else if(row.type==="event"){state.events.push(i);}
+  else if(row.type==="plan"){state.weeklyPlans.push(i);}
+  else if(row.type==="goal"){state.customGoals.push(i);}
+  else if(row.type==="reminder"){state.reminders.push(i);}
+  else return;
+  state.trash=state.trash.filter(x=>String(x.trashId)!==String(id));
+  save();
+}
+function v19DeleteTrashForever(id){
+  if(!confirm("Excluir este item definitivamente? Essa ação não pode ser desfeita."))return;
+  state.trash=state.trash.filter(x=>String(x.trashId)!==String(id));
+  save();
+}
+function v19RenderTrash(){
+  const box=document.getElementById("v19TrashList"),count=document.getElementById("v19TrashCount");if(!box)return;
+  v19TrashPurgeExpired();
+  const rows=state.trash||[];
+  if(count)count.textContent=String(rows.length);
+  box.innerHTML=rows.length?rows.map(x=>{
+    const days=Math.max(0,30-Math.floor((Date.now()-new Date(x.deletedAt).getTime())/86400000));
+    return `<div class="v19-trash-item">
+      <strong>${escapeHtml(x.title||"Item")}</strong>
+      <div class="quote">${escapeHtml(x.type)} • ${days} dia(s) restantes</div>
+      <div class="v19-actions">
+        <button class="btn btn-primary" onclick="v19RestoreTrash('${x.trashId}')">Restaurar</button>
+        <button class="btn btn-ghost" onclick="v19DeleteTrashForever('${x.trashId}')">Excluir definitivamente</button>
+      </div>
+    </div>`;
+  }).join(""):'<div class="v17-empty">A lixeira está vazia.</div>';
+}
+
+/* Exclusões importantes passam pela lixeira */
+deleteFinanceTransaction=function(id){
+  const x=state.finance.transactions.find(x=>x.id===id);v19MoveToTrash("finance-transaction",x,x?.description||x?.category);
+  state.finance.transactions=state.finance.transactions.filter(x=>x.id!==id);save();
+};
+deleteDebt=function(id){
+  const x=state.finance.debts.find(x=>x.id===id);v19MoveToTrash("finance-debt",x,x?.name);
+  state.finance.debts=state.finance.debts.filter(x=>x.id!==id);save();
+};
+deleteFinanceGoal=function(id){
+  const x=state.finance.goals.find(x=>x.id===id);v19MoveToTrash("finance-goal",x,x?.name);
+  state.finance.goals=state.finance.goals.filter(x=>x.id!==id);save();
+};
+deleteDiaryEntry=function(id){
+  const x=state.diaryEntries.find(x=>x.id===id);v19MoveToTrash("diary",x,x?.title||x?.date);
+  state.diaryEntries=state.diaryEntries.filter(x=>x.id!==id);save();
+};
+deleteEvent=function(id){
+  const x=state.events.find(x=>x.id===id);v19MoveToTrash("event",x,x?.title);
+  state.events=state.events.filter(x=>x.id!==id);save();
+};
+deleteWeeklyPlan=function(id){
+  const x=state.weeklyPlans.find(x=>x.id===id);v19MoveToTrash("plan",x,x?.title||x?.task);
+  state.weeklyPlans=state.weeklyPlans.filter(x=>x.id!==id);save();
+};
+deleteCustomGoal=function(id){
+  const x=state.customGoals.find(x=>x.id===id);v19MoveToTrash("goal",x,x?.title);
+  state.customGoals=state.customGoals.filter(x=>x.id!==id);save();
+};
+deleteReminder=function(id){
+  const x=state.reminders.find(x=>x.id===id);v19MoveToTrash("reminder",x,x?.title);
+  state.reminders=state.reminders.filter(x=>x.id!==id);save();
+  setTimeout(()=>{try{syncPushRemindersToCloud()}catch(e){}},800);
+};
+
+function v19DataCounts(){
+  return {
+    "Metas":(state.customGoals||[]).length,
+    "Tarefas":(state.weeklyPlans||[]).length,
+    "Lembretes":(state.reminders||[]).length,
+    "Diário":(state.diaryEntries||[]).length,
+    "Eventos":(state.events||[]).length,
+    "Treinos":(state.trainings||[]).length,
+    "Finanças":(state.finance?.transactions||[]).length+(state.finance?.debts||[]).length+(state.finance?.goals||[]).length,
+    "Dias de água":Object.keys(state.water||{}).length,
+    "Lixeira":(state.trash||[]).length
+  };
+}
+function v19RenderDataCenter(){
+  const box=document.getElementById("v19DataStats");if(!box)return;
+  const counts=v19DataCounts();
+  const kb=Math.round((JSON.stringify(state).length/1024)*10)/10;
+  const entries=Object.entries(counts);
+  entries.push(["Estado local",`${kb} KB`]);
+  entries.push(["Nuvem",(typeof cloudUser!=="undefined"&&cloudUser)?"Conectada":"Sem sessão"]);
+  box.innerHTML=entries.map(([k,v])=>`<div class="v19-data-stat"><small>${escapeHtml(k)}</small><strong>${escapeHtml(String(v))}</strong></div>`).join("");
+}
+
+function v19FreshState(){
+  const fresh=JSON.parse(JSON.stringify(defaultState));
+  fresh.profile=fresh.profile||{};
+  fresh.profile.configured=false;
+  delete fresh.profile.profileSetupCompletedAt;
+  fresh.marketChecks={};
+  fresh.marketPeriod="week";
+  fresh.diaryEntries=[];
+  fresh.events=[];
+  fresh.weeklyPlans=[];
+  fresh.customGoals=[];
+  fresh.achievementsUnlocked={};
+  fresh.reminders=[];
+  fresh.finance={transactions:[],debts:[],goals:[]};
+  fresh.trainings=[];
+  fresh.water={};
+  fresh.checks={};
+  fresh.dailyCheckins={};
+  fresh.archive=[];
+  fresh.trash=[];
+  fresh.pendingSync=[];
+  fresh.weekTemplates=[];
+  fresh.errorLog=[];
+  fresh.finalMeta={version:"V19 Final 1.4",resetAt:new Date().toISOString()};
+  return fresh;
+}
+function v19ConfirmReset(label){
+  const typed=prompt(`${label}\n\nDigite RESETAR para confirmar:`);
+  return typed==="RESETAR";
+}
+function v19ClearAuxLocalKeys(){
+  ["v19LastBackup","cloudLastSync","v19TourDone"].forEach(k=>localStorage.removeItem(k));
+}
+function v19ResetLocalUser(){
+  if(!v19ConfirmReset("Isso apagará os dados deste dispositivo e abrirá o questionário como no primeiro uso. A nuvem não será alterada."))return;
+  state=v19FreshState();
+  v19ClearAuxLocalKeys();
+  localStorage.setItem("saudeV1",JSON.stringify(state));
+  location.reload();
+}
+async function v19ResetCloudUser(){
+  if(!cloudClient || !cloudUser){alert("Entre na sua conta antes de fazer o reset completo.");return}
+  if(!v19ConfirmReset("RESET COMPLETO: isso substituirá os dados deste dispositivo E os dados salvos na nuvem por um perfil inicial vazio. Sua conta de login continuará existindo."))return;
+  const fresh=v19FreshState();
+  const {error}=await cloudClient.from("app_state").upsert({
+    user_id:cloudUser.id,
+    data:fresh,
+    updated_at:new Date().toISOString()
+  },{onConflict:"user_id"});
+  if(error){v19LogError?.("Reset da nuvem",error);alert("Não foi possível resetar a nuvem. Nenhum dado local foi apagado.");return}
+  state=fresh;
+  v19ClearAuxLocalKeys();
+  localStorage.setItem("saudeV1",JSON.stringify(state));
+  location.reload();
+}
+v19TrashPurgeExpired();
 
 
 function renderAll(){renderHeader();renderChecklist();renderWater();renderMeals();renderNightPlan();renderWeight();renderTrainings();renderGoals();renderCalendar();renderFinance();renderAchievements();renderReminders();v15RenderAll();v16RenderAll();v17RenderAll();v18RenderAll();v19RenderAll();v19Phase2RenderAll();v19Phase3RenderAll();v19BindHubNavigation();v19FinalRenderAll();}

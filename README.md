@@ -351,3 +351,42 @@ A V19 Final foi pensada como versão de uso prolongado.
 - Arquivo, Manutenção e Rotina Temporária agora aparecem no grid principal de Mais
 - funcionam no desktop e no mobile
 - cache do service worker atualizado
+
+## V19 Final 1.2 — Correção de salvamento
+
+Correção importante:
+- backups automáticos não ficam mais aninhados dentro do próprio estado do aplicativo
+- snapshots completos ficam somente em `v19LastBackup`
+- histórico interno de backups guarda apenas metadados
+- migração automática remove snapshots antigos aninhados
+- tratamento específico para limite de armazenamento do navegador
+- cache da PWA atualizado
+
+## V19 Final 1.3 — Alimentação Inteligente
+
+- questionário de alimentação usa opções marcáveis em vez de campos livres
+- categorias: proteínas, carboidratos/bases, frutas e vegetais
+- lista de alimentos a evitar
+- cardápio-base existente continua como referência estrutural
+- refeições semanais são adaptadas às preferências marcadas
+- estilo de preparo (prático, marmitas, cozinhar ou misto) influencia a apresentação
+- compatibilidade mantida com os campos antigos `foodsLike` e `foodsAvoid`
+- sem metas calóricas ou restrições automáticas
+
+## V19 Final 1.4 — Estabilidade, Dados e Busca
+
+Mudanças:
+- salvamento global revisado para todos os módulos
+- confirmação padrão “Salvo com sucesso”
+- limpeza automática de resíduos do backup automático antigo
+- backup automático completo removido
+- backup passa a ser manual por exportação/importação
+- Central de Dados com contagem de registros e tamanho aproximado
+- reset local do usuário com confirmação forte
+- reset completo dispositivo + nuvem/Supabase com confirmação forte
+- conta de login não é excluída pelo reset
+- Busca Global ampliada: módulos, metas, tarefas, lembretes, calendário, diário, finanças, treinos, alimentação, arquivo, lixeira e configurações
+- ao focar a busca sem texto, todos os módulos pesquisáveis aparecem
+- resultados abrem diretamente o módulo correspondente
+- Lixeira temporária de 30 dias
+- exclusões de metas, tarefas, lembretes, diário, calendário e finanças passam pela lixeira
