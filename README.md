@@ -402,3 +402,13 @@ Mudanças:
 - inglês voltado para compreensão e conversa prática
 - palavras erradas voltam com mais frequência
 - integração do Treino Mental à Busca Global
+
+## V20.1 — Correções dos jogos
+
+- Água +250 ml permanece 250 ml e passa a exibir 0,25 L.
+- Memória finaliza no último par.
+- Caça-palavras é interativo: primeira + última letra.
+- Lógica finaliza após a quinta resposta.
+- Atenção dá feedback e conclui após 5 rodadas.
+- Inglês abre, registra respostas e conclui normalmente.
+- Progresso dos jogos é salvo sem interromper a tela da partida.

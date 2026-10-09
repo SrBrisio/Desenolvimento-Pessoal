@@ -607,7 +607,7 @@
 
 
 
-/* ===== V20 Treino Mental • Perfil inteligente + Hoje ===== */
+/* ===== V20.1 Treino Mental Corrigido • Perfil inteligente + Hoje ===== */
 :root{
   --radius-v15:18px;
 }
@@ -676,7 +676,7 @@ body.v15-light .v15-checkin-scale button{background:#f7f9fc;color:#172033}
 }
 
 
-/* ===== V20 Treino Mental • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
+/* ===== V20.1 Treino Mental Corrigido • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
 .v16-save-status{
   position:fixed;top:18px;right:18px;z-index:9999;
   min-width:190px;max-width:340px;
@@ -716,7 +716,7 @@ body.v15-light .v16-review-item,body.v15-light .v16-smart-goal{background:#f7f9f
 }
 
 
-/* ===== V20 Treino Mental • Evolução geral de UX ===== */
+/* ===== V20.1 Treino Mental Corrigido • Evolução geral de UX ===== */
 :root{--sidebar-collapsed:78px}
 
 /* Sidebar realmente recolhida */
@@ -846,7 +846,7 @@ body.v15-light .v17-routine-item{background:#f7f9fc}
 }
 
 
-/* ===== V20 Treino Mental • Refino, Insights e Sincronização Inteligente ===== */
+/* ===== V20.1 Treino Mental Corrigido • Refino, Insights e Sincronização Inteligente ===== */
 :root{
   --tap:46px;
 }
@@ -911,7 +911,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 #lembretes .goal-form > .btn{grid-column:1/-1!important;justify-self:end!important}
 
 
-/* ===== V20 Treino Mental • Navegação Inteligente ===== */
+/* ===== V20.1 Treino Mental Corrigido • Navegação Inteligente ===== */
 .v19-hub-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .v19-hub-card{border:1px solid var(--line);border-radius:18px;padding:18px;background:var(--panel);cursor:pointer;transition:.18s ease}
 .v19-hub-card:hover{transform:translateY(-2px);border-color:var(--accent)}
@@ -932,7 +932,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 }
 
 
-/* V20 Treino Mental.1 */
+/* V20.1 Treino Mental Corrigido.1 */
 .v19-hub-card{position:relative}
 .v19-hub-card::after{
   content:"›";
@@ -949,7 +949,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 }
 
 
-/* ===== V20 Treino Mental • Automação Pessoal ===== */
+/* ===== V20.1 Treino Mental Corrigido • Automação Pessoal ===== */
 .v19-message-card{
   border:1px solid var(--line);
   border-radius:20px;
@@ -984,7 +984,7 @@ body.v15-light .v19-planb-item{background:#f7f9fc}
 }
 
 
-/* ===== V20 Treino Mental • Uso de Longo Prazo ===== */
+/* ===== V20.1 Treino Mental Corrigido • Uso de Longo Prazo ===== */
 .v19-long-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .v19-long-card{border:1px solid var(--line);border-radius:16px;padding:14px;background:var(--panel)}
 .v19-long-card h3{margin:0 0 6px}
@@ -1039,7 +1039,7 @@ body.v15-light .v19-install-check{background:#f7f9fc}
 }
 
 
-/* ===== V20 Treino Mental • Alimentação Inteligente ===== */
+/* ===== V20.1 Treino Mental Corrigido • Alimentação Inteligente ===== */
 .food-choice-group{margin:14px 0}
 .food-choice-group h4{margin:0 0 8px;font-size:14px}
 .food-choice-grid{display:flex;flex-wrap:wrap;gap:8px}
@@ -1053,7 +1053,7 @@ body.v15-light .v19-install-check{background:#f7f9fc}
 @media(max-width:720px){.food-choice{padding:10px 12px}}
 
 
-/* ===== V20 Treino Mental • Estabilidade & Dados ===== */
+/* ===== V20.1 Treino Mental Corrigido • Estabilidade & Dados ===== */
 .v19-data-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .v19-data-stat{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--panel)}
 .v19-data-stat small{display:block;color:var(--muted);margin-bottom:5px}
@@ -1086,6 +1086,19 @@ body.v15-light .v19-trash-item{background:#f7f9fc}
 .v20-daily-row:last-child{border-bottom:0}.v20-daily-done{opacity:.68}
 @media(max-width:900px){.v20-game-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.v20-game-grid{grid-template-columns:1fr}.v20-progress-strip{grid-template-columns:1fr}.v20-ws-grid{overflow:auto}}
+
+
+/* ===== V20.1 • Correções dos Jogos ===== */
+.v20-ws-cell{cursor:pointer;user-select:none}
+.v20-ws-cell.selected{background:rgba(90,120,255,.16);border-color:var(--accent)}
+.v20-ws-cell.found{background:rgba(80,190,130,.18);border-color:#65c99b}
+.v20-word-chip{display:inline-flex;padding:5px 9px;border:1px solid var(--line);border-radius:999px;margin:3px;font-size:12px}
+.v20-word-chip.found{text-decoration:line-through;opacity:.65}
+.v20-game-feedback{margin-top:10px;font-weight:700}
+.v20-game-feedback.ok{color:#72d3ad}.v20-game-feedback.bad{color:#ff9b8d}
+.v20-attention-cell.wrong{border-color:#ff7d8a;background:rgba(255,90,110,.08)}
+.v20-attention-cell.correct{border-color:#65c99b;background:rgba(80,190,130,.14)}
+.v20-result-card{border:1px solid var(--line);border-radius:16px;padding:16px;background:var(--panel)}
 
 </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1998,7 +2011,7 @@ body.v15-light .v19-trash-item{background:#f7f9fc}
           <div><div class="v19-section-kicker">Estado do aplicativo</div><h3>✅ V19 Estável</h3></div>
         </div>
         <div class="v19-final-status">
-          <div class="box"><small>Versão</small><strong>V20 Treino Mental</strong></div>
+          <div class="box"><small>Versão</small><strong>V20.1 Treino Mental Corrigido</strong></div>
           <div class="box"><small>Conexão</small><strong id="v19FinalConnection">...</strong></div>
           <div class="box"><small>Última sincronização</small><strong id="v19FinalSync">...</strong></div>
           <div class="box"><small>Backup</small><strong>Manual</strong></div>
@@ -2008,7 +2021,7 @@ body.v15-light .v19-trash-item{background:#f7f9fc}
       <div class="card">
         <div class="section-title" style="margin-top:0">
           <div><div class="v15-kicker">Versão do aplicativo</div><h3>🆕 O que mudou</h3></div>
-          <span class="badge">V20 Treino Mental</span>
+          <span class="badge">V20.1 Treino Mental Corrigido</span>
         </div>
         <div id="v18Updates"></div>
       </div>
@@ -2788,13 +2801,20 @@ function renderChecklist(){
   const vals=Object.values(state.checks[key]); const done=vals.filter(Boolean).length; const total=todayTasks().length;
   document.getElementById("checkMetric").textContent=Math.round(done/total*100)+"%";
 }
+function v20FormatLiters(ml){
+  const liters=Number(ml||0)/1000;
+  return liters.toLocaleString("pt-BR",{minimumFractionDigits:1,maximumFractionDigits:2})+" L";
+}
 function renderWater(){
-  const key=dateKey(); const ml=state.water[key]||0, pct=Math.min(100,Math.round(ml/state.profile.waterGoal*100));
-  ["waterBar","waterBar2"].forEach(id=>document.getElementById(id).style.width=pct+"%");
-  document.getElementById("waterText").textContent=`${ml} / ${state.profile.waterGoal} ml`;
-  document.getElementById("waterPct").textContent=pct+"%";
-  document.getElementById("waterMetric").textContent=(ml/1000).toFixed(1).replace(".",",")+" L";
-  document.getElementById("waterBig").textContent=(ml/1000).toFixed(1).replace(".",",")+" L";
+  const key=dateKey();
+  const ml=Number(state.water[key]||0);
+  const goal=Number(state.profile.waterGoal||2500);
+  const pct=Math.min(100,Math.round(ml/goal*100));
+  ["waterBar","waterBar2"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.width=pct+"%";});
+  const wt=document.getElementById("waterText");if(wt)wt.textContent=`${ml} / ${goal} ml`;
+  const wp=document.getElementById("waterPct");if(wp)wp.textContent=pct+"%";
+  const wm=document.getElementById("waterMetric");if(wm)wm.textContent=v20FormatLiters(ml);
+  const wb=document.getElementById("waterBig");if(wb)wb.textContent=v20FormatLiters(ml);
 }
 function addWater(n){state.water[dateKey()]=(state.water[dateKey()]||0)+n;save();}
 function resetWater(){state.water[dateKey()]=0;save();}
@@ -4527,8 +4547,8 @@ function renderCalendar(){
 }
 
 
-/* ===== V20 Treino Mental Inteligência de Perfil ===== */
-/* ===== V20 Treino Mental Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
+/* ===== V20.1 Treino Mental Corrigido Inteligência de Perfil ===== */
+/* ===== V20.1 Treino Mental Corrigido Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
 state.weeklyReviews = state.weeklyReviews && typeof state.weeklyReviews==="object" ? state.weeklyReviews : {};
 state.adaptiveGoalSuggestions = Array.isArray(state.adaptiveGoalSuggestions) ? state.adaptiveGoalSuggestions : [];
 
@@ -5338,7 +5358,7 @@ if(!state.profile.profileSetupCompletedAt && !state.profile.configured){
 }
 
 
-/* ===== V20 Treino Mental Evolução Geral ===== */
+/* ===== V20.1 Treino Mental Corrigido Evolução Geral ===== */
 state.changeHistory = Array.isArray(state.changeHistory) ? state.changeHistory : [];
 
 function v17TrackChange(type,description,meta={}){
@@ -5586,7 +5606,7 @@ async function v17RunHealthCheck(){
   const checks=[];
   const add=(name,status,detail,cls)=>checks.push({name,status,detail,cls});
 
-  add("Versão","V20 Treino Mental","Evolução Geral","v17-health-ok");
+  add("Versão","V20.1 Treino Mental Corrigido","Evolução Geral","v17-health-ok");
 
   try{
     localStorage.setItem("__v17_test","1");localStorage.removeItem("__v17_test");
@@ -5690,7 +5710,7 @@ v17PrepareSidebar();
 
 
 
-/* ===== V20 Treino Mental Refino, Insights e Sincronização Inteligente ===== */
+/* ===== V20.1 Treino Mental Corrigido Refino, Insights e Sincronização Inteligente ===== */
 state.inbox = Array.isArray(state.inbox)?state.inbox:[];
 state.insights = Array.isArray(state.insights)?state.insights:[];
 state.syncMeta = state.syncMeta && typeof state.syncMeta==="object" ? state.syncMeta : {lastLocalChange:null,lastCloudSync:null};
@@ -5868,8 +5888,8 @@ function v18RenderMonthlyReview(){
 function v18RenderUpdates(){
   const box=document.getElementById("v18Updates");if(!box)return;
   const items=[
-    ["V20 Treino Mental","Refino de layout, login melhorado, iPhone, sincronização inteligente, Insights, Revisão Mensal e Caixa de Entrada."],
-    ["V20 Treino Mental","Pendências, histórico, busca global, modo foco e saúde do sistema."],
+    ["V20.1 Treino Mental Corrigido","Refino de layout, login melhorado, iPhone, sincronização inteligente, Insights, Revisão Mensal e Caixa de Entrada."],
+    ["V20.1 Treino Mental Corrigido","Pendências, histórico, busca global, modo foco e saúde do sistema."],
     ["V16","Revisão semanal, metas adaptativas e feedback visual ao salvar."],
     ["V15","Questionário inteligente, Modo Hoje e perfil evolutivo."]
   ];
@@ -5921,7 +5941,7 @@ if(!state.insights.length)setTimeout(()=>v18GenerateInsights(false),100);
 
 
 
-/* ===== V20 Treino Mental • Navegação Inteligente ===== */
+/* ===== V20.1 Treino Mental Corrigido • Navegação Inteligente ===== */
 
 
 function v19BindHubNavigation(){
@@ -6385,11 +6405,11 @@ function v19Phase2RenderAll(){
 
 
 
-/* ===== V20 Treino Mental • Uso de Longo Prazo ===== */
+/* ===== V20.1 Treino Mental Corrigido • Uso de Longo Prazo ===== */
 state.archive = Array.isArray(state.archive)?state.archive:[];
 
 state.autoBackups = Array.isArray(state.autoBackups)?state.autoBackups:[];
-// Migração V20 Treino Mental: remove snapshots completos que versões anteriores
+// Migração V20.1 Treino Mental Corrigido: remove snapshots completos que versões anteriores
 // guardavam dentro do próprio state e que podiam estourar o limite do localStorage.
 state.autoBackups = state.autoBackups.map(b=>({
   id:b?.id||Date.now(),
@@ -6638,7 +6658,7 @@ function v19RunDiagnostic(){
     notifications:("Notification" in window)?Notification.permission:"unsupported",
     pendingSync:state.pendingSync.length,
     errors:state.errorLog.length,
-    version:"V20 Treino Mental"
+    version:"V20.1 Treino Mental Corrigido"
   };
   state.maintenanceMeta.lastDiagnostic=result;
   try{localStorage.setItem("saudeV1",JSON.stringify(state))}catch(e){}
@@ -6698,7 +6718,7 @@ try{
   console.warn("Migração de armazenamento pendente:",e);
 }
 
-// Backup automático removido na V20 Treino Mental.
+// Backup automático removido na V20.1 Treino Mental Corrigido.
 v19FlushPendingSync();
 
 function v19Phase3RenderAll(){
@@ -6711,7 +6731,7 @@ function v19Phase3RenderAll(){
 
 /* ===== V19 FINAL • Acabamento ===== */
 state.finalMeta = state.finalMeta && typeof state.finalMeta==="object" ? state.finalMeta : {};
-state.finalMeta.version = "V20 Treino Mental";
+state.finalMeta.version = "V20.1 Treino Mental Corrigido";
 
 const V19_HUB_PARENT = {
   planejamento:"planejar",calendario:"planejar",lembretes:"planejar","caixa-entrada":"planejar",pendencias:"planejar",
@@ -6825,7 +6845,7 @@ setTimeout(()=>v19StartTour(false),450);
 
 
 
-/* ===== V20 Treino Mental • Lixeira, Dados e Reset ===== */
+/* ===== V20.1 Treino Mental Corrigido • Lixeira, Dados e Reset ===== */
 state.trash=Array.isArray(state.trash)?state.trash:[];
 
 function v19TrashPurgeExpired(){
@@ -6966,7 +6986,7 @@ function v19FreshState(){
   fresh.pendingSync=[];
   fresh.weekTemplates=[];
   fresh.errorLog=[];
-  fresh.finalMeta={version:"V20 Treino Mental",resetAt:new Date().toISOString()};
+  fresh.finalMeta={version:"V20.1 Treino Mental Corrigido",resetAt:new Date().toISOString()};
   return fresh;
 }
 function v19ConfirmReset(label){
@@ -7002,7 +7022,8 @@ v19TrashPurgeExpired();
 
 
 
-/* ===== V20 • Treino Mental ===== */
+
+/* ===== V20.1 • Treino Mental corrigido ===== */
 state.gameProgress = state.gameProgress && typeof state.gameProgress==="object" ? state.gameProgress : {};
 state.gameSessions = Array.isArray(state.gameSessions)?state.gameSessions:[];
 state.englishWordProgress = state.englishWordProgress && typeof state.englishWordProgress==="object" ? state.englishWordProgress : {};
@@ -7023,78 +7044,188 @@ const V20_ENGLISH_WORDS = [
 ["taxi","táxi","I need a taxi."],["lost","perdido","I am lost."],["doctor","médico","I need a doctor."],["hospital","hospital","Where is the hospital?"],
 ["problem","problema","There is a problem."],["good","bom","This is good."],["bad","ruim","This is bad."],["easy","fácil","It is easy."],
 ["difficult","difícil","It is difficult."],["happy","feliz","I am happy."],["tired","cansado","I am tired."],["afraid","com medo","I am afraid."],
-["really","realmente","Really? That's great."],["sure","claro","Sure, no problem."],["maybe","talvez","Maybe tomorrow."],["because","porque","I stayed because it was raining."],
-["but","mas","I like it, but it is expensive."],["and","e","Coffee and water, please."],["so","então","So, what do you think?"],
+["really","realmente","Really? That's great."],["sure","claro","Sure, no problem."],["maybe","talvez","Maybe tomorrow."],
 ["how much","quanto custa","How much is it?"],["I don't know","eu não sei","I don't know."],["Can you help me?","Você pode me ajudar?","Can you help me?"],
 ["Where are you from?","De onde você é?","Where are you from?"],["I would like","eu gostaria","I would like some water."]
 ];
 
+function v20PersistGameState(){
+  try{
+    state.finalMeta=state.finalMeta||{};
+    state.finalMeta.lastLocalSave=new Date().toISOString();
+    localStorage.setItem("saudeV1",JSON.stringify(state));
+    if(typeof scheduleCloudSync==="function" && navigator.onLine){try{scheduleCloudSync();}catch(e){}}
+    return true;
+  }catch(e){
+    console.error("Falha ao salvar jogo:",e);
+    if(typeof v19LogError==="function")v19LogError("Treino Mental",e);
+    return false;
+  }
+}
 function v20RecordSession(type,score,extra={}){
   const p=state.gameProgress[type]||(state.gameProgress[type]={games:0,bestScore:0,lastPlayed:null});
-  p.games=(p.games||0)+1;p.bestScore=Math.max(Number(p.bestScore||0),Number(score||0));p.lastPlayed=dateKey();
+  p.games=(p.games||0)+1;
+  p.bestScore=Math.max(Number(p.bestScore||0),Number(score||0));
+  p.lastPlayed=dateKey();
   state.gameSessions.unshift({id:Date.now(),type,score,playedAt:new Date().toISOString(),...extra});
-  state.gameSessions=state.gameSessions.slice(0,200);save();
+  state.gameSessions=state.gameSessions.slice(0,200);
+  v20PersistGameState();
+  v20RenderMentalSummary();
+  v20RenderDailyCheckin();
 }
 function v20RenderMentalSummary(){
   const total=(state.gameSessions||[]).length;
   const days=[...new Set((state.gameSessions||[]).map(x=>String(x.playedAt||"").slice(0,10)).filter(Boolean))].sort().reverse();
   let streak=0;
   for(let i=0;i<days.length;i++){const expected=v16DateKey(v16AddDays(new Date(),-i));if(days.includes(expected))streak++;else break;}
-  const mastered=V20_ENGLISH_WORDS.filter(([w])=>Number(state.englishWordProgress?.[w]?.correct||0)>=3 && Number(state.englishWordProgress?.[w]?.wrong||0)<=1).length;
+  const mastered=V20_ENGLISH_WORDS.filter(([w])=>Number(state.englishWordProgress?.[w]?.correct||0)>=3).length;
   const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v};
-  set("v20MentalStreak",`${streak} dia${streak===1?"":"s"}`);set("v20TotalGames",total);set("v20BestStreak",streak);set("v20EnglishMastery",`${Math.round(mastered/V20_ENGLISH_WORDS.length*100)}%`);
+  set("v20MentalStreak",`${streak} dia${streak===1?"":"s"}`);set("v20TotalGames",total);set("v20BestStreak",streak);
+  set("v20EnglishMastery",`${Math.round(mastered/V20_ENGLISH_WORDS.length*100)}%`);
 }
 function v20BindGames(){
-  document.querySelectorAll(".v20-game-card[data-game]").forEach(btn=>{if(btn.dataset.bound==="1")return;btn.dataset.bound="1";btn.addEventListener("click",()=>v20OpenGame(btn.dataset.game));});
+  document.querySelectorAll(".v20-game-card[data-game]").forEach(btn=>{
+    if(btn.dataset.bound==="1")return;
+    btn.dataset.bound="1";
+    btn.addEventListener("click",()=>v20OpenGame(btn.dataset.game));
+  });
 }
-function v20OpenGame(type){if(type==="memory")v20StartMemory();if(type==="wordsearch")v20StartWordSearch();if(type==="logic")v20StartLogic();if(type==="attention")v20StartAttention();if(type==="english")v20StartEnglish();}
+function v20OpenGame(type){
+  const box=document.getElementById("v20GameArea");if(!box)return;
+  if(type==="memory")return v20StartMemory();
+  if(type==="wordsearch")return v20StartWordSearch();
+  if(type==="logic")return v20StartLogic();
+  if(type==="attention")return v20StartAttention();
+  if(type==="english")return v20StartEnglish();
+}
+function v20ShowResult(title,text,restartFn,label="Jogar novamente"){
+  const box=document.getElementById("v20GameArea");if(!box)return;
+  box.innerHTML=`<div class="v20-result-card"><h3>${title}</h3><p>${text}</p><button type="button" class="btn btn-primary" id="v20RestartGame">${label}</button></div>`;
+  document.getElementById("v20RestartGame")?.addEventListener("click",restartFn);
+}
 
-/* Memória */
+/* MEMÓRIA */
 let v20MemoryState=null;
 function v20StartMemory(){
-  const symbols=["🍎","🚗","🎵","🌙","📚","⚽"];
-  const deck=[...symbols,...symbols].sort(()=>Math.random()-.5);
-  v20MemoryState={deck,revealed:[],matched:new Set(),moves:0,start:Date.now()};v20RenderMemory();
-}
-function v20RenderMemory(){
-  const s=v20MemoryState,box=document.getElementById("v20GameArea");if(!box)return;
-  box.innerHTML=`<h3>🃏 Jogo da Memória</h3><div class="quote">Encontre os 6 pares.</div><div class="v20-memory-grid">${s.deck.map((sym,i)=>`<button type="button" class="v20-memory-card ${s.revealed.includes(i)?"revealed":""} ${s.matched.has(i)?"matched":""}" data-i="${i}">${s.revealed.includes(i)||s.matched.has(i)?sym:"?"}</button>`).join("")}</div><div class="quote" style="margin-top:10px">Jogadas: ${s.moves}</div>`;
-  box.querySelectorAll("[data-i]").forEach(b=>b.addEventListener("click",()=>v20MemoryFlip(Number(b.dataset.i))));
-}
-function v20MemoryFlip(i){
-  const s=v20MemoryState;if(s.matched.has(i)||s.revealed.includes(i)||s.revealed.length>=2)return;
-  s.revealed.push(i);
-  if(s.revealed.length===2){
-    s.moves++;const [a,b]=s.revealed;
-    if(s.deck[a]===s.deck[b]){s.matched.add(a);s.matched.add(b);s.revealed=[];
-      if(s.matched.size===s.deck.length){const sec=Math.round((Date.now()-s.start)/1000),score=Math.max(100,1200-s.moves*40-sec*5);v20RecordSession("memory",score,{moves:s.moves,duration:sec});document.getElementById("v20GameArea").innerHTML=`<h3>✅ Memória concluída</h3><p>${s.moves} jogadas • ${sec}s • ${score} pontos</p><button class="btn btn-primary" onclick="v20StartMemory()">Jogar novamente</button>`;return;}
-    }else setTimeout(()=>{s.revealed=[];v20RenderMemory()},600);
-  }
+  const symbols=["🍎","🚗","🎵","🌙","📚","⚽"],deck=[...symbols,...symbols];
+  for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}
+  v20MemoryState={deck,revealed:[],matched:new Set(),moves:0,start:Date.now(),locked:false,finished:false};
   v20RenderMemory();
 }
-
-/* Caça-palavras */
-function v20StartWordSearch(){
-  const words=["FOCO","META","TEMPO","IDEIA","CALMA"],size=8,grid=Array.from({length:size},()=>Array(size).fill("")),dirs=[[1,0],[0,1],[1,1]];
-  words.forEach((w,idx)=>{const dir=dirs[idx%dirs.length];let placed=false;for(let tries=0;tries<50&&!placed;tries++){const r=Math.floor(Math.random()*size),c=Math.floor(Math.random()*size),er=r+dir[0]*(w.length-1),ec=c+dir[1]*(w.length-1);if(er>=size||ec>=size)continue;let ok=true;for(let k=0;k<w.length;k++){const cur=grid[r+dir[0]*k][c+dir[1]*k];if(cur&&cur!==w[k])ok=false;}if(ok){for(let k=0;k<w.length;k++)grid[r+dir[0]*k][c+dir[1]*k]=w[k];placed=true;}}});
-  const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ";for(let r=0;r<size;r++)for(let c=0;c<size;c++)if(!grid[r][c])grid[r][c]=letters[Math.floor(Math.random()*letters.length)];
-  const box=document.getElementById("v20GameArea");box.innerHTML=`<h3>🔎 Caça-palavras</h3><div class="quote">Encontre: ${words.join(", ")}</div><div class="v20-ws-grid">${grid.flat().map(x=>`<div class="v20-ws-cell">${x}</div>`).join("")}</div><div class="v19-actions"><button class="btn btn-primary" id="v20WordSearchDone">Concluí</button></div>`;
-  document.getElementById("v20WordSearchDone").onclick=()=>{v20RecordSession("wordsearch",500,{words:words.length});box.innerHTML=`<h3>✅ Caça-palavras concluído</h3><p>5 palavras trabalhadas.</p><button class="btn btn-primary" onclick="v20StartWordSearch()">Novo caça-palavras</button>`;};
+function v20RenderMemory(){
+  const s=v20MemoryState,box=document.getElementById("v20GameArea");if(!s||!box)return;
+  box.innerHTML=`<h3>🃏 Jogo da Memória</h3><div class="quote">Encontre os 6 pares.</div>
+  <div class="v20-memory-grid">${s.deck.map((sym,i)=>`<button type="button" class="v20-memory-card ${s.revealed.includes(i)?"revealed":""} ${s.matched.has(i)?"matched":""}" data-memory-i="${i}">${s.revealed.includes(i)||s.matched.has(i)?sym:"?"}</button>`).join("")}</div>
+  <div class="quote" style="margin-top:10px">Jogadas: ${s.moves} • Pares: ${s.matched.size/2}/6</div>`;
+  box.querySelectorAll("[data-memory-i]").forEach(b=>b.addEventListener("click",()=>v20MemoryFlip(Number(b.dataset.memoryI))));
+}
+function v20MemoryFlip(i){
+  const s=v20MemoryState;if(!s||s.finished||s.locked||s.matched.has(i)||s.revealed.includes(i))return;
+  s.revealed.push(i);v20RenderMemory();if(s.revealed.length<2)return;
+  s.moves++;s.locked=true;const [a,b]=s.revealed;
+  if(s.deck[a]===s.deck[b]){
+    s.matched.add(a);s.matched.add(b);s.revealed=[];s.locked=false;
+    if(s.matched.size===s.deck.length){
+      s.finished=true;const sec=Math.max(1,Math.round((Date.now()-s.start)/1000)),score=Math.max(100,1200-s.moves*35-sec*4);
+      v20RecordSession("memory",score,{moves:s.moves,duration:sec});
+      v20ShowResult("✅ Memória concluída",`${s.moves} jogadas • ${sec}s • ${score} pontos`,v20StartMemory);return;
+    }
+    v20RenderMemory();
+  }else setTimeout(()=>{if(!v20MemoryState||v20MemoryState.finished)return;v20MemoryState.revealed=[];v20MemoryState.locked=false;v20RenderMemory();},650);
 }
 
-/* Lógica */
+/* CAÇA-PALAVRAS */
+let v20WordState=null;
+function v20StartWordSearch(){
+  const words=["FOCO","META","TEMPO","IDEIA","CALMA"],size=8,grid=Array.from({length:size},()=>Array(size).fill("")),placements=[],dirs=[[1,0],[0,1],[1,1],[1,-1]];
+  words.forEach((word,idx)=>{
+    let placed=false;
+    for(let tries=0;tries<200&&!placed;tries++){
+      const [dr,dc]=dirs[(idx+tries)%dirs.length],r=Math.floor(Math.random()*size),c=Math.floor(Math.random()*size),er=r+dr*(word.length-1),ec=c+dc*(word.length-1);
+      if(er<0||er>=size||ec<0||ec>=size)continue;
+      let ok=true,cells=[];
+      for(let k=0;k<word.length;k++){const rr=r+dr*k,cc=c+dc*k,cur=grid[rr][cc];if(cur&&cur!==word[k]){ok=false;break}cells.push(rr*size+cc);}
+      if(ok){for(let k=0;k<word.length;k++){grid[r+dr*k][c+dc*k]=word[k];}placements.push({word,cells,start:cells[0],end:cells[cells.length-1]});placed=true;}
+    }
+  });
+  const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  for(let r=0;r<size;r++)for(let c=0;c<size;c++)if(!grid[r][c])grid[r][c]=letters[Math.floor(Math.random()*letters.length)];
+  v20WordState={words,grid,size,placements,found:new Set(),first:null};v20RenderWordSearch();
+}
+function v20RenderWordSearch(message=""){
+  const s=v20WordState,box=document.getElementById("v20GameArea");if(!s||!box)return;
+  const foundCells=new Set(s.placements.filter(p=>s.found.has(p.word)).flatMap(p=>p.cells));
+  box.innerHTML=`<h3>🔎 Caça-palavras</h3><div class="quote">Clique na primeira e depois na última letra da palavra.</div>
+  <div>${s.words.map(w=>`<span class="v20-word-chip ${s.found.has(w)?"found":""}">${w}</span>`).join("")}</div>
+  <div class="v20-ws-grid">${s.grid.flat().map((x,i)=>`<button type="button" class="v20-ws-cell ${s.first===i?"selected":""} ${foundCells.has(i)?"found":""}" data-ws-i="${i}">${x}</button>`).join("")}</div>
+  <div class="v20-game-feedback ${message.startsWith("✓")?"ok":message?"bad":""}">${escapeHtml(message)}</div>`;
+  box.querySelectorAll("[data-ws-i]").forEach(b=>b.addEventListener("click",()=>v20WordCell(Number(b.dataset.wsI))));
+}
+function v20WordCell(i){
+  const s=v20WordState;if(!s)return;
+  if(s.first===null){s.first=i;v20RenderWordSearch("Agora escolha a última letra.");return;}
+  const a=s.first,b=i;s.first=null;
+  const p=s.placements.find(p=>!s.found.has(p.word)&&((p.start===a&&p.end===b)||(p.start===b&&p.end===a)));
+  if(p){
+    s.found.add(p.word);
+    if(s.found.size===s.words.length){const score=700;v20RecordSession("wordsearch",score,{words:s.words.length});v20ShowResult("✅ Caça-palavras concluído",`Você encontrou as ${s.words.length} palavras • ${score} pontos`,v20StartWordSearch,"Novo caça-palavras");return;}
+    v20RenderWordSearch(`✓ ${p.word} encontrada.`);
+  }else v20RenderWordSearch("Essa seleção não corresponde a uma palavra. Tente novamente.");
+}
+
+/* LÓGICA */
 const V20_LOGIC=[
-{q:"2, 4, 6, 8, ?",a:"10",opts:["9","10","12","14"]},{q:"3, 6, 12, 24, ?",a:"48",opts:["30","36","42","48"]},{q:"Qual não pertence ao grupo?",a:"Mesa",opts:["Maçã","Banana","Uva","Mesa"]},{q:"1, 1, 2, 3, 5, ?",a:"8",opts:["6","7","8","9"]},{q:"Se todo A é B e todo B é C, então:",a:"Todo A é C",opts:["Todo C é A","Todo A é C","Nenhum A é C","Todo B é A"]}];
-function v20StartLogic(){const items=[...V20_LOGIC].sort(()=>Math.random()-.5).slice(0,5);let i=0,correct=0;const box=document.getElementById("v20GameArea");function draw(){if(i>=items.length){const score=correct*200;v20RecordSession("logic",score,{correct,total:items.length});box.innerHTML=`<h3>✅ Lógica concluída</h3><p>${correct}/${items.length} acertos • ${score} pontos</p><button class="btn btn-primary" onclick="v20StartLogic()">Jogar novamente</button>`;return;}const q=items[i];box.innerHTML=`<h3>🧩 Desafio de Lógica</h3><p><strong>${escapeHtml(q.q)}</strong></p>${q.opts.map(o=>`<button type="button" class="btn btn-ghost v20-logic-option">${escapeHtml(o)}</button>`).join("")}<div class="quote">Questão ${i+1}/${items.length}</div>`;box.querySelectorAll(".v20-logic-option").forEach(b=>b.onclick=()=>{if(b.textContent===q.a)correct++;i++;draw()});}draw();}
+{q:"2, 4, 6, 8, ?",a:"10",opts:["9","10","12","14"]},{q:"3, 6, 12, 24, ?",a:"48",opts:["30","36","42","48"]},
+{q:"Qual não pertence ao grupo?",a:"Mesa",opts:["Maçã","Banana","Uva","Mesa"]},{q:"1, 1, 2, 3, 5, ?",a:"8",opts:["6","7","8","9"]},
+{q:"Se todo A é B e todo B é C, então:",a:"Todo A é C",opts:["Todo C é A","Todo A é C","Nenhum A é C","Todo B é A"]}];
+function v20StartLogic(){
+  const items=[...V20_LOGIC].sort(()=>Math.random()-.5),box=document.getElementById("v20GameArea");let i=0,correct=0;
+  function draw(feedback=""){
+    if(i>=items.length){const score=correct*200;v20RecordSession("logic",score,{correct,total:items.length});v20ShowResult("✅ Lógica concluída",`${correct}/${items.length} acertos • ${score} pontos`,v20StartLogic);return;}
+    const q=items[i];
+    box.innerHTML=`<h3>🧩 Desafio de Lógica</h3><p><strong>${escapeHtml(q.q)}</strong></p>${q.opts.map(o=>`<button type="button" class="btn btn-ghost v20-logic-option">${escapeHtml(o)}</button>`).join("")}<div class="quote">Questão ${i+1}/${items.length}</div><div class="v20-game-feedback">${escapeHtml(feedback)}</div>`;
+    box.querySelectorAll(".v20-logic-option").forEach(b=>b.addEventListener("click",()=>{const ok=b.textContent===q.a;if(ok)correct++;i++;draw(ok?"✓ Correto.":"Resposta registrada.");}));
+  }
+  draw();
+}
 
-/* Atenção */
-function v20StartAttention(){const symbols=["●","■","▲","◆"],target=symbols[Math.floor(Math.random()*symbols.length)],odd=symbols.find(x=>x!==target),cells=Array(36).fill(target),oddIndex=Math.floor(Math.random()*36);cells[oddIndex]=odd;const start=Date.now(),box=document.getElementById("v20GameArea");box.innerHTML=`<h3>⚡ Atenção Relâmpago</h3><div class="quote">Encontre o símbolo diferente.</div><div class="v20-attention-grid">${cells.map((x,i)=>`<button type="button" class="v20-attention-cell" data-i="${i}">${x}</button>`).join("")}</div>`;box.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>{if(Number(b.dataset.i)===oddIndex){const ms=Date.now()-start,score=Math.max(100,1000-Math.round(ms/10));v20RecordSession("attention",score,{durationMs:ms});box.innerHTML=`<h3>✅ Boa!</h3><p>${(ms/1000).toFixed(2)}s • ${score} pontos</p><button class="btn btn-primary" onclick="v20StartAttention()">Novo desafio</button>`;}});}
+/* ATENÇÃO */
+function v20StartAttention(){
+  let round=1,total=5,score=0,box=document.getElementById("v20GameArea");
+  function draw(){
+    const symbols=["●","■","▲","◆"],target=symbols[Math.floor(Math.random()*symbols.length)],others=symbols.filter(x=>x!==target),odd=others[Math.floor(Math.random()*others.length)],cells=Array(36).fill(target),oddIndex=Math.floor(Math.random()*36);
+    cells[oddIndex]=odd;const started=Date.now();
+    box.innerHTML=`<h3>⚡ Atenção Relâmpago</h3><div class="quote">Rodada ${round}/${total}. Encontre o símbolo diferente.</div><div class="v20-attention-grid">${cells.map((x,i)=>`<button type="button" class="v20-attention-cell" data-att-i="${i}">${x}</button>`).join("")}</div><div class="v20-game-feedback" id="v20AttFeedback"></div>`;
+    box.querySelectorAll("[data-att-i]").forEach(b=>b.addEventListener("click",()=>{
+      const idx=Number(b.dataset.attI),feedback=document.getElementById("v20AttFeedback");
+      if(idx!==oddIndex){b.classList.add("wrong");if(feedback){feedback.textContent="Não é esse. Continue procurando.";feedback.className="v20-game-feedback bad";}return;}
+      b.classList.add("correct");const ms=Date.now()-started;score+=Math.max(100,1000-Math.round(ms/12));
+      if(feedback){feedback.textContent="✓ Encontrou!";feedback.className="v20-game-feedback ok";}
+      setTimeout(()=>{if(round>=total){v20RecordSession("attention",score,{rounds:total});v20ShowResult("✅ Atenção concluída",`${total} rodadas • ${score} pontos`,v20StartAttention);}else{round++;draw();}},350);
+    }));
+  }
+  draw();
+}
 
-/* Inglês funcional */
-function v20EnglishCandidates(){const arr=[...V20_ENGLISH_WORDS];arr.sort((a,b)=>{const pa=state.englishWordProgress[a[0]]||{},pb=state.englishWordProgress[b[0]]||{};const wa=(pa.wrong||0)-(pa.correct||0)*.35,wb=(pb.wrong||0)-(pb.correct||0)*.35;return wb-wa||Math.random()-.5;});return arr.slice(0,8);}
-function v20StartEnglish(){const set=v20EnglishCandidates();let i=0,correct=0;const box=document.getElementById("v20GameArea");function draw(){if(i>=set.length){const score=correct*125;v20RecordSession("english",score,{correct,total:set.length});box.innerHTML=`<h3>✅ Inglês concluído</h3><p>${correct}/${set.length} acertos • ${score} pontos</p><button class="btn btn-primary" onclick="v20StartEnglish()">Revisar mais palavras</button>`;return;}const [word,pt,example]=set[i],wrongs=V20_ENGLISH_WORDS.map(x=>x[1]).filter(x=>x!==pt).sort(()=>Math.random()-.5).slice(0,3),opts=[pt,...wrongs].sort(()=>Math.random()-.5);box.innerHTML=`<h3>🇬🇧 Inglês na Memória</h3><p style="font-size:24px"><strong>${escapeHtml(word)}</strong></p><div class="quote">${escapeHtml(example)}</div><div class="v20-english-list">${opts.map(o=>`<button type="button" class="btn btn-ghost v20-english-option">${escapeHtml(o)}</button>`).join("")}</div><div class="quote">Palavra ${i+1}/${set.length}</div>`;box.querySelectorAll(".v20-english-option").forEach(b=>b.onclick=()=>{const ok=b.textContent===pt,p=state.englishWordProgress[word]||(state.englishWordProgress[word]={correct:0,wrong:0});if(ok){p.correct++;correct++;}else p.wrong++;i++;draw();});}draw();}
+/* INGLÊS FUNCIONAL */
+function v20EnglishCandidates(){
+  const arr=[...V20_ENGLISH_WORDS];
+  arr.sort((a,b)=>{const pa=state.englishWordProgress[a[0]]||{},pb=state.englishWordProgress[b[0]]||{},wa=(pa.wrong||0)-(pa.correct||0)*.35,wb=(pb.wrong||0)-(pb.correct||0)*.35;return wb-wa||Math.random()-.5;});
+  return arr.slice(0,8);
+}
+function v20StartEnglish(){
+  const set=v20EnglishCandidates(),box=document.getElementById("v20GameArea");if(!box||!set.length)return;
+  let i=0,correct=0;
+  function draw(feedback=""){
+    if(i>=set.length){const score=correct*125;v20RecordSession("english",score,{correct,total:set.length});v20ShowResult("✅ Inglês concluído",`${correct}/${set.length} acertos • ${score} pontos`,v20StartEnglish,"Revisar mais palavras");return;}
+    const [word,pt,example]=set[i],wrongs=[...new Set(V20_ENGLISH_WORDS.map(x=>x[1]).filter(x=>x!==pt))].sort(()=>Math.random()-.5).slice(0,3),opts=[pt,...wrongs].sort(()=>Math.random()-.5);
+    box.innerHTML=`<h3>🇬🇧 Inglês na Memória</h3><p style="font-size:24px"><strong>${escapeHtml(word)}</strong></p><div class="quote">${escapeHtml(example)}</div><div class="v20-english-list">${opts.map(o=>`<button type="button" class="btn btn-ghost v20-english-option">${escapeHtml(o)}</button>`).join("")}</div><div class="quote">Palavra ${i+1}/${set.length}</div><div class="v20-game-feedback">${escapeHtml(feedback)}</div>`;
+    box.querySelectorAll(".v20-english-option").forEach(b=>b.addEventListener("click",()=>{const ok=b.textContent===pt,p=state.englishWordProgress[word]||(state.englishWordProgress[word]={correct:0,wrong:0});if(ok){p.correct++;correct++;}else p.wrong++;v20PersistGameState();i++;draw(ok?"✓ Correto.":`A resposta era: ${pt}`);}));
+  }
+  draw();
+}
 
-/* Check-in diário */
+/* CHECK-IN */
 function v20DailyItems(){
   const today=dateKey(),waterMl=Number(state.water?.[today]||0),waterGoal=Number(state.profile?.waterGoal||2500);
   const hadTraining=(state.trainings||[]).some(t=>String(t.date||"").slice(0,10)===today);
@@ -7102,7 +7233,7 @@ function v20DailyItems(){
   const mental=(state.gameSessions||[]).some(x=>String(x.playedAt||"").slice(0,10)===today);
   state.manualDailyChecks[today]=state.manualDailyChecks[today]||{};
   return [
-    {id:"water",label:`Água do dia (${(waterMl/1000).toFixed(2)}L / ${(waterGoal/1000).toFixed(2)}L)`,done:waterMl>=waterGoal,auto:true},
+    {id:"water",label:`Água do dia (${v20FormatLiters(waterMl)} / ${v20FormatLiters(waterGoal)})`,done:waterMl>=waterGoal,auto:true},
     {id:"training",label:"Treino / atividade física",done:hadTraining,auto:true},
     {id:"tasks",label:"Tarefas planejadas do dia",done:tasksDone,auto:true},
     {id:"mental",label:"Treino mental",done:mental,auto:true},
@@ -7110,8 +7241,11 @@ function v20DailyItems(){
   ];
 }
 function v20ToggleDaily(id){const today=dateKey();state.manualDailyChecks[today]=state.manualDailyChecks[today]||{};state.manualDailyChecks[today][id]=!state.manualDailyChecks[today][id];save();}
-function v20RenderDailyCheckin(){const box=document.getElementById("v20DailyChecklist"),badge=document.getElementById("v20DailyProgress");if(!box)return;const items=v20DailyItems(),done=items.filter(x=>x.done).length;if(badge)badge.textContent=`${done}/${items.length}`;box.innerHTML=items.map(x=>`<div class="v20-daily-row ${x.done?"v20-daily-done":""}"><span>${x.done?"✅":"⬜"} ${escapeHtml(x.label)}</span>${x.auto?'<small>automático</small>':`<button class="btn btn-ghost" onclick="v20ToggleDaily('${x.id}')">${x.done?"Desmarcar":"Marcar"}</button>`}</div>`).join("");}
-
+function v20RenderDailyCheckin(){
+  const box=document.getElementById("v20DailyChecklist"),badge=document.getElementById("v20DailyProgress");if(!box)return;
+  const items=v20DailyItems(),done=items.filter(x=>x.done).length;if(badge)badge.textContent=`${done}/${items.length}`;
+  box.innerHTML=items.map(x=>`<div class="v20-daily-row ${x.done?"v20-daily-done":""}"><span>${x.done?"✅":"⬜"} ${escapeHtml(x.label)}</span>${x.auto?'<small>automático</small>':`<button class="btn btn-ghost" onclick="v20ToggleDaily('${x.id}')">${x.done?"Desmarcar":"Marcar"}</button>`}</div>`).join("");
+}
 function v20RenderAll(){v20BindGames();v20RenderMentalSummary();v20RenderDailyCheckin();}
 
 
