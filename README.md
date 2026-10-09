@@ -412,3 +412,13 @@ Mudanças:
 - Atenção dá feedback e conclui após 5 rodadas.
 - Inglês abre, registra respostas e conclui normalmente.
 - Progresso dos jogos é salvo sem interromper a tela da partida.
+
+## V20.2 — Salvamento dos jogos + Inglês
+
+Correções:
+- partidas concluídas usam o `save()` global do aplicativo
+- placar de Partidas é atualizado após cada conclusão
+- resultado final mostra “Partida concluída e salva”
+- cards dos jogos são religados a cada renderização, evitando cliques sem resposta
+- Inglês na Memória recebeu abertura defensiva e handlers próprios
+- progresso das palavras é salvo a cada resposta

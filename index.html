@@ -607,7 +607,7 @@
 
 
 
-/* ===== V20.1 Treino Mental Corrigido • Perfil inteligente + Hoje ===== */
+/* ===== V20.2 Treino Mental Estável • Perfil inteligente + Hoje ===== */
 :root{
   --radius-v15:18px;
 }
@@ -676,7 +676,7 @@ body.v15-light .v15-checkin-scale button{background:#f7f9fc;color:#172033}
 }
 
 
-/* ===== V20.1 Treino Mental Corrigido • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
+/* ===== V20.2 Treino Mental Estável • Salvamento + Revisão Semanal + Metas Inteligentes ===== */
 .v16-save-status{
   position:fixed;top:18px;right:18px;z-index:9999;
   min-width:190px;max-width:340px;
@@ -716,7 +716,7 @@ body.v15-light .v16-review-item,body.v15-light .v16-smart-goal{background:#f7f9f
 }
 
 
-/* ===== V20.1 Treino Mental Corrigido • Evolução geral de UX ===== */
+/* ===== V20.2 Treino Mental Estável • Evolução geral de UX ===== */
 :root{--sidebar-collapsed:78px}
 
 /* Sidebar realmente recolhida */
@@ -846,7 +846,7 @@ body.v15-light .v17-routine-item{background:#f7f9fc}
 }
 
 
-/* ===== V20.1 Treino Mental Corrigido • Refino, Insights e Sincronização Inteligente ===== */
+/* ===== V20.2 Treino Mental Estável • Refino, Insights e Sincronização Inteligente ===== */
 :root{
   --tap:46px;
 }
@@ -911,7 +911,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 #lembretes .goal-form > .btn{grid-column:1/-1!important;justify-self:end!important}
 
 
-/* ===== V20.1 Treino Mental Corrigido • Navegação Inteligente ===== */
+/* ===== V20.2 Treino Mental Estável • Navegação Inteligente ===== */
 .v19-hub-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .v19-hub-card{border:1px solid var(--line);border-radius:18px;padding:18px;background:var(--panel);cursor:pointer;transition:.18s ease}
 .v19-hub-card:hover{transform:translateY(-2px);border-color:var(--accent)}
@@ -932,7 +932,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 }
 
 
-/* V20.1 Treino Mental Corrigido.1 */
+/* V20.2 Treino Mental Estável.1 */
 .v19-hub-card{position:relative}
 .v19-hub-card::after{
   content:"›";
@@ -949,7 +949,7 @@ body.v15-light .v18-insight-card,body.v15-light .v18-version-item{background:#f7
 }
 
 
-/* ===== V20.1 Treino Mental Corrigido • Automação Pessoal ===== */
+/* ===== V20.2 Treino Mental Estável • Automação Pessoal ===== */
 .v19-message-card{
   border:1px solid var(--line);
   border-radius:20px;
@@ -984,7 +984,7 @@ body.v15-light .v19-planb-item{background:#f7f9fc}
 }
 
 
-/* ===== V20.1 Treino Mental Corrigido • Uso de Longo Prazo ===== */
+/* ===== V20.2 Treino Mental Estável • Uso de Longo Prazo ===== */
 .v19-long-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .v19-long-card{border:1px solid var(--line);border-radius:16px;padding:14px;background:var(--panel)}
 .v19-long-card h3{margin:0 0 6px}
@@ -1039,7 +1039,7 @@ body.v15-light .v19-install-check{background:#f7f9fc}
 }
 
 
-/* ===== V20.1 Treino Mental Corrigido • Alimentação Inteligente ===== */
+/* ===== V20.2 Treino Mental Estável • Alimentação Inteligente ===== */
 .food-choice-group{margin:14px 0}
 .food-choice-group h4{margin:0 0 8px;font-size:14px}
 .food-choice-grid{display:flex;flex-wrap:wrap;gap:8px}
@@ -1053,7 +1053,7 @@ body.v15-light .v19-install-check{background:#f7f9fc}
 @media(max-width:720px){.food-choice{padding:10px 12px}}
 
 
-/* ===== V20.1 Treino Mental Corrigido • Estabilidade & Dados ===== */
+/* ===== V20.2 Treino Mental Estável • Estabilidade & Dados ===== */
 .v19-data-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .v19-data-stat{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--panel)}
 .v19-data-stat small{display:block;color:var(--muted);margin-bottom:5px}
@@ -1099,6 +1099,15 @@ body.v15-light .v19-trash-item{background:#f7f9fc}
 .v20-attention-cell.wrong{border-color:#ff7d8a;background:rgba(255,90,110,.08)}
 .v20-attention-cell.correct{border-color:#65c99b;background:rgba(80,190,130,.14)}
 .v20-result-card{border:1px solid var(--line);border-radius:16px;padding:16px;background:var(--panel)}
+
+
+.v20-result-card .v20-game-feedback.ok{
+  margin:12px 0;
+  padding:9px 11px;
+  border:1px solid rgba(80,190,130,.35);
+  border-radius:10px;
+  background:rgba(80,190,130,.08);
+}
 
 </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -2011,7 +2020,7 @@ body.v15-light .v19-trash-item{background:#f7f9fc}
           <div><div class="v19-section-kicker">Estado do aplicativo</div><h3>✅ V19 Estável</h3></div>
         </div>
         <div class="v19-final-status">
-          <div class="box"><small>Versão</small><strong>V20.1 Treino Mental Corrigido</strong></div>
+          <div class="box"><small>Versão</small><strong>V20.2 Treino Mental Estável</strong></div>
           <div class="box"><small>Conexão</small><strong id="v19FinalConnection">...</strong></div>
           <div class="box"><small>Última sincronização</small><strong id="v19FinalSync">...</strong></div>
           <div class="box"><small>Backup</small><strong>Manual</strong></div>
@@ -2021,7 +2030,7 @@ body.v15-light .v19-trash-item{background:#f7f9fc}
       <div class="card">
         <div class="section-title" style="margin-top:0">
           <div><div class="v15-kicker">Versão do aplicativo</div><h3>🆕 O que mudou</h3></div>
-          <span class="badge">V20.1 Treino Mental Corrigido</span>
+          <span class="badge">V20.2 Treino Mental Estável</span>
         </div>
         <div id="v18Updates"></div>
       </div>
@@ -4547,8 +4556,8 @@ function renderCalendar(){
 }
 
 
-/* ===== V20.1 Treino Mental Corrigido Inteligência de Perfil ===== */
-/* ===== V20.1 Treino Mental Corrigido Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
+/* ===== V20.2 Treino Mental Estável Inteligência de Perfil ===== */
+/* ===== V20.2 Treino Mental Estável Salvamento Global + Revisão Semanal + Metas Adaptativas ===== */
 state.weeklyReviews = state.weeklyReviews && typeof state.weeklyReviews==="object" ? state.weeklyReviews : {};
 state.adaptiveGoalSuggestions = Array.isArray(state.adaptiveGoalSuggestions) ? state.adaptiveGoalSuggestions : [];
 
@@ -5358,7 +5367,7 @@ if(!state.profile.profileSetupCompletedAt && !state.profile.configured){
 }
 
 
-/* ===== V20.1 Treino Mental Corrigido Evolução Geral ===== */
+/* ===== V20.2 Treino Mental Estável Evolução Geral ===== */
 state.changeHistory = Array.isArray(state.changeHistory) ? state.changeHistory : [];
 
 function v17TrackChange(type,description,meta={}){
@@ -5606,7 +5615,7 @@ async function v17RunHealthCheck(){
   const checks=[];
   const add=(name,status,detail,cls)=>checks.push({name,status,detail,cls});
 
-  add("Versão","V20.1 Treino Mental Corrigido","Evolução Geral","v17-health-ok");
+  add("Versão","V20.2 Treino Mental Estável","Evolução Geral","v17-health-ok");
 
   try{
     localStorage.setItem("__v17_test","1");localStorage.removeItem("__v17_test");
@@ -5710,7 +5719,7 @@ v17PrepareSidebar();
 
 
 
-/* ===== V20.1 Treino Mental Corrigido Refino, Insights e Sincronização Inteligente ===== */
+/* ===== V20.2 Treino Mental Estável Refino, Insights e Sincronização Inteligente ===== */
 state.inbox = Array.isArray(state.inbox)?state.inbox:[];
 state.insights = Array.isArray(state.insights)?state.insights:[];
 state.syncMeta = state.syncMeta && typeof state.syncMeta==="object" ? state.syncMeta : {lastLocalChange:null,lastCloudSync:null};
@@ -5888,8 +5897,8 @@ function v18RenderMonthlyReview(){
 function v18RenderUpdates(){
   const box=document.getElementById("v18Updates");if(!box)return;
   const items=[
-    ["V20.1 Treino Mental Corrigido","Refino de layout, login melhorado, iPhone, sincronização inteligente, Insights, Revisão Mensal e Caixa de Entrada."],
-    ["V20.1 Treino Mental Corrigido","Pendências, histórico, busca global, modo foco e saúde do sistema."],
+    ["V20.2 Treino Mental Estável","Refino de layout, login melhorado, iPhone, sincronização inteligente, Insights, Revisão Mensal e Caixa de Entrada."],
+    ["V20.2 Treino Mental Estável","Pendências, histórico, busca global, modo foco e saúde do sistema."],
     ["V16","Revisão semanal, metas adaptativas e feedback visual ao salvar."],
     ["V15","Questionário inteligente, Modo Hoje e perfil evolutivo."]
   ];
@@ -5941,7 +5950,7 @@ if(!state.insights.length)setTimeout(()=>v18GenerateInsights(false),100);
 
 
 
-/* ===== V20.1 Treino Mental Corrigido • Navegação Inteligente ===== */
+/* ===== V20.2 Treino Mental Estável • Navegação Inteligente ===== */
 
 
 function v19BindHubNavigation(){
@@ -6405,11 +6414,11 @@ function v19Phase2RenderAll(){
 
 
 
-/* ===== V20.1 Treino Mental Corrigido • Uso de Longo Prazo ===== */
+/* ===== V20.2 Treino Mental Estável • Uso de Longo Prazo ===== */
 state.archive = Array.isArray(state.archive)?state.archive:[];
 
 state.autoBackups = Array.isArray(state.autoBackups)?state.autoBackups:[];
-// Migração V20.1 Treino Mental Corrigido: remove snapshots completos que versões anteriores
+// Migração V20.2 Treino Mental Estável: remove snapshots completos que versões anteriores
 // guardavam dentro do próprio state e que podiam estourar o limite do localStorage.
 state.autoBackups = state.autoBackups.map(b=>({
   id:b?.id||Date.now(),
@@ -6658,7 +6667,7 @@ function v19RunDiagnostic(){
     notifications:("Notification" in window)?Notification.permission:"unsupported",
     pendingSync:state.pendingSync.length,
     errors:state.errorLog.length,
-    version:"V20.1 Treino Mental Corrigido"
+    version:"V20.2 Treino Mental Estável"
   };
   state.maintenanceMeta.lastDiagnostic=result;
   try{localStorage.setItem("saudeV1",JSON.stringify(state))}catch(e){}
@@ -6718,7 +6727,7 @@ try{
   console.warn("Migração de armazenamento pendente:",e);
 }
 
-// Backup automático removido na V20.1 Treino Mental Corrigido.
+// Backup automático removido na V20.2 Treino Mental Estável.
 v19FlushPendingSync();
 
 function v19Phase3RenderAll(){
@@ -6731,7 +6740,7 @@ function v19Phase3RenderAll(){
 
 /* ===== V19 FINAL • Acabamento ===== */
 state.finalMeta = state.finalMeta && typeof state.finalMeta==="object" ? state.finalMeta : {};
-state.finalMeta.version = "V20.1 Treino Mental Corrigido";
+state.finalMeta.version = "V20.2 Treino Mental Estável";
 
 const V19_HUB_PARENT = {
   planejamento:"planejar",calendario:"planejar",lembretes:"planejar","caixa-entrada":"planejar",pendencias:"planejar",
@@ -6845,7 +6854,7 @@ setTimeout(()=>v19StartTour(false),450);
 
 
 
-/* ===== V20.1 Treino Mental Corrigido • Lixeira, Dados e Reset ===== */
+/* ===== V20.2 Treino Mental Estável • Lixeira, Dados e Reset ===== */
 state.trash=Array.isArray(state.trash)?state.trash:[];
 
 function v19TrashPurgeExpired(){
@@ -6986,7 +6995,7 @@ function v19FreshState(){
   fresh.pendingSync=[];
   fresh.weekTemplates=[];
   fresh.errorLog=[];
-  fresh.finalMeta={version:"V20.1 Treino Mental Corrigido",resetAt:new Date().toISOString()};
+  fresh.finalMeta={version:"V20.2 Treino Mental Estável",resetAt:new Date().toISOString()};
   return fresh;
 }
 function v19ConfirmReset(label){
@@ -7067,11 +7076,25 @@ function v20RecordSession(type,score,extra={}){
   p.games=(p.games||0)+1;
   p.bestScore=Math.max(Number(p.bestScore||0),Number(score||0));
   p.lastPlayed=dateKey();
-  state.gameSessions.unshift({id:Date.now(),type,score,playedAt:new Date().toISOString(),...extra});
+
+  state.gameSessions.unshift({
+    id:Date.now(),
+    type,
+    score:Number(score||0),
+    playedAt:new Date().toISOString(),
+    ...extra
+  });
   state.gameSessions=state.gameSessions.slice(0,200);
-  v20PersistGameState();
+
+  // Usa o fluxo global de salvamento do app para garantir
+  // localStorage + sincronização em nuvem + feedback padrão.
+  const ok=save();
+
+  // Atualiza os indicadores imediatamente após a conclusão.
   v20RenderMentalSummary();
   v20RenderDailyCheckin();
+
+  return ok;
 }
 function v20RenderMentalSummary(){
   const total=(state.gameSessions||[]).length;
@@ -7085,23 +7108,48 @@ function v20RenderMentalSummary(){
 }
 function v20BindGames(){
   document.querySelectorAll(".v20-game-card[data-game]").forEach(btn=>{
-    if(btn.dataset.bound==="1")return;
-    btn.dataset.bound="1";
-    btn.addEventListener("click",()=>v20OpenGame(btn.dataset.game));
+    btn.onclick=null;
+    btn.onclick=()=>{
+      try{
+        v20OpenGame(btn.dataset.game);
+      }catch(err){
+        console.error("Erro ao abrir jogo:",err);
+        if(typeof v19LogError==="function")v19LogError("Treino Mental",err);
+        const box=document.getElementById("v20GameArea");
+        if(box)box.innerHTML='<div class="v20-result-card"><h3>Não foi possível abrir este jogo</h3><p class="quote">O erro foi registrado em Mais → Manutenção → Diagnóstico.</p></div>';
+      }
+    };
   });
 }
 function v20OpenGame(type){
-  const box=document.getElementById("v20GameArea");if(!box)return;
-  if(type==="memory")return v20StartMemory();
-  if(type==="wordsearch")return v20StartWordSearch();
-  if(type==="logic")return v20StartLogic();
-  if(type==="attention")return v20StartAttention();
-  if(type==="english")return v20StartEnglish();
+  const box=document.getElementById("v20GameArea");
+  if(!box)return false;
+
+  box.innerHTML='<div class="v17-empty">Carregando jogo...</div>';
+
+  if(type==="memory"){v20StartMemory();return true;}
+  if(type==="wordsearch"){v20StartWordSearch();return true;}
+  if(type==="logic"){v20StartLogic();return true;}
+  if(type==="attention"){v20StartAttention();return true;}
+  if(type==="english"){v20StartEnglish();return true;}
+
+  box.innerHTML='<div class="v17-empty">Jogo não encontrado.</div>';
+  return false;
 }
 function v20ShowResult(title,text,restartFn,label="Jogar novamente"){
-  const box=document.getElementById("v20GameArea");if(!box)return;
-  box.innerHTML=`<div class="v20-result-card"><h3>${title}</h3><p>${text}</p><button type="button" class="btn btn-primary" id="v20RestartGame">${label}</button></div>`;
+  const box=document.getElementById("v20GameArea");
+  if(!box)return;
+
+  box.innerHTML=`
+    <div class="v20-result-card">
+      <h3>${title}</h3>
+      <p>${text}</p>
+      <div class="v20-game-feedback ok">✓ Partida concluída e salva.</div>
+      <button type="button" class="btn btn-primary" id="v20RestartGame">${label}</button>
+    </div>`;
+
   document.getElementById("v20RestartGame")?.addEventListener("click",restartFn);
+  v20RenderMentalSummary();
 }
 
 /* MEMÓRIA */
@@ -7214,14 +7262,72 @@ function v20EnglishCandidates(){
   return arr.slice(0,8);
 }
 function v20StartEnglish(){
-  const set=v20EnglishCandidates(),box=document.getElementById("v20GameArea");if(!box||!set.length)return;
-  let i=0,correct=0;
-  function draw(feedback=""){
-    if(i>=set.length){const score=correct*125;v20RecordSession("english",score,{correct,total:set.length});v20ShowResult("✅ Inglês concluído",`${correct}/${set.length} acertos • ${score} pontos`,v20StartEnglish,"Revisar mais palavras");return;}
-    const [word,pt,example]=set[i],wrongs=[...new Set(V20_ENGLISH_WORDS.map(x=>x[1]).filter(x=>x!==pt))].sort(()=>Math.random()-.5).slice(0,3),opts=[pt,...wrongs].sort(()=>Math.random()-.5);
-    box.innerHTML=`<h3>🇬🇧 Inglês na Memória</h3><p style="font-size:24px"><strong>${escapeHtml(word)}</strong></p><div class="quote">${escapeHtml(example)}</div><div class="v20-english-list">${opts.map(o=>`<button type="button" class="btn btn-ghost v20-english-option">${escapeHtml(o)}</button>`).join("")}</div><div class="quote">Palavra ${i+1}/${set.length}</div><div class="v20-game-feedback">${escapeHtml(feedback)}</div>`;
-    box.querySelectorAll(".v20-english-option").forEach(b=>b.addEventListener("click",()=>{const ok=b.textContent===pt,p=state.englishWordProgress[word]||(state.englishWordProgress[word]={correct:0,wrong:0});if(ok){p.correct++;correct++;}else p.wrong++;v20PersistGameState();i++;draw(ok?"✓ Correto.":`A resposta era: ${pt}`);}));
+  const box=document.getElementById("v20GameArea");
+  if(!box)return;
+
+  const set=v20EnglishCandidates();
+  if(!Array.isArray(set) || !set.length){
+    box.innerHTML='<div class="v20-result-card"><h3>🇬🇧 Inglês na Memória</h3><p>Nenhuma palavra disponível.</p></div>';
+    return;
   }
+
+  let i=0;
+  let correct=0;
+
+  function draw(feedback=""){
+    if(i>=set.length){
+      const score=correct*125;
+      v20RecordSession("english",score,{correct,total:set.length});
+      v20ShowResult(
+        "✅ Inglês concluído",
+        `${correct}/${set.length} acertos • ${score} pontos`,
+        v20StartEnglish,
+        "Revisar mais palavras"
+      );
+      return;
+    }
+
+    const row=set[i];
+    const word=row?.[0]||"";
+    const pt=row?.[1]||"";
+    const example=row?.[2]||"";
+
+    const pool=[...new Set(V20_ENGLISH_WORDS.map(x=>x[1]).filter(x=>x && x!==pt))];
+    const wrongs=pool.sort(()=>Math.random()-.5).slice(0,3);
+    const opts=[pt,...wrongs].sort(()=>Math.random()-.5);
+
+    box.innerHTML=`
+      <h3>🇬🇧 Inglês na Memória</h3>
+      <p style="font-size:24px"><strong>${escapeHtml(word)}</strong></p>
+      <div class="quote">${escapeHtml(example)}</div>
+      <div class="v20-english-list">
+        ${opts.map((o,idx)=>`<button type="button" class="btn btn-ghost v20-english-option" data-answer-index="${idx}">${escapeHtml(o)}</button>`).join("")}
+      </div>
+      <div class="quote">Palavra ${i+1}/${set.length}</div>
+      <div class="v20-game-feedback">${escapeHtml(feedback)}</div>`;
+
+    box.querySelectorAll(".v20-english-option").forEach(btn=>{
+      btn.addEventListener("click",()=>{
+        const answer=btn.textContent.trim();
+        const ok=answer===pt;
+
+        const p=state.englishWordProgress[word]||(state.englishWordProgress[word]={correct:0,wrong:0});
+        if(ok){p.correct++;correct++;}
+        else p.wrong++;
+
+        // Salva o progresso da palavra a cada resposta.
+        try{
+          localStorage.setItem("saudeV1",JSON.stringify(state));
+        }catch(err){
+          console.error("Erro ao salvar progresso de inglês:",err);
+        }
+
+        i++;
+        draw(ok?"✓ Correto.":`A resposta era: ${pt}`);
+      });
+    });
+  }
+
   draw();
 }
 
