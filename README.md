@@ -390,3 +390,15 @@ Mudanças:
 - resultados abrem diretamente o módulo correspondente
 - Lixeira temporária de 30 dias
 - exclusões de metas, tarefas, lembretes, diário, calendário e finanças passam pela lixeira
+
+## V20 — Treino Mental + correções
+
+- correção do botão de água +250 ml
+- retorno do Check-in do Dia em Hoje
+- check-in automático para água, treino, tarefas e treino mental
+- novo módulo Evoluir → Treino Mental
+- 5 jogos: Memória, Caça-palavras, Lógica, Atenção Relâmpago e Inglês na Memória
+- progresso local de partidas
+- inglês voltado para compreensão e conversa prática
+- palavras erradas voltam com mais frequência
+- integração do Treino Mental à Busca Global
